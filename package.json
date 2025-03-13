@@ -1,0 +1,41 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@iconify-json/mdi": "^1.1.67",
+    "@nuxt/image": "^1.7.0",
+    "@nuxtjs/google-fonts": "^3.2.0",
+    "@pinia/nuxt": "^0.5.2",
+    "gsap": "^3.12.5",
+    "nuxt": "^3.12.4",
+    "pinia": "^2.2.0",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@iconify-json/arcticons": "^1.1.109",
+    "@iconify-json/bxl": "^1.1.11",
+    "@iconify-json/devicon-plain": "^1.1.47",
+    "@iconify-json/flowbite": "^1.1.6",
+    "@iconify-json/fontisto": "^1.1.9",
+    "@iconify-json/material-symbols-light": "^1.1.26",
+    "@iconify-json/radix-icons": "^1.1.15",
+    "@iconify-json/ri": "^1.1.22",
+    "@iconify-json/simple-icons": "^1.1.112",
+    "@iconify-json/solar": "^1.1.10",
+    "@nuxt/ui": "^2.18.3",
+    "@vueuse/core": "^10.11.0",
+    "@vueuse/nuxt": "^10.11.0",
+    "typescript": "^5.5.4"
+  },
+  "overrides": {
+    "vue": "latest"
+  }
+}
