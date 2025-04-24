@@ -1,18 +1,20 @@
-export interface Contact {
-    title: string,
-    icon: string,
-    link: string,
-    isMail?: boolean
-}
-
-export interface Stack {
+export interface IBase {
     title: string,
     icon: string
 }
 
-export interface Tool extends Stack {
+export interface Contact extends IBase {
+    link: string,
+    isMail?: boolean
 }
 
+export interface Stack extends IBase {
+    title: string,
+    icon: string
+}
+
+export interface Tool extends IBase {
+}
 
 export type Icons =
     'mdi:nuxt'
@@ -24,12 +26,6 @@ export type Icons =
     | 'ri:bootstrap-fill'
     | 'file-icons:nuxt'
 
-export interface ITechIcons {
+export interface ITechIcon extends IBase {
     icon: Icons,
-    title: string
 }
-
-// export interface HeaderLink {
-//     title: string,
-//     icon: string
-// }

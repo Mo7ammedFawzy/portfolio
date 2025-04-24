@@ -1,19 +1,21 @@
 // import {type Contact, type ITechIcons, type Stack, type Tool} from "~/types/index";
-export interface Contact {
-    title: string,
-    icon: string,
-    link: string,
-    isMail?: boolean
-}
-
-export interface Stack {
+export interface IBase {
     title: string,
     icon: string
 }
 
-export interface Tool extends Stack {
+export interface Contact extends IBase {
+    link: string,
+    isMail?: boolean
 }
 
+export interface Stack extends IBase {
+    title: string,
+    icon: string
+}
+
+export interface Tool extends IBase {
+}
 
 export type Icons =
     'mdi:nuxt'
@@ -25,9 +27,8 @@ export type Icons =
     | 'ri:bootstrap-fill'
     | 'file-icons:nuxt'
 
-export interface ITechIcons {
+export interface ITechIcon extends IBase {
     icon: Icons,
-    title: string
 }
 
 export const CONTACT: Contact[] = [
@@ -53,7 +54,7 @@ export const PROJECTS = [
         title: "eCommerceHope",
         type: "ecommerce",
         grid: "xx-large",
-        techs: <ITechIcons[]>[
+        techs: <ITechIcon[]>[
             // 'mdi:nuxt', 'bxl:typescript', 'mdi:tailwind', 'carbon:api'
             {
                 icon: "mdi-nuxt",
@@ -84,7 +85,7 @@ export const PROJECTS = [
         title: "tabarak company",
         type: "design",
         grid: "x-large",
-        techs: <ITechIcons[]>[
+        techs: <ITechIcon[]>[
             {
                 icon: "mdi:nuxt",
                 title: "Nuxt",
@@ -110,7 +111,7 @@ export const PROJECTS = [
         "title": "Innovate",
         "type": "design",
         "grid": "small",
-        techs: <ITechIcons[]>[{
+        techs: <ITechIcon[]>[{
             icon: "devicon-plain:vuetify",
             title: "vuetify"
         },
@@ -140,7 +141,7 @@ export const PROJECTS = [
         "type": "ecommerce",
         show: true,
         "grid": "xx-large",
-        techs: <ITechIcons[]>[
+        techs: <ITechIcon[]>[
             {
                 icon: "mdi:nuxt",
                 title: "Nuxt",
@@ -172,7 +173,7 @@ export const PROJECTS = [
         "title": "Hager UI-UX Developer",
         "type": "design",
         grid: "x-large",
-        techs: <ITechIcons[]>[
+        techs: <ITechIcon[]>[
             {
                 icon: "mdi:nuxt",
                 title: "Nuxt",
@@ -200,7 +201,7 @@ export const PROJECTS = [
         show: true,
         "type": "design",
         "grid": "xx-large",
-        techs: <ITechIcons[]>[
+        techs: <ITechIcon[]>[
             {
                 icon: "mdi:vuejs",
                 title: "vue",
@@ -227,7 +228,7 @@ export const PROJECTS = [
         "title": ".Store",
         show: false,
         "type": "ecommerce",
-        techs: <ITechIcons[]>[
+        techs: <ITechIcon[]>[
             {
                 icon: "mdi:nuxt",
                 title: "Nuxt",
@@ -253,7 +254,7 @@ export const PROJECTS = [
     {
         "title": "traders-academy",
         "type": "design",
-        techs: <ITechIcons[]>[
+        techs: <ITechIcon[]>[
             {
                 icon: "mdi:vuejs",
                 title: "Vue",
@@ -282,7 +283,7 @@ export const PROJECTS = [
         show: false,
         "type": "ecommerce",
         "made_with": "Nuxtjs",
-        techs: <ITechIcons[]>[
+        techs: <ITechIcon[]>[
             {
                 icon: "mdi-nuxt",
                 title: "Nuxt",
@@ -304,7 +305,7 @@ export const PROJECTS = [
     },
     {
         "title": "Restaurant",
-        techs: <ITechIcons[]>[
+        techs: <ITechIcon[]>[
             {
                 icon: "ri:bootstrap-fill",
                 title: "Bootstrap",
@@ -484,7 +485,8 @@ export const TIMELINE: ITimeLine[] = [
     {
         date: "present",
         text: "joined <a target='_blank' href='https://www.linkedin.com/company/namasoft' style='text-decoration: underline;'>@namasoft</a> as a Frontend Developer",
-        joined: true
+        joined: true,
+        isLeft: true,
     },
 ]
 
