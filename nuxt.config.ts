@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 
     app: {
         head: {
-            title: "mofawzey",
+            title: "MohammedFawzey",
             link: [
                 {
                     rel: "icon", href: "/favicon.svg", type: "image/svg+xml"
@@ -17,7 +17,6 @@ export default defineNuxtConfig({
     modules: [
         '@nuxt/ui',
         "@vueuse/nuxt",
-        "@pinia/nuxt",
         "@nuxt/image",
         "@nuxtjs/google-fonts"
     ],

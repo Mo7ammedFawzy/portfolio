@@ -30,7 +30,6 @@ export default <Partial<Config>>{
      900: '#3d3d3d',
      950: '#1e1e1e',
     },
-
    }
   }
  }

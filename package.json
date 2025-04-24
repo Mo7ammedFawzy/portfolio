@@ -13,11 +13,8 @@
     "@iconify-json/mdi": "^1.1.67",
     "@nuxt/image": "^1.7.0",
     "@nuxtjs/google-fonts": "^3.2.0",
-    "@pinia/nuxt": "^0.5.2",
     "gsap": "^3.12.5",
-    "nuxt": "^3.12.4",
-    "pinia": "^2.2.0",
-    "vue": "latest"
+    "nuxt": "^3.16.2"
   },
   "devDependencies": {
     "@iconify-json/arcticons": "^1.1.109",
@@ -33,7 +30,7 @@
     "@nuxt/ui": "^2.18.3",
     "@vueuse/core": "^10.11.0",
     "@vueuse/nuxt": "^10.11.0",
-    "typescript": "^5.5.4"
+    "typescript": "^5.8.3"
   },
   "overrides": {
     "vue": "latest"

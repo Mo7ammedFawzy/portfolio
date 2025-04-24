@@ -1,4 +1,34 @@
-import {type Contact, type ITechIcons, type Stack, type Tool} from "@/types.js"
+// import {type Contact, type ITechIcons, type Stack, type Tool} from "~/types/index";
+export interface Contact {
+    title: string,
+    icon: string,
+    link: string,
+    isMail?: boolean
+}
+
+export interface Stack {
+    title: string,
+    icon: string
+}
+
+export interface Tool extends Stack {
+}
+
+
+export type Icons =
+    'mdi:nuxt'
+    | 'bxl:typescript'
+    | 'mdi:tailwind'
+    | 'carbon:api'
+    | 'devicon-plain:vuetify'
+    | 'mdi:vuejs'
+    | 'ri:bootstrap-fill'
+    | 'file-icons:nuxt'
+
+export interface ITechIcons {
+    icon: Icons,
+    title: string
+}
 
 export const CONTACT: Contact[] = [
     {
@@ -419,7 +449,15 @@ export const HEADERLINKS:HeaderLink[] = [
     },
 ]
 
-export const TIMELINE = [
+interface ITimeLine {
+    date: string,
+    text: string,
+    isLeft?: boolean,
+    avatarUrl?: string,
+    joined?: boolean
+}
+
+export const TIMELINE: ITimeLine[] = [
     {
         date: "2022-08-01",
         text: "Graduated in Computer Science"
@@ -435,11 +473,19 @@ export const TIMELINE = [
     },
     {
         date: "2024-04-01",
-        text: "joined <a target='_blank' href='https://www.linkedin.com/company/talent-innovate/' style='text-decoration: underline;'>@innovate</a> as a frontend developer",
-        isLeft: true
+        text: "joined <a target='_blank' href='https://www.linkedin.com/company/talent-innovate/' style='text-decoration: underline;'>@innovate</a> as a Frontend Developer",
+        isLeft: true,
+        joined: true
+    },
+    {
+        date: "2025-12-01",
+        text: "Self-Employed Frontend Developer"
     },
     {
         date: "present",
-        text: "Self-Employed Frontend Developer"
+        text: "joined <a target='_blank' href='https://www.linkedin.com/company/namasoft' style='text-decoration: underline;'>@namasoft</a> as a Frontend Developer",
+        joined: true
     },
 ]
+
+export const DEFAULT_INDICATOR_SIZE = 80

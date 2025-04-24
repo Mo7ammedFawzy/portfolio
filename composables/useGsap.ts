@@ -1,5 +1,6 @@
 import {gsap} from "gsap";
 import {ScrollToPlugin} from "gsap/ScrollToPlugin"
+import {DEFAULT_INDICATOR_SIZE} from "~/constants";
 
 
 gsap.registerPlugin(ScrollToPlugin)
@@ -53,7 +54,6 @@ export const useGsap = () => {
             stagger: .05,
             ease: "expo.inOut", onComplete() {
                 __showElementOnScroll__()
-                // animateHeaderInicator()
             }
         }, "<")
     }
@@ -75,22 +75,54 @@ export const useGsap = () => {
 
     }
 
-    function animateHeaderIndicator(nextActiveTab: string = 'home-page', isResize: boolean = false) {
-        return new Promise((resolve, reject) => {
+
+    function modifyIndicatorWidthIfNeeded(indicatorSize: Ref<number>) {
+        if (!indicatorSize.value)
+            return
+        const header = document.getElementById("header")
+        if (!header)
+            return;
+        const shouldMinimizeIndicator = header.offsetWidth <= 383;
+        const smallIndicatorSize = DEFAULT_INDICATOR_SIZE - 20;
+        if (shouldMinimizeIndicator && indicatorSize.value == smallIndicatorSize)
+            return;
+        else if (!shouldMinimizeIndicator && indicatorSize.value == DEFAULT_INDICATOR_SIZE)
+            return;
+        indicatorSize.value = shouldMinimizeIndicator ? smallIndicatorSize : DEFAULT_INDICATOR_SIZE
+        if (indicatorSize.value)
+            tl.to("#indicator", {
+                width: indicatorSize.value + "px",
+                duration: 1,
+                ease: "expo.inOut"
+            })
+    }
+
+    function animateHeaderIndicator({nextSectionTitle = "home-page", isResize = false, indicatorSize}: {
+        indicatorSize: Ref<number>,
+        nextSectionTitle?: string,
+        isResize?: boolean
+    }) {
+        // if header width is less than 360px make indicator width to 60px
+        return new Promise((resolve) => {
             if (isAnimate.value) {
                 return;
             }
             isAnimate.value = true
-            const nextTab: NextTab = {
+            modifyIndicatorWidthIfNeeded(indicatorSize)
+
+            const DEFAULT_TAB_WIDTH = 80;
+            const tab: Tab = {
                 get html() {
-                    return document.querySelector<HTMLDivElement>(`[data-section=${nextActiveTab}]`)
-                },
-                get index() {
-                    return Number(this.html?.dataset.index) ?? 0
+                    return document.querySelector<HTMLDivElement>(`[data-section=${nextSectionTitle}]`)
                 },
                 get width() {
-                    let DEFAULT_TAB_WIDTH = 80;
                     return this.html?.offsetWidth ?? DEFAULT_TAB_WIDTH
+                },
+                get currentIndex() {
+                    return currentTabIndex.value
+                },
+                get nextIndex() {
+                    return Number(this.html?.dataset.index) ?? 0
                 }
             }
             const indicator = {
@@ -98,26 +130,28 @@ export const useGsap = () => {
                     return document.querySelector("#indicator")
                 },
                 get width(): number {
-                    let DEFAULT_INDICATOR_WIDTH = 80;
-                    return Number(indicator.html?.offsetWidth) ?? DEFAULT_INDICATOR_WIDTH
+                    return indicatorSize.value
                 },
                 get diff(): number {
-                    return (nextTab.width - indicator.width) / 2
+                    return (indicator.width - tab.width) / 2
                 },
                 get nextSection(): HTMLElement | null {
-                    return document.querySelector(`.head-link[data-section='${nextActiveTab}']`)
+                    return document.querySelector(`.head-link[data-section='${nextSectionTitle}']`)
                 }
             }
             const baseDuration = 1
             const baseEase = "expo.inOut"
-            const nextTabIndex = Number(indicator.nextSection?.dataset.index)
-            const isLtr = Number(nextTabIndex) - Number(currentTabIndex.value) >= 0
+            const isLtr = Number(tab.nextIndex) - Number(tab.currentIndex) >= 0
+            const stretchedWidth = indicator.width + Math.abs((tab.nextIndex - tab.currentIndex) * indicator.width) - indicator.diff * 2 * Math.abs((tab.nextIndex - tab.currentIndex));
+            const currentOffset = (isLtr ? +1 : -1) * tab.width * (isLtr ? tab.currentIndex : 4 - tab.currentIndex) + (!isLtr ? +1 : -1) * indicator.diff
+            const transformX = (isLtr ? +1 : -1) * tab.width * (isLtr ? tab.nextIndex : 4 - tab.nextIndex) + (!isLtr ? +1 : -1) * indicator.diff
+
             if (isResize) {
                 tl.set("#indicator", {
-                    left: 0, right: 'auto'
+                    left: isLtr ? 0 : "auto", right: isLtr ? 'auto' : 0
                 })
                 tl.to("#indicator", {
-                    x: nextTabIndex * nextTab.width + indicator.diff,
+                    x: currentOffset,
                     duration: baseDuration,
                     ease: baseEase
                 })
@@ -126,25 +160,15 @@ export const useGsap = () => {
                 return;
             }
 
-            const stretchedWidth = indicator.width + Math.abs((nextTabIndex - currentTabIndex.value) * indicator.width) + indicator.diff * 2 * Math.abs((nextTabIndex - currentTabIndex.value));
-            const currentOffsetRight = -(4 - currentTabIndex.value) * nextTab.width - indicator.diff
-            const currentOffsetLeft = currentTabIndex.value * nextTab.width + indicator.diff
-            const transformX = nextTabIndex * nextTab.width + indicator.diff - (!isLtr ? nextTab.width * 4 : 0);
+            tl.set("#indicator", {
+                x: currentOffset,
+                left: isLtr ? 0 : "auto", right: isLtr ? 'auto' : 0
+            })
 
-            if (isLtr) {
-                tl.set("#indicator", {
-                    x: currentOffsetLeft,
-                    left: 0, right: 'auto'
-                })
-            } else {
-                tl.set("#indicator", {
-                    right: 0, left: 'auto',
-                    x: currentOffsetRight
-                })
-            }
             tl.to(`[data-section] .head-text`, {
                 height: 0,
                 scale: 0,
+                paddingBottom: "0px",
                 duration: baseDuration - .7,
                 ease: baseEase
             }, "<")
@@ -152,12 +176,13 @@ export const useGsap = () => {
                 width: stretchedWidth,
                 duration: baseDuration - 0.5,
                 ease: baseEase, onComplete() {
-                    currentTabIndex.value = nextTabIndex
+                    currentTabIndex.value = tab.nextIndex
                 }
             }, "<")
-            tl.to(`[data-section='${nextActiveTab}'] .head-text`, {
+            tl.to(`[data-section='${nextSectionTitle}'] .head-text`, {
                 height: 'auto',
                 scale: 1,
+                paddingBottom: "8px",
                 color: "black",
                 duration: baseDuration - .7,
                 ease: baseEase
@@ -168,7 +193,7 @@ export const useGsap = () => {
                 duration: baseDuration - .7,
                 ease: baseEase
             }, "<+=.2")
-            tl.to(`[data-section='${nextActiveTab}'] .head-icon`, {
+            tl.to(`[data-section='${nextSectionTitle}'] .head-icon`, {
                 fill: 'black',
                 color: 'black',
                 duration: baseDuration - .7,
@@ -179,7 +204,7 @@ export const useGsap = () => {
                 duration: baseDuration,
                 ease: baseEase,
                 onComplete() {
-                    activeTab.value = nextActiveTab
+                    activeTab.value = nextSectionTitle
                 }
             })
             tl.to("#indicator", {
@@ -196,7 +221,7 @@ export const useGsap = () => {
             tl.call(() => {
                 isAnimate.value = false
             })
-            tl.to(`[data-section='${nextActiveTab}'] .head-icon`, {
+            tl.to(`[data-section='${nextSectionTitle}'] .head-icon`, {
                 color: 'black',
                 duration: baseDuration - .7,
                 ease: baseEase,
@@ -207,12 +232,12 @@ export const useGsap = () => {
         })
     }
 
-    interface NextTab {
+    interface Tab {
         html: HTMLDivElement | null,
-        index: number,
-        width: number
+        width: number,
+        currentIndex: number,
+        nextIndex: number
     }
-
 
     const changeIndicatorActiveTabOnScroll = (fn: (title: string) => void) => {
         const targets: NodeListOf<HTMLElement> = document.querySelectorAll('section')
@@ -221,7 +246,7 @@ export const useGsap = () => {
                 if (!entry.isIntersecting) return;
                 fn(entry.target.id);
             })
-        }, 250), {root: null, rootMargin: "0px", threshold: 0})
+        }, 250), {root: null, threshold: 0.1})
 
         targets.forEach((target) => observer.observe(target))
     }
