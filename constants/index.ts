@@ -1,4 +1,3 @@
-// import {type Contact, type ITechIcons, type Stack, type Tool} from "~/types/index";
 export interface IBase {
     title: string,
     icon: string
@@ -10,8 +9,6 @@ export interface Contact extends IBase {
 }
 
 export interface Stack extends IBase {
-    title: string,
-    icon: string
 }
 
 export interface Tool extends IBase {
@@ -28,7 +25,7 @@ export type Icons =
     | 'file-icons:nuxt'
 
 export interface ITechIcon extends IBase {
-    icon: Icons,
+    icon: Icons
 }
 
 export const CONTACT: Contact[] = [
@@ -40,7 +37,7 @@ export const CONTACT: Contact[] = [
     {
         title: "github",
         icon: "mdi:github",
-        link: "https://github.com/devfawzey"
+        link: "https://github.com/Mo7ammedFawzy"
     },
     {
         title: "mail",
@@ -55,7 +52,6 @@ export const PROJECTS = [
         type: "ecommerce",
         grid: "xx-large",
         techs: <ITechIcon[]>[
-            // 'mdi:nuxt', 'bxl:typescript', 'mdi:tailwind', 'carbon:api'
             {
                 icon: "mdi-nuxt",
                 title: "Nuxt"
@@ -134,7 +130,8 @@ export const PROJECTS = [
             }
         ],
         "src": "innovate",
-        "link": "https://innovate3.online/"
+        "link": "https://innovate3.online/",
+        show: false
     },
     {
         "title": "Commerce-Hope",
@@ -370,6 +367,10 @@ export const STACKS: Stack[] = [
         icon: "devicon-plain:vuetify"
     },
     {
+        icon: "devicon-plain:quasar",
+        title: "quasar"
+    },
+    {
         title: "git",
         icon: "mdi:git"
     },
@@ -460,33 +461,20 @@ interface ITimeLine {
 
 export const TIMELINE: ITimeLine[] = [
     {
-        date: "2022-08-01",
+        date: "Aug 2022",
         text: "Graduated in Computer Science"
     },
     {
-        date: "2023-02-01",
-        text: "First developer job as frontend developer",
-        isLeft: true
-    },
-    {
-        date: "2023-04-01",
-        text: "Working as a freelancer",
-    },
-    {
-        date: "2024-04-01",
+        date: "Apr 2024",
         text: "joined <a target='_blank' href='https://www.linkedin.com/company/talent-innovate/' style='text-decoration: underline;'>@innovate</a> as a Frontend Developer",
         isLeft: true,
         joined: true
     },
     {
-        date: "2025-12-01",
-        text: "Self-Employed Frontend Developer"
-    },
-    {
-        date: "present",
+        date: "Jan 2025 – Present",
         text: "joined <a target='_blank' href='https://www.linkedin.com/company/namasoft' style='text-decoration: underline;'>@namasoft</a> as a Frontend Developer",
         joined: true,
-        isLeft: true,
+        isLeft: false,
     },
 ]
 

@@ -37,16 +37,8 @@ export const useGsap = () => {
         }, "<")
         _animateLandingContent_()
     }
-    const __pageTransitionLeave__ = () => {
-    }
-    const ____zoomImgOnScroll____ = () => {
-    }
     const _animateLandingContent_ = () => {
         const target = "[once-in]"
-        // set first
-        // tl.set(target, {
-        //  y: '50vh'
-        // })
         tl.to(target, {
             y: "0vh",
             // opacity: 1,
@@ -246,7 +238,7 @@ export const useGsap = () => {
                 if (!entry.isIntersecting) return;
                 fn(entry.target.id);
             })
-        }, 250), {root: null, threshold: 0.1})
+        }, 250), {root: null, rootMargin: "0px", threshold: 0})
 
         targets.forEach((target) => observer.observe(target))
     }
