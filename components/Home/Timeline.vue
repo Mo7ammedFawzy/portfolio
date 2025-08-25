@@ -14,7 +14,7 @@ import {TIMELINE} from "~/constants"
         <span class="dot w-3 aspect-square  absolute -left-[30px] rounded-full top-0 bg-white"
               :class="{'md:-right-[30px] md:!left-auto': item.isLeft}"/>
      <div v-text="item.date" class="text-white/70 relative -translate-y-1 text-xs md:text-sm" />
-     <div v-html="item.text" class="text-sm md:text-base [&>a]:text-indigo-600" />
+     <div v-html="item.text" class="text-sm md:text-base [&>a]:text-indigo-400" />
       </div>
     </div>
   </div>
