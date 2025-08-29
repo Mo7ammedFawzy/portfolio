@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 function openPDF() {
- const pdfUrl = '/MohammedFawzey_CV.pdf';
+ const pdfUrl = '/Mohammed_Fawzy_CV.pdf';
  window.open(pdfUrl, '_blank', 'width=800,height=600');
 }
 

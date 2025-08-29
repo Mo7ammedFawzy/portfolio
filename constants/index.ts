@@ -77,7 +77,7 @@ export const PROJECTS = [
         title: "NuxtUI"
       }
     ],
-    src: "nuxt-commercehope",
+    src: "eCommerce",
     link: "https://ecommercelytics.vercel.app/",
     githubLink: "https://github.com/Mo7ammedFawzy/eCommerce"
   },
