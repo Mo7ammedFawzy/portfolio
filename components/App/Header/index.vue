@@ -39,16 +39,16 @@ async function processIndicator(isFirstLoad: boolean = false) {
   <header id='header' class='fixed z-10 bottom-0 left-1/2 -translate-x-1/2  sm:-translate-y-3 w-96 max-w-full'>
     <div class="header__container min-h-40 overflow-hidden w-full flex items-end">
       <div class="px-8 max-w-full w-full rounded-t-xl  sm:rounded-full bg-main-foreground">
-        <div class="header__wrapper h-24 z-20 py-3 relative w-full grid grid-cols-5 items-center justify-center">
+        <div class="header__wrapper h-24 z-20 py-3 relative w-full grid grid-cols-4 items-center justify-center">
           <div id="indicator"
                class=" absolute w-20 h-20 bg-transparent -translate-x-36 left-0 top-1/2 rounded-full -translate-y-1/2">
             <span class="absolute top-1/2 -translate-y-1/2 left-0 w-full h-3/4 bg-white rounded-tl-full rounded-full"/>
           </div>
           <template v-for="(link, index) in HEADERLINKS">
             <div
-                class="head-link  transition-all cursor-pointer flex flex-col relative items-center justify-center"
-                 :data-section="link.title" :data-index="index"
-                 @click="sectionStack.push(link.title);processIndicator()">
+                class="head-link transition-all cursor-pointer flex flex-col relative items-center justify-center"
+                :data-section="link.title" :data-index="index"
+                @click="sectionStack.push(link.title);processIndicator()">
               <div
                   class="head-icon w-full icon_wrapper leading-none flex flex-col relative items-center justify-center">
                 <UIcon :name="link.icon" :class="[link.title]"

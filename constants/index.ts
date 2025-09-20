@@ -22,7 +22,9 @@ export type Icons =
   | 'devicon-plain:vuetify'
   | 'mdi:vuejs'
   | 'ri:bootstrap-fill'
-  | 'file-icons:nuxt'
+  | 'file-icons:nuxt' |
+  "logos:vue"
+  | "devicon:spring"
 
 export interface ITechIcon extends IBase {
   icon: Icons
@@ -46,36 +48,38 @@ export const CONTACT: Contact[] = [
     isMail: true,
   },
 ]
-export const PROJECTS = [
+
+
+export const PROJECTS: Project[] = [
   {
     title: "eCommerceHope",
     type: "ecommerce",
     grid: "xx-large",
-    techs: <ITechIcon[]>[
+    techs: [
       {
         icon: "logos:vue",
         title: "Vue"
       },
       {
-        icon: "bxl:typescript",
-        title: "typescript"
-      },
-      {
-        icon: "carbon:api",
-        title: "RestAPI"
-      },
-      {
         icon: "devicon:spring",
         title: "Spring"
+      },
+      // {
+      //   icon: "carbon:api",
+      //   title: "RestAPI"
+      // },
+      {
+        icon: "bxl:typescript",
+        title: "typescript"
       },
       {
         icon: "mdi:tailwind",
         title: "tailwindcss"
       },
-      {
-        icon: "file-icons:nuxt",
-        title: "NuxtUI"
-      }
+      // {
+      //   icon: "file-icons:nuxt",
+      //   title: "NuxtUI"
+      // }
     ],
     src: "eCommerce",
     link: "https://ecommercelytics.vercel.app/",
@@ -108,10 +112,10 @@ export const PROJECTS = [
     githubLink: "https://github.com/devfawzey/tabrak"
   },
   {
-    "title": "Innovate",
-    "type": "design",
-    "grid": "small",
-    techs: <ITechIcon[]>[{
+    title: "Innovate",
+    type: "design",
+    grid: "small",
+    techs: [{
       icon: "devicon-plain:vuetify",
       title: "vuetify"
     },
@@ -119,7 +123,7 @@ export const PROJECTS = [
         icon: "mdi:nuxt",
         title: "Nuxt"
       }],
-    "tags": [
+    tags: [
       {
         "title": "NuxtJs",
         "color": "rgb(79 70 229)"
@@ -134,7 +138,7 @@ export const PROJECTS = [
       }
     ],
     "src": "innovate",
-    "link": "https://innovate3.online/",
+    link: "https://innovate3.online/",
     show: false
   },
   {
@@ -226,10 +230,10 @@ export const PROJECTS = [
     "link": "https://movie-appio.vercel.app/"
   },
   {
-    "title": ".Store",
+    title: ".Store",
     show: false,
-    "type": "ecommerce",
-    techs: <ITechIcon[]>[
+    type: "ecommerce",
+    techs: [
       {
         icon: "mdi:nuxt",
         title: "Nuxt",
@@ -239,7 +243,7 @@ export const PROJECTS = [
         title: "vuetify"
       }
     ],
-    "tags": [
+    tags: [
       {
         "title": "NuxtJs",
         "color": "rgb(79 70 229)"
@@ -328,7 +332,7 @@ export const PROJECTS = [
     "title": "nix",
     "type": "design",
     "made_with": "",
-    techs: ['ri:bootstrap-fill'],
+    techs: [],
     "tags": [
       {
         "title": "Bootstrap",
@@ -347,8 +351,12 @@ export const STACKS: Stack[] = [
     icon: "logos:vue"
   },
   {
-    title: "nuxt",
-    icon: "mdi:nuxt"
+    title: "Java",
+    icon: "skill-icons:java-light"
+  },
+  {
+    title: "Spring",
+    icon: "devicon:spring"
   },
   {
     title: "typescript",
@@ -359,20 +367,16 @@ export const STACKS: Stack[] = [
     icon: "carbon:api"
   },
   {
+    title: "nuxt",
+    icon: "mdi:nuxt"
+  },
+  {
     title: "NuxtUI",
     icon: "file-icons:nuxt"
   },
   {
     title: "tailwind",
     icon: "mdi:tailwind"
-  },
-  {
-    title: "Java",
-    icon: "skill-icons:java-light"
-  },
-  {
-    title: "Spring",
-    icon: "devicon:spring"
   },
   {
     title: "vuetify",
@@ -441,10 +445,10 @@ export const HEADERLINKS: HeaderLink[] = [
     title: "profile",
     icon: 'iconamoon:profile-thin'
   },
-  {
-    title: "timeline",
-    icon: 'material-symbols:timeline'
-  },
+  // {
+  //   title: "timeline",
+  //   icon: 'material-symbols:timeline'
+  // },
   {
     title: "projects",
     icon: "material-symbols-light:work-outline"
@@ -459,18 +463,20 @@ export const HEADERLINKS: HeaderLink[] = [
   },
 ]
 
-interface ITimeLine {
+interface TimeLine {
   date: string,
   text: string,
   isLeft?: boolean,
   avatarUrl?: string,
-  joined?: boolean
+  joined?: boolean,
+  icon?: string
 }
 
-export const TIMELINE: ITimeLine[] = [
+export const TIMELINE: TimeLine[] = [
   {
     date: "Aug 2022",
-    text: "Graduated in Computer Science"
+    text: "Graduated in Computer Science",
+    icon: "line-md:computer"
   },
   {
     date: "Apr 2024",
@@ -487,3 +493,19 @@ export const TIMELINE: ITimeLine[] = [
 ]
 
 export const DEFAULT_INDICATOR_SIZE = 80
+
+export interface Project {
+  title: string,
+  type: string,
+  grid?: string,
+  techs: ITechIcon[],
+  src: string,
+  link: string,
+  githubLink?: string
+  tags?: {
+    title: string,
+    color: string
+  }[],
+  show?: boolean,
+  made_with?: string
+}
