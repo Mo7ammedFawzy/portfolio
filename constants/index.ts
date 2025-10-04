@@ -25,7 +25,7 @@ export type Icons =
   | 'file-icons:nuxt' |
   "logos:vue"
   | "devicon:spring"
-
+  | "logos:nodejs-icon"
 export interface ITechIcon extends IBase {
   icon: Icons
 }
@@ -61,9 +61,13 @@ export const PROJECTS: Project[] = [
         title: "Vue"
       },
       {
-        icon: "devicon:spring",
-        title: "Spring"
+        icon: "logos:nodejs-icon",
+        title: "NodeJS"
       },
+      // {
+      //   icon: "devicon:spring",
+      //   title: "Spring"
+      // },
       // {
       //   icon: "carbon:api",
       //   title: "RestAPI"
@@ -351,6 +355,10 @@ export const STACKS: Stack[] = [
     icon: "logos:vue"
   },
   {
+    title: "NodeJS",
+    icon: "logos:nodejs-icon"
+  },
+  {
     title: "Java",
     icon: "skill-icons:java-light"
   },
@@ -410,6 +418,10 @@ export const STACKS: Stack[] = [
 
 export const TOOLS: Tool[] = [
   {
+    title: "Claude",
+    icon: "material-icon-theme:claude"
+  },
+  {
     title: "vscode",
     icon: "mdi:microsoft-visual-studio-code"
   },
@@ -432,7 +444,7 @@ export const TOOLS: Tool[] = [
   {
     title: "Figma",
     icon: "solar:figma-broken"
-  },
+  }
 ]
 
 export interface HeaderLink {
