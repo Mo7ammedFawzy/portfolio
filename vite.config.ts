@@ -11,7 +11,7 @@ export default defineConfig({
             colorMode: false,
             ui: {
                 colors: {
-                    primary: 'indigo'
+                    primary: 'orange'
                 }
             }
         })

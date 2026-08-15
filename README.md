@@ -1,75 +1,105 @@
-# Nuxt 3 Minimal Starter
+# Mohammed Fawzey — Portfolio
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Personal portfolio website for **Mohammed Fawzey**, a software developer who builds modern frontends with Vue and scalable backends with Spring Boot.
 
-## Setup
+🌐 **Live site:** [mohammedfawzey-portfolio.vercel.app](https://mohammedfawzey-portfolio.vercel.app/)
 
-Make sure to install the dependencies:
+---
+
+## Tech Stack
+
+- **Vue 3** (`^3.5`) with `<script setup>` SFCs
+- **Vite 7** build tooling
+- **Nuxt UI v4** for UI components (`UButton`, `UBadge`, `UIcon`, `UApp`, ...)
+- **Tailwind CSS v4** (CSS-first configuration, no `tailwind.config.ts`)
+- **TypeScript**
+- **GSAP** for page-transition and header animations
+- **VueUse** for utilities
+- **Iconify** icons (collections declared in `package.json`)
+- **Google Fonts** via `@fontsource/poppins`
+- Deployed to **Vercel** as a static SPA
+
+## Getting Started
 
 ```bash
-# npm
-npm install
-
-# pnpm
+# install dependencies
 pnpm install
 
-# yarn
-yarn install
+# start the dev server
+pnpm dev
 
-# bun
-bun install
+# typecheck
+pnpm typecheck
+
+# production build (vite build + vue-tsc)
+pnpm build
+
+# preview the production build
+pnpm preview
 ```
 
-## Development Server
+> Use `pnpm` — the repo pins `packageManager: "pnpm@11.21.0"`.
 
-Start the development server on `http://localhost:3000`:
+## Project Structure
 
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+```
+src/
+├── App.vue                  # Root component: loader, header, sections
+├── main.ts                  # Vue bootstrap + Nuxt UI plugin
+├── assets/css/main.css      # Tailwind 4 theme (colors, Poppins, dark variant)
+├── components/
+│   ├── App/                 # Header (GSAP nav) and Footer (Resume button)
+│   ├── Base/                # Loader and content Wrapper
+│   └── Home/                # Landing, Projects, Tech, Tools sections
+├── composables/
+│   └── useGsap.ts           # GSAP page-enter + header nav indicator
+└── constants/
+    └── index.ts             # ALL site content (contacts, projects, stack, tools, links)
 ```
 
-## Production
+## Updating Content
 
-Build the application for production:
+**All site content lives in `src/constants/index.ts`.** There is no backend or database.
 
-```bash
-# npm
-npm run build
+| What | Where |
+|---|---|
+| Contacts / social links | `CONTACT` |
+| Project cards | `PROJECTS` |
+| Tech stack section | `STACKS` |
+| Tools section | `TOOLS` |
+| Header navigation | `HEADERLINKS` |
 
-# pnpm
-pnpm run build
+### Add / hide a project
 
-# yarn
-yarn build
-
-# bun
-bun run build
+```ts
+{
+  title: "My Project",
+  type: "fullstack",
+  grid: "x-large",
+  techs: [{ icon: "devicon:spring", title: "Spring" }],
+  tags: [{ title: "Java", color: "rgb(107 114 128)" }],
+  src: "my-project",            // -> /compressed/my-project.png
+  link: "https://demo.example.com",
+  githubLink: "https://github.com/you/my-project"
+}
 ```
 
-Locally preview production build:
+- Set `show: false` to hide a project.
+- Card images load from `/public/compressed/<src>.png`. For a remote image, set `src` to a full `http(s)` URL (e.g. a `raw.githubusercontent.com` link).
+- Icons are Iconify names used via `<UIcon>` — only use collections already in `package.json`.
 
-```bash
-# npm
-npm run preview
+## Theming
 
-# pnpm
-pnpm run preview
+- Primary color: `indigo` (configured in `vite.config.ts`).
+- Custom colors `main` / `shark` and the Poppins font are defined in `src/assets/css/main.css` via Tailwind 4 `@theme`.
+- The site is always-dark (`class="dark"` on `<html>` in `index.html`).
 
-# yarn
-yarn preview
+## Animations
 
-# bun
-bun run preview
-```
+- Page-enter loader runs from `onMounted` in `src/App.vue`.
+- `[fade-scroll]` elements fade in via IntersectionObserver (adds the `.appear` class).
+- Header nav is GSAP-driven: section ids (`home-page`, `projects`, `techs`, `tools`) and header links' `data-section` / `data-index` attributes must stay in sync with `HEADERLINKS`.
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## License
+
+© Mohammed Fawzey. All rights reserved.

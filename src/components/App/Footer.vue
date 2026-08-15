@@ -1,18 +1,20 @@
 <script setup lang="ts">
-function openPDF() {
-    const pdfUrl = '/Mohammed_Fawzy_CV.pdf';
-    window.open(pdfUrl, '_blank', 'width=800,height=600');
-}
+import { CONTACT } from '@/constants'
 </script>
 
 <template>
-    <footer id="footer" class="pb-32 lg:pb-32 pt-0">
-        <hr class="my-6 border-white/20" />
-        <div class="text-2xl sm:text-4xl mb-4">Thanks for scrolling.</div>
-        <button type="button" @click="openPDF"
-            class="bg-main hover:bg-main/50 rounded-full text-white inline-flex items-center gap-1 px-4 py-2 text-lg">
-            Resume
-            <UIcon name="radix-icons:arrow-top-right" class="size-5" />
-        </button>
+    <footer id="contact" class="bg-surface border-t border-on-surface/10 w-full py-12">
+        <div class="container-editorial flex flex-col md:flex-row justify-between items-center gap-2">
+            <div class="text-center md:text-left">
+                <h2 class="font-display text-headline-sm text-on-surface mb-2">Let's build something together.</h2>
+                <p class="font-mono text-xs text-on-surface-variant">© 2024 Mohammed Fawzy. Built for performance.</p>
+            </div>
+            <div class="flex gap-6 font-mono text-xs text-on-surface-variant">
+                <a v-for="contact in CONTACT" :key="contact.title" :href="contact.link"
+                    target="_blank" rel="noopener"
+                    class="hover:text-primary underline underline-offset-4 transition-colors capitalize"
+                    v-text="contact.title" />
+            </div>
+        </div>
     </footer>
 </template>
