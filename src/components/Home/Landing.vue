@@ -1,5 +1,5 @@
-<script setup lang='ts'>
-const BACKEND_TECH = "NodeJS"
+<script setup lang="ts">
+const BACKEND_TECH = "SpringBoot"
 </script>
 
 <template>
@@ -13,27 +13,20 @@ const BACKEND_TECH = "NodeJS"
         Software Developer
       </h2>
       <div class="flex flex-wrap gap-4 justify-center mb-8" once-in>
-        <a href="https://github.com/Mo7ammedFawzy" target="_blank"
+        <a href="https://github.com/Mo7ammedFawzy" target="_blank" rel="noopener"
            class="px-4 py-2 md:px-6 md:py-3 rounded-full bg-gray-800 hover:bg-gray-700 text-white text-md sm:text-xl transition">GitHub</a>
-        <a href="https://www.linkedin.com/in/mohammed-fawzey-4202a4316/" target="_blank"
+        <a href="https://www.linkedin.com/in/mohammed-fawzey-4202a4316/" target="_blank" rel="noopener"
            class="px-4 py-2 md:px-6 md:py-3  rounded-full bg-[#0A66C2] text-white hover:bg-[#004182] text-lg sm:text-xl transition">LinkedIn</a>
         <a href="mailto:devfawzey@gmail.com"
            class="px-4 py-2 md:px-6 md:py-3  rounded-full bg-gray-800 hover:bg-gray-700 text-white text-lg sm:text-xl transition">Mail</a>
       </div>
       <p once-in class="text-base sm:text-xl lg:text-2xl text-gray-400 max-w-2xl leading-relaxed">
         I build modern frontends with
-        <UBadge size="lg" color="green" label="Vue.js"/>
+        <UBadge size="lg" color="success" label="Vue.js"/>
         <br/> and scalable backends with
-        <UBadge size="lg" color="orange" :label="BACKEND_TECH"/>
+        <UBadge size="lg" color="warning" :label="BACKEND_TECH"/>
         .
       </p>
     </div>
   </section>
 </template>
-
-<style>
-.lumb_linear {
-  background: linear-gradient(to right, #ffffff7a 0%, #1e1e1e 50%, #1e1e1e 100%);
-  filter: blur(112.75px);
-}
-</style>

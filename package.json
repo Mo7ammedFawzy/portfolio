@@ -1,20 +1,21 @@
 {
-  "name": "nuxt-app",
+  "name": "portfolio",
   "private": true,
+  "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@11.21.0",
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "dev": "vite",
+    "build": "vite build && vue-tsc --noEmit",
+    "typecheck": "vue-tsc --noEmit",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@iconify-json/mdi": "^1.1.67",
-    "@nuxt/image": "^1.7.0",
-    "@nuxtjs/google-fonts": "^3.2.0",
+    "@fontsource/poppins": "^5.1.1",
+    "@nuxt/ui": "^4.0.0",
     "gsap": "^3.12.5",
-    "nuxt": "^3.16.2"
+    "tailwindcss": "^4.1.0",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@iconify-json/arcticons": "^1.1.109",
@@ -23,16 +24,15 @@
     "@iconify-json/flowbite": "^1.1.6",
     "@iconify-json/fontisto": "^1.1.9",
     "@iconify-json/material-symbols-light": "^1.1.26",
+    "@iconify-json/mdi": "^1.1.67",
     "@iconify-json/radix-icons": "^1.1.15",
     "@iconify-json/ri": "^1.1.22",
     "@iconify-json/simple-icons": "^1.1.112",
     "@iconify-json/solar": "^1.1.10",
-    "@nuxt/ui": "^2.18.3",
-    "@vueuse/core": "^10.11.0",
-    "@vueuse/nuxt": "^10.11.0",
-    "typescript": "^5.8.3"
-  },
-  "overrides": {
-    "vue": "latest"
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vueuse/core": "^12.4.0",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.0",
+    "vue-tsc": "^3.0.0"
   }
 }

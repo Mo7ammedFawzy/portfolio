@@ -1,11 +1,14 @@
-<script setup lang='ts'>
-import {DEFAULT_INDICATOR_SIZE, HEADERLINKS} from "~/constants"
+<script setup lang="ts">
+import { onMounted, ref, toValue } from 'vue'
+import { useDebounceFn } from '@vueuse/core'
+import { DEFAULT_INDICATOR_SIZE, HEADERLINKS } from '@/constants'
+import { useGsap } from '@/composables/useGsap'
 
 const sectionStack = ref<string[]>([])
 
 const indicatorSize = ref<number>(DEFAULT_INDICATOR_SIZE)
 
-const {animateHeaderIndicator, changeIndicatorActiveTabOnScroll, activeTab} = useGsap()
+const { animateHeaderIndicator, changeIndicatorActiveTabOnScroll, activeTab } = useGsap()
 
 onMounted(() => {
   setTimeout(() => {
@@ -74,6 +77,4 @@ async function processIndicator(isFirstLoad: boolean = false) {
 .u-shadow {
   box-shadow: 0px -10px 0 0 #000;
 }
-
-
 </style>

@@ -1,5 +1,6 @@
-<script setup lang='ts'>
-import {TOOLS} from "~/constants"
+<script setup lang="ts">
+import { TOOLS } from '@/constants'
+import AppFooter from '@/components/App/Footer.vue'
 </script>
 
 <template>

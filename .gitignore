@@ -1,13 +1,12 @@
-# Nuxt dev/build outputs
-.output
-.data
-.nuxt
-.nitro
-.cache
-dist
-
 # Node dependencies
 node_modules
+
+# Vite build output
+dist
+
+# Auto-generated type declarations (Nuxt UI Vite plugin)
+auto-imports.d.ts
+components.d.ts
 
 # Logs
 logs

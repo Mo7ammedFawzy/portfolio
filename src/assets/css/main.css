@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+    --color-main: #2d2f33;
+    --color-main-foreground: #1e2022;
+
+    --color-shark-50: #f6f6f6;
+    --color-shark-100: #e7e7e7;
+    --color-shark-200: #d1d1d1;
+    --color-shark-300: #b0b0b0;
+    --color-shark-400: #888888;
+    --color-shark-500: #6d6d6d;
+    --color-shark-600: #5d5d5d;
+    --color-shark-700: #4f4f4f;
+    --color-shark-800: #454545;
+    --color-shark-900: #3d3d3d;
+    --color-shark-950: #1e1e1e;
+}
+
+@layer base {
+    body {
+        @apply text-white bg-black;
+    }
+    [once-in] {
+        @apply relative translate-y-[50vh];
+    }
+    [fade-scroll] {
+        transition: opacity 1.5s cubic-bezier(0.87, 0, 0.13, 1),
+            transform 1.5s cubic-bezier(0.87, 0, 0.13, 1),
+            translate 1.5s cubic-bezier(0.87, 0, 0.13, 1) !important;
+        @apply opacity-0 relative translate-y-16;
+    }
+    .appear {
+        @apply opacity-100 translate-y-0;
+    }
+    body::-webkit-scrollbar {
+        @apply w-2 bg-main;
+    }
+    body::-webkit-scrollbar-thumb {
+        @apply bg-main-foreground rounded-xl;
+    }
+    body::-webkit-scrollbar-track {
+        @apply bg-main;
+    }
+}

@@ -1,13 +1,18 @@
-import {gsap} from "gsap";
-import {ScrollToPlugin} from "gsap/ScrollToPlugin"
-import {DEFAULT_INDICATOR_SIZE} from "~/constants";
+import { ref } from 'vue'
+import type { Ref } from 'vue'
+import { useDebounceFn } from '@vueuse/core'
+import { gsap } from 'gsap'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+import { DEFAULT_INDICATOR_SIZE } from '@/constants'
 
 
 gsap.registerPlugin(ScrollToPlugin)
+
+const currentTabIndex = ref(-3)
+const isAnimate = ref(false)
+const activeTab = ref('home-page')
+
 export const useGsap = () => {
-  const currentTabIndex = useState('tab-id', () => -3)
-  const isAnimate = useState('is-animate', () => false)
-  const activeTab = useState('active-tab', () => 'home-page')
   const tl = gsap.timeline();
   const targets = {
     loader: "main#loader",
@@ -15,21 +20,7 @@ export const useGsap = () => {
   }
 
   const __pageTransitionEnter__ = () => {
-    /**
-     * sets
-     * loader -100
-     * img scale(1)
-     */
-
-
-    // sets
-    // tl.set(targets.landingImg, {
-    //  scale: 1.5,
-    //  rotate: 0.001,
-    // })
-    // loader
     tl.to(targets.loader, {yPercent: -100, ease: "expo.inOut", duration: 1.75, delay: 0.5,})
-    // img
     tl.to(targets.landingImg, {
       scale: 1,
       duration: 1.75,
@@ -41,7 +32,6 @@ export const useGsap = () => {
     const target = "[once-in]"
     tl.to(target, {
       y: "0vh",
-      // opacity: 1,
       duration: 1.75,
       stagger: .05,
       ease: "expo.inOut", onComplete() {
@@ -94,7 +84,6 @@ export const useGsap = () => {
     nextSectionTitle?: string,
     isResize?: boolean
   }) {
-    // if header width is less than 360px make indicator width to 60px
     return new Promise((resolve) => {
       if (isAnimate.value) {
         return;
