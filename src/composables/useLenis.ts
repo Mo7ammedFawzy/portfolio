@@ -1,20 +1,27 @@
 import Lenis from 'lenis'
-import { onUnmounted } from 'vue'
+
+let lenis: Lenis | null = null
 
 export function useLenis() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
-    let lenis: Lenis | null = null
-
-    if (!prefersReducedMotion.matches) {
+    if (!lenis && !prefersReducedMotion.matches) {
         lenis = new Lenis({
             autoRaf: true,
             anchors: true,
         })
     }
 
-    onUnmounted(() => {
-        lenis?.destroy()
-        lenis = null
-    })
+    return lenis
+}
+
+export function scrollToTop() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+    if (lenis) {
+        lenis.scrollTo(0, prefersReducedMotion.matches ? { immediate: true } : undefined)
+        return
+    }
+
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' })
 }

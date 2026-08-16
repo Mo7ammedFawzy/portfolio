@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
     --font-display: "Libre Caslon Text", ui-serif, Georgia, serif;
@@ -57,10 +59,38 @@
     --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
+.dark {
+    color-scheme: dark;
+
+    --color-background: #161412;
+    --color-surface: #161412;
+    --color-surface-container-lowest: #201c19;
+    --color-surface-container-high: #2b2622;
+    --color-on-surface: #f3ede5;
+    --color-on-surface-variant: #c9b8a8;
+    --color-on-background: #f3ede5;
+    --color-outline: #8a7568;
+    --color-outline-variant: #5a4a40;
+    --color-primary: #e85d04;
+    --color-on-primary: #ffffff;
+    --color-primary-container: #ff8a3d;
+    --color-on-primary-container: #2a1600;
+    --color-secondary: #d0c6bf;
+    --color-on-secondary: #332b26;
+    --color-card-border: #2c2825;
+    --color-error: #ffb4ab;
+    --color-on-error: #690005;
+    --color-error-container: #93000a;
+    --color-on-error-container: #ffdad6;
+
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+
 @layer base {
     html {
         scroll-behavior: smooth;
-        scroll-padding-top: 88px;
+        scroll-padding-top: 64px;
     }
 
     body {
@@ -107,15 +137,34 @@ html.lenis body {
     }
 
     .btn-primary {
-        @apply inline-flex items-center justify-center gap-2 bg-primary text-on-primary font-sans text-sm font-semibold px-6 py-3 rounded-lg shadow-sm transition-all duration-200 hover:bg-primary-container hover:-translate-y-0.5 hover:shadow-md;
+        @apply inline-flex items-center justify-center gap-2 bg-primary text-on-primary font-sans text-sm font-semibold px-6 py-3 rounded-lg shadow-sm transition-all duration-200 hover:bg-primary-container hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60 disabled:pointer-events-none;
     }
 
     .btn-secondary {
-        @apply inline-flex items-center justify-center gap-2 bg-white text-on-surface font-sans text-sm font-semibold px-6 py-3 rounded-lg border border-card-border shadow-sm transition-all duration-200 hover:border-primary hover:text-primary hover:-translate-y-0.5 hover:shadow-md;
+        @apply inline-flex items-center justify-center gap-2 bg-surface-container-lowest text-on-surface font-sans text-sm font-semibold px-6 py-3 rounded-lg border border-card-border shadow-sm transition-all duration-200 hover:border-primary hover:text-primary hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60 disabled:pointer-events-none;
     }
 
     .icon-btn {
-        @apply inline-flex items-center justify-center w-12 h-12 rounded-full bg-white border border-card-border text-on-surface-variant shadow-sm transition-all duration-200 hover:text-primary hover:border-primary hover:-translate-y-0.5;
+        @apply inline-flex items-center justify-center w-12 h-12 rounded-full bg-surface-container-lowest border border-card-border text-on-surface-variant shadow-sm transition-all duration-200 hover:text-primary hover:border-primary hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60 disabled:pointer-events-none;
+    }
+
+    .scroll-top-btn {
+        @apply inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary text-on-primary shadow-card transition-all duration-200 hover:bg-primary-container hover:-translate-y-0.5 hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    }
+
+    .bg-parallax {
+        position: fixed;
+        inset: -50vh 0;
+        z-index: 0;
+        pointer-events: none;
+        will-change: transform;
+        background-color: var(--color-background);
+        background-image:
+            radial-gradient(60% 50% at 18% 8%, color-mix(in srgb, var(--color-primary) 9%, transparent), transparent 70%),
+            radial-gradient(50% 45% at 85% 15%, color-mix(in srgb, var(--color-primary) 6%, transparent), transparent 70%),
+            radial-gradient(color-mix(in srgb, var(--color-primary) 22%, transparent) 1px, transparent 1.6px);
+        background-size: auto, auto, 26px 26px;
+        background-repeat: no-repeat, no-repeat, repeat;
     }
 
     .nav-transition {
@@ -156,7 +205,7 @@ html.lenis body {
     }
 
     .tech-pill {
-        @apply inline-flex items-center gap-2 rounded-full border border-card-border bg-white px-3 py-1.5 font-sans text-xs font-bold uppercase tracking-wide text-on-surface-variant;
+        @apply inline-flex items-center gap-2 rounded-full border border-card-border bg-surface-container-lowest px-3 py-1.5 font-sans text-xs font-bold uppercase tracking-wide text-on-surface-variant;
     }
 
     .exp-card {
@@ -213,7 +262,8 @@ html.lenis body {
     .link-underline::after,
     .btn-primary,
     .btn-secondary,
-    .icon-btn {
+    .icon-btn,
+    .scroll-top-btn {
         transition: none !important;
         animation: none !important;
     }

@@ -3,7 +3,7 @@ import { ABOUT, ABOUT_FACTS, EXPERIENCE, LINKEDIN_URL } from '@/constants'
 </script>
 
 <template>
-    <section class="bg-surface border-y border-card-border py-[120px]">
+    <section class="bg-surface border-y border-card-border min-h-screen flex flex-col justify-center py-16 sm:py-20">
         <div class="container-editorial grid lg:grid-cols-12 gap-14 lg:gap-16">
             <div class="lg:col-span-4" id="about">
                 <p data-reveal class="label-caps text-primary mb-3">About Me</p>
@@ -11,7 +11,7 @@ import { ABOUT, ABOUT_FACTS, EXPERIENCE, LINKEDIN_URL } from '@/constants'
                 <p data-reveal class="text-body-md text-on-surface-variant mb-8" v-text="ABOUT[0]" />
                 <ul data-reveal class="space-y-4 mb-8">
                     <li v-for="fact in ABOUT_FACTS" :key="fact.label" class="flex items-center gap-4">
-                        <span class="w-11 h-11 rounded-full bg-white border border-card-border flex items-center justify-center text-primary shadow-sm shrink-0">
+                        <span class="w-11 h-11 rounded-full bg-surface-container-lowest border border-card-border flex items-center justify-center text-primary shadow-sm shrink-0">
                             <UIcon :name="fact.icon" class="text-lg" />
                         </span>
                         <div>

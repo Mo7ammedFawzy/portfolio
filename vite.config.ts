@@ -8,7 +8,7 @@ export default defineConfig({
         vue(),
         ui({
             router: false,
-            colorMode: false,
+            colorMode: true,
             ui: {
                 colors: {
                     primary: 'orange'

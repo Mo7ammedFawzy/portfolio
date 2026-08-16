@@ -127,21 +127,21 @@ onUnmounted(() => {
                             <div class="hidden md:flex items-center bg-surface-container-high/60 rounded-lg p-0.5 border border-card-border/40">
                                 <button
                                     @click="viewportMode = 'desktop'"
-                                    :class="viewportMode === 'desktop' ? 'bg-white text-primary shadow-xs font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+                                    :class="viewportMode === 'desktop' ? 'bg-surface-container-lowest text-primary shadow-xs font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
                                     class="p-1.5 rounded-md transition-all text-xs flex items-center gap-1"
                                     title="Desktop View">
                                     <UIcon name="material-symbols:desktop-windows-outline" class="text-base" />
                                 </button>
                                 <button
                                     @click="viewportMode = 'tablet'"
-                                    :class="viewportMode === 'tablet' ? 'bg-white text-primary shadow-xs font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+                                    :class="viewportMode === 'tablet' ? 'bg-surface-container-lowest text-primary shadow-xs font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
                                     class="p-1.5 rounded-md transition-all text-xs flex items-center gap-1"
                                     title="Tablet View (768px)">
                                     <UIcon name="material-symbols:tablet-mac-outline" class="text-base" />
                                 </button>
                                 <button
                                     @click="viewportMode = 'mobile'"
-                                    :class="viewportMode === 'mobile' ? 'bg-white text-primary shadow-xs font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+                                    :class="viewportMode === 'mobile' ? 'bg-surface-container-lowest text-primary shadow-xs font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
                                     class="p-1.5 rounded-md transition-all text-xs flex items-center gap-1"
                                     title="Mobile View (375px)">
                                     <UIcon name="material-symbols:smartphone-outline" class="text-base" />
@@ -164,7 +164,7 @@ onUnmounted(() => {
                     </div>
 
                     <!-- Viewport Content Stage -->
-                    <div class="flex-1 bg-[#121212]/5 overflow-auto flex items-center justify-center p-2 sm:p-4 relative">
+                    <div class="flex-1 bg-surface-container-high overflow-auto flex items-center justify-center p-2 sm:p-4 relative">
                         <!-- Loading State Overlay -->
                         <div v-if="isLoading" class="absolute inset-0 bg-surface/80 backdrop-blur-xs flex flex-col items-center justify-center gap-3 z-20">
                             <UIcon name="svg-spinners:90-ring-with-bg" class="text-3xl text-primary" />
@@ -185,7 +185,7 @@ onUnmounted(() => {
                         </div>
 
                         <!-- Fallback Screen when iframe is blocked by CSP / X-Frame-Options -->
-                        <div v-if="iframeFailed" class="w-full max-w-2xl bg-white border border-card-border rounded-2xl p-6 md:p-8 text-center shadow-lg my-auto">
+                        <div v-if="iframeFailed" class="w-full max-w-2xl bg-surface-container-lowest border border-card-border rounded-2xl p-6 md:p-8 text-center shadow-lg my-auto">
                             <div class="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
                                 <UIcon name="material-symbols:lock-outline" class="text-3xl" />
                             </div>

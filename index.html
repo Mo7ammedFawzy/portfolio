@@ -9,6 +9,17 @@
   </head>
   <body>
     <div id="app" class="isolate"></div>
+    <script>
+      (function () {
+        var stored = null;
+        try { stored = localStorage.getItem('portfolio-theme'); } catch (e) {}
+        var dark;
+        if (stored === 'dark') dark = true;
+        else if (stored === 'light') dark = false;
+        else dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (dark) document.documentElement.classList.add('dark');
+      })();
+    </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

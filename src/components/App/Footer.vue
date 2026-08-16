@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { CONTACT, HEADERLINKS, SITE_NAME } from '@/constants'
-
-const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 </script>
 
 <template>
@@ -32,10 +30,6 @@ const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
                         class="icon-btn" :aria-label="contact.title">
                         <UIcon :name="contact.icon" class="text-lg" />
                     </a>
-                    <button type="button" class="icon-btn bg-primary border-primary text-on-primary hover:text-on-primary hover:border-primary hover:bg-primary-container"
-                        aria-label="Back to top" @click="scrollToTop">
-                        <UIcon name="material-symbols:arrow-upward" class="text-lg" />
-                    </button>
                 </div>
             </div>
         </div>

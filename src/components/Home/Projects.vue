@@ -76,7 +76,7 @@ const getBentoSpan = (project: Project, index: number) => {
 </script>
 
 <template>
-    <section id="projects" class="container-editorial pb-[120px]">
+    <section id="projects" class="container-editorial min-h-screen flex flex-col justify-center py-16 sm:py-20">
         <!-- Section Header -->
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10" data-reveal>
             <div>
@@ -135,7 +135,7 @@ const getBentoSpan = (project: Project, index: number) => {
                             <!-- Overlay Hover Action -->
                             <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 backdrop-blur-[2px]">
                                 <button
-                                    class="px-4 py-2 rounded-lg bg-white/95 text-on-surface text-xs font-semibold shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 hover:bg-white hover:text-primary">
+                                    class="px-4 py-2 rounded-lg bg-surface-container-lowest/95 text-on-surface text-xs font-semibold shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 hover:bg-surface-container-lowest hover:text-primary">
                                     <UIcon name="material-symbols:visibility-outline" class="text-base text-primary" />
                                     Live Preview
                                 </button>
