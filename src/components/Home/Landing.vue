@@ -47,23 +47,27 @@ import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
                             My <em class="text-primary">Journey</em>
                         </h2>
                     </div>
-                    <ol class="space-y-10">
-                        <li v-for="step in JOURNEY" :key="step.year" class="relative pl-12">
-                            <span class="absolute left-0 top-1.5 w-6 h-6 rounded-full border-2 flex items-center justify-center"
-                                :class="step.current ? 'border-primary bg-primary/5' : 'border-card-border bg-white'">
-                                <span :class="['w-2 h-2 rounded-full', step.current ? 'bg-primary' : 'bg-outline']" />
-                            </span>
-                            <div class="flex flex-wrap items-center gap-2 mb-1">
-                                <span class="label-caps text-primary" v-text="step.year" />
-                                <span v-for="pill in step.pills" :key="pill" class="tech-pill !text-[10px] !py-1">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-primary" />
-                                    {{ pill }}
-                                </span>
-                            </div>
-                            <h3 class="font-sans text-body-md font-semibold text-on-surface" v-text="step.title" />
-                            <p class="text-body-sm text-on-surface-variant mt-0.5" v-text="step.subtitle" />
-                        </li>
-                    </ol>
+                    <div class="relative">
+                        <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-card-border" aria-hidden="true" />
+                        <ol class="space-y-12">
+                            <li v-for="(step, index) in JOURNEY" :key="step.year" class="relative flex gap-6" :style="{ '--reveal-delay': `${index * 100}ms` }" data-reveal>
+                                <div class="relative flex-shrink-0 w-12 h-12 rounded-full bg-white border-2 flex items-center justify-center shadow-sm z-10"
+                                    :class="step.current ? 'border-primary bg-primary/5' : 'border-card-border'">
+                                    <UIcon :name="step.icon" class="text-xl" :class="step.current ? 'text-primary' : 'text-on-surface-variant'" />
+                                </div>
+                                <div class="flex-1 min-w-0 pt-1">
+                                    <span class="label-caps text-primary" v-text="step.year" />
+                                    <h3 class="font-sans text-body-md font-semibold text-on-surface mt-1" v-text="step.title" />
+                                    <p class="text-body-sm text-on-surface-variant mt-0.5" v-text="step.subtitle" />
+                                    <div v-if="step.tags.length" class="flex flex-wrap gap-2 mt-3">
+                                        <span v-for="tag in step.tags" :key="tag" class="tech-pill text-[11px] px-2.5 py-0.5">
+                                            {{ tag }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
                 </article>
             </div>
         </div>
