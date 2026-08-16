@@ -30,25 +30,204 @@ export interface ITechIcon extends IBase {
   icon: Icons
 }
 
+export const SITE_NAME = "Mohammed Fawzey"
+export const ROLE = "Fullstack Java Developer"
+export const EMAIL = "devfawzey@gmail.com"
+export const CV_URL = "/Mohammed_Fawzey_CV.pdf"
+export const GITHUB_URL = "https://github.com/Mo7ammedFawzy"
+export const LINKEDIN_URL = "https://www.linkedin.com/in/mohammed-fawzey-4202a4316/"
+
 export const CONTACT: Contact[] = [
-  {
-    title: "linkedin",
-    icon: "mdi:linkedin",
-    link: "https://www.linkedin.com/in/mohammed-fawzey-4202a4316/"
-  },
   {
     title: "github",
     icon: "mdi:github",
-    link: "https://github.com/Mo7ammedFawzy"
+    link: GITHUB_URL
+  },
+  {
+    title: "linkedin",
+    icon: "mdi:linkedin",
+    link: LINKEDIN_URL
   },
   {
     title: "mail",
     icon: "material-symbols-light:mail-outline",
-    link: "mailto:devfawzey@gmail.com",
+    link: `mailto:${EMAIL}`,
     isMail: true,
   },
 ]
 
+export interface HeaderLink {
+  title: string,
+  section: string
+}
+
+export const HEADERLINKS: HeaderLink[] = [
+  {
+    title: "Home",
+    section: "home"
+  },
+  {
+    title: "About",
+    section: "about"
+  },
+  {
+    title: "Projects",
+    section: "projects"
+  },
+  {
+    title: "Skills",
+    section: "skills"
+  },
+  {
+    title: "Experience",
+    section: "experience"
+  },
+  {
+    title: "Contact",
+    section: "contact"
+  },
+]
+
+export const ABOUT: string[] = [
+  "I am a developer focused on creating clean, intuitive interfaces and robust backend architectures. My foundation in frontend development with Vue.js has evolved into full-stack engineering, leveraging Java and Spring Boot to build comprehensive solutions.",
+  "I value clean architecture, maintainable code, and a user-first approach to design and functionality. The intersection of technical rigor and thoughtful user experience is where I thrive."
+]
+
+export interface AboutFact {
+  label: string,
+  value: string,
+  icon: string
+}
+
+export const ABOUT_FACTS: AboutFact[] = [
+  {
+    label: "Location",
+    value: "Benisuef, Egypt",
+    icon: "material-symbols:location-on"
+  },
+  {
+    label: "Email",
+    value: EMAIL,
+    icon: "material-symbols:mail"
+  },
+  {
+    label: "Education",
+    value: "Bachelor of Computer Science",
+    icon: "material-symbols:school"
+  },
+  {
+    label: "Languages",
+    value: "Arabic (Native) · English (B2)",
+    icon: "material-symbols:language"
+  },
+]
+
+export interface JourneyStep {
+  year: string,
+  title: string,
+  subtitle: string,
+  icon: string,
+  tags: string[],
+  current?: boolean
+}
+
+export const JOURNEY: JourneyStep[] = [
+  {
+    year: "2021",
+    title: "Computer Science Graduate",
+    subtitle: "Helwan University",
+    icon: "material-symbols:school",
+    tags: ["Education"]
+  },
+  {
+    year: "2023",
+    title: "Frontend Developer",
+    subtitle: "Innovate",
+    icon: "material-symbols:code",
+    tags: ["Vue.js"]
+  },
+  {
+    year: "2025",
+    title: "Java Developer",
+    subtitle: "Namasoft (ERP Company)",
+    icon: "material-symbols:settings",
+    tags: ["Java", "Spring Boot", "Vue 3"]
+  },
+  {
+    year: "Now",
+    title: "Fullstack Developer",
+    subtitle: "Building scalable solutions and growing every day.",
+    icon: "material-symbols:rocket-launch",
+    tags: [],
+    current: true
+  },
+]
+
+export interface Experience {
+  company: string,
+  role: string,
+  period: string,
+  bullets: string[],
+  current?: boolean
+}
+
+export const EXPERIENCE: Experience[] = [
+  {
+    company: "Namasoft",
+    role: "Java Developer",
+    period: "Jan 2025 – Present",
+    current: true,
+    bullets: [
+      "Developing ERP modules with Java and Spring Boot.",
+      "Building responsive frontends with Vue 3 and REST APIs.",
+      "Designing and maintaining database schemas and service layers.",
+      "Collaborating with the team on architecture, code review, and deployment.",
+    ]
+  },
+  {
+    company: "Innovate",
+    role: "Frontend Developer (Vue.js)",
+    period: "Mid 2023 – Dec 2024",
+    bullets: [
+      "Built responsive single-page applications with Vue.js and Nuxt.",
+      "Delivered pixel-perfect UI from designer mockups.",
+      "Improved performance, accessibility, and reusability across client projects.",
+    ]
+  },
+]
+
+export interface Skill {
+  title: string,
+  icon: string
+}
+
+export const SKILLS: Skill[] = [
+  { title: "Java", icon: "devicon-plain:java" },
+  { title: "Spring Boot", icon: "devicon-plain:spring" },
+  { title: "Hibernate", icon: "devicon-plain:hibernate" },
+  { title: "MySQL", icon: "devicon-plain:mysql" },
+  { title: "REST API", icon: "material-symbols:api" },
+  { title: "Git", icon: "devicon-plain:git" },
+  { title: "Vue 3", icon: "devicon-plain:vuejs" },
+  { title: "JavaScript", icon: "devicon-plain:javascript" },
+]
+
+export interface Project {
+  title: string,
+  type: string,
+  grid?: string,
+  techs: ITechIcon[],
+  src: string,
+  link: string,
+  githubLink?: string
+  tags?: {
+    title: string,
+    color: string
+  }[],
+  show?: boolean,
+  made_with?: string,
+  description?: string
+}
 
 export const PROJECTS: Project[] =
   [
@@ -65,14 +244,6 @@ export const PROJECTS: Project[] =
         icon: "logos:nodejs-icon",
         title: "NodeJS"
       },
-      // {
-      //   icon: "devicon:spring",
-      //   title: "Spring"
-      // },
-      // {
-      //   icon: "carbon:api",
-      //   title: "RestAPI"
-      // },
       {
         icon: "bxl:typescript",
         title: "typescript"
@@ -81,14 +252,11 @@ export const PROJECTS: Project[] =
         icon: "mdi:tailwind",
         title: "tailwindcss"
       },
-      // {
-      //   icon: "file-icons:nuxt",
-      //   title: "NuxtUI"
-      // }
     ],
     src: "eCommerce",
     link: "https://ecommercelytics.vercel.app/",
-    githubLink: "https://github.com/Mo7ammedFawzy/eCommerce"
+    githubLink: "https://github.com/Mo7ammedFawzy/eCommerce",
+    description: "Full-stack storefront with a clean, editorial product experience."
   },
   {
     title: "tabarak company",
@@ -114,7 +282,8 @@ export const PROJECTS: Project[] =
     ],
     src: "tabark",
     link: "https://tabrak-pi.vercel.app/",
-    githubLink: "https://github.com/devfawzey/tabrak"
+    githubLink: "https://github.com/devfawzey/tabrak",
+    description: "Corporate site for a trading company with bold, grid-driven layouts."
   },
   {
     title: "Innovate",
@@ -147,7 +316,7 @@ export const PROJECTS: Project[] =
     show: false
   },
     {
-      title: "Library Managment System",
+      title: "Library Management System",
       type: "fullstack",
       grid: "x-large",
       techs: <ITechIcon[]>[
@@ -172,7 +341,8 @@ export const PROJECTS: Project[] =
       ],
       src: "https://raw.githubusercontent.com/Mo7ammedFawzy/Spring-Boot-Library-Management/main/preview.png",
       link: "https://spring-boot-library-management.vercel.app/",
-      githubLink: "https://github.com/Mo7ammedFawzy/Spring-Boot-Library-Management"
+      githubLink: "https://github.com/Mo7ammedFawzy/Spring-Boot-Library-Management",
+      description: "Full-stack library management with a Spring Boot REST API and Vue frontend."
     },
     {
     "title": "Commerce-Hope",
@@ -205,7 +375,8 @@ export const PROJECTS: Project[] =
       }
     ],
     "src": "commerce-hope",
-    "link": "https://commerce-hope.vercel.app/"
+    "link": "https://commerce-hope.vercel.app/",
+    description: "E-commerce experience focused on product discovery and smooth checkout."
   },
     {
     "title": "Hager UI-UX Developer",
@@ -232,7 +403,8 @@ export const PROJECTS: Project[] =
       }
     ],
     "src": "ui-ux",
-    "link": "https://hager-ui-ux.vercel.app/"
+    "link": "https://hager-ui-ux.vercel.app/",
+    description: "Portfolio for a UI/UX designer showcasing her selected projects."
   },
     {
     "title": "Movies Hunter",
@@ -260,7 +432,8 @@ export const PROJECTS: Project[] =
       }
     ],
     "src": "movies",
-    "link": "https://movie-appio.vercel.app/"
+    "link": "https://movie-appio.vercel.app/",
+    description: "Movie discovery app with search, trending lists, and rich detail views."
   },
     {
     title: ".Store",
@@ -314,7 +487,7 @@ export const PROJECTS: Project[] =
     ],
     "src": "traders",
     "link": "https://traders-academy-gold.vercel.app/ar",
-    // githubLink:"https://github.com/mohammedfawzey/traders-academy"
+    description: "Bilingual landing page for a trading education academy."
   },
     {
     "title": "Pexels eCommerce",
@@ -359,7 +532,8 @@ export const PROJECTS: Project[] =
       }
     ],
     "src": "restaurant",
-    "link": "https://mohammed2711111.github.io/Restaurant_Site/resturant.html"
+    "link": "https://mohammed2711111.github.io/Restaurant_Site/resturant.html",
+    description: "Static restaurant website built with Bootstrap."
   },
     {
     "title": "nix",
@@ -475,97 +649,3 @@ export const TOOLS: Tool[] = [
     icon: "solar:figma-broken"
   }
 ]
-
-export interface HeaderLink {
-  title: string,
-  section: string
-}
-
-export const HEADERLINKS: HeaderLink[] = [
-  {
-    title: "Work",
-    section: "work"
-  },
-  {
-    title: "About",
-    section: "about"
-  },
-  {
-    title: "Skills",
-    section: "skills"
-  },
-  {
-    title: "Experience",
-    section: "experience"
-  },
-  {
-    title: "Contact",
-    section: "contact"
-  },
-]
-
-export const ABOUT: string[] = [
-  "I am a developer focused on creating clean, intuitive interfaces and robust backend architectures. My foundation in frontend development with Vue.js has evolved into full-stack engineering, leveraging Java and Spring Boot to build comprehensive solutions.",
-  "I value clean architecture, maintainable code, and a user-first approach to design and functionality. The intersection of technical rigor and thoughtful user experience is where I thrive."
-]
-
-export interface Experience {
-  company: string,
-  role: string,
-  period: string,
-  current?: boolean
-}
-
-export const EXPERIENCE: Experience[] = [
-  {
-    company: "Namasoft",
-    role: "Frontend Developer",
-    period: "2025 — Present",
-    current: true
-  },
-  {
-    company: "Innovate",
-    role: "Frontend Developer",
-    period: "2024"
-  },
-]
-
-export interface SkillGroup {
-  title: string,
-  skills: string[]
-}
-
-export const SKILLS_GROUPS: SkillGroup[] = [
-  {
-    title: "Frontend",
-    skills: ["Vue.js", "Nuxt", "TypeScript", "Tailwind CSS", "Vuetify", "HTML/CSS"]
-  },
-  {
-    title: "Backend",
-    skills: ["Java", "Spring Boot", "Node.js", "REST APIs"]
-  },
-  {
-    title: "Database",
-    skills: ["MongoDB", "MySQL"]
-  },
-  {
-    title: "Tools",
-    skills: ["Git", "Docker", "Figma", "Postman"]
-  },
-]
-
-export interface Project {
-  title: string,
-  type: string,
-  grid?: string,
-  techs: ITechIcon[],
-  src: string,
-  link: string,
-  githubLink?: string
-  tags?: {
-    title: string,
-    color: string
-  }[],
-  show?: boolean,
-  made_with?: string
-}
