@@ -64,3 +64,14 @@ After implementation:
 - Trust the actual code and configuration over aspirational documentation.
 - `README.md` and other planning docs may describe planned features that are not implemented.
 - Do not assume a feature exists because it is mentioned in documentation — verify from source code and configuration.
+
+## Agent skills
+
+### Issue tracker
+
+Tracked in GitHub Issues using the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Domain docs
+
+Single-context layout (`CONTEXT.md` + `docs/adr/`). See `docs/agents/domain.md`.
+

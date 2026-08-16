@@ -157,7 +157,7 @@ export const JOURNEY: JourneyStep[] = [
     year: "Now",
     title: "Fullstack Developer",
     subtitle: "Building scalable solutions and growing every day.",
-    icon: "material-symbols:rocket-launch",
+    icon: "mingcute:rocket-fill",
     tags: [],
     current: true
   },
@@ -229,12 +229,11 @@ export interface Project {
   description?: string
 }
 
-export const PROJECTS: Project[] =
-  [
+export const PROJECTS: Project[] = [
   {
     title: "eCommerceHope",
     type: "ecommerce",
-    grid: "xx-large",
+    grid: "large",
     techs: [
       {
         icon: "logos:vue",
@@ -256,13 +255,14 @@ export const PROJECTS: Project[] =
     src: "eCommerce",
     link: "https://ecommercelytics.vercel.app/",
     githubLink: "https://github.com/Mo7ammedFawzy/eCommerce",
-    description: "Full-stack storefront with a clean, editorial product experience."
+    description: "Full-stack storefront with an editorial design, cart state management, and seamless product exploration.",
+    show: true
   },
   {
-    title: "tabarak company",
-    type: "design",
-    grid: "x-large",
-    techs: <ITechIcon[]>[
+    title: "Tabarak Trading",
+    type: "frontend",
+    grid: "large",
+    techs: [
       {
         icon: "mdi:nuxt",
         title: "Nuxt",
@@ -283,135 +283,38 @@ export const PROJECTS: Project[] =
     src: "tabark",
     link: "https://tabrak-pi.vercel.app/",
     githubLink: "https://github.com/devfawzey/tabrak",
-    description: "Corporate site for a trading company with bold, grid-driven layouts."
+    description: "Corporate portal for a trading company featuring structured bento grids and NuxtUI components.",
+    show: true
   },
   {
-    title: "Innovate",
-    type: "design",
-    grid: "small",
-    techs: [{
-      icon: "devicon-plain:vuetify",
-      title: "vuetify"
-    },
+    title: "Library Management",
+    type: "fullstack",
+    grid: "medium",
+    techs: [
       {
-        icon: "mdi:nuxt",
-        title: "Nuxt"
-      }],
-    tags: [
-      {
-        "title": "NuxtJs",
-        "color": "rgb(79 70 229)"
+        icon: "devicon:spring",
+        title: "Spring",
       },
       {
-        "title": "Portfolio",
-        "color": "rgb(71 85 105)"
+        icon: "carbon:api",
+        title: "RestAPI"
       },
       {
-        "title": "latest",
-        "color": "rgb(220 38 38)"
+        icon: "logos:vue",
+        title: "Vue"
       }
     ],
-    "src": "innovate",
-    link: "https://innovate3.online/",
-    show: false
+    src: "https://raw.githubusercontent.com/Mo7ammedFawzy/Spring-Boot-Library-Management/main/preview.png",
+    link: "https://spring-boot-library-management.vercel.app/",
+    githubLink: "https://github.com/Mo7ammedFawzy/Spring-Boot-Library-Management",
+    description: "Full-stack system with Spring Boot REST services, JWT auth, and interactive Vue interface.",
+    show: true
   },
-    {
-      title: "Library Management System",
-      type: "fullstack",
-      grid: "x-large",
-      techs: <ITechIcon[]>[
-        {
-          icon: "devicon:spring",
-          title: "Spring",
-        },
-        {
-          icon: "carbon:api",
-          title: "RestAPI"
-        }
-      ],
-      tags: [
-        {
-          "title": "Java",
-          "color": "rgb(232, 68, 37)"
-        },
-        {
-          "title": "Spring Boot",
-          "color": "rgb(107 114 128)"
-        }
-      ],
-      src: "https://raw.githubusercontent.com/Mo7ammedFawzy/Spring-Boot-Library-Management/main/preview.png",
-      link: "https://spring-boot-library-management.vercel.app/",
-      githubLink: "https://github.com/Mo7ammedFawzy/Spring-Boot-Library-Management",
-      description: "Full-stack library management with a Spring Boot REST API and Vue frontend."
-    },
-    {
-    "title": "Commerce-Hope",
-    "type": "ecommerce",
-    show: true,
-    "grid": "xx-large",
-    techs: <ITechIcon[]>[
-      {
-        icon: "mdi:nuxt",
-        title: "Nuxt",
-      },
-      {
-        icon: 'devicon-plain:vuetify',
-        title: "vuetify",
-      },
-      {
-        icon: 'carbon:api',
-        title: "RestAPI",
-      }
-    ],
-
-    "tags": [
-      {
-        "title": "nuxt",
-        "color": "rgb(79 70 229)"
-      },
-      {
-        "title": "Ecommerce",
-        "color": "rgb(220 38 38)"
-      }
-    ],
-    "src": "commerce-hope",
-    "link": "https://commerce-hope.vercel.app/",
-    description: "E-commerce experience focused on product discovery and smooth checkout."
-  },
-    {
-    "title": "Hager UI-UX Developer",
-    "type": "design",
-    grid: "x-large",
-    techs: <ITechIcon[]>[
-      {
-        icon: "mdi:nuxt",
-        title: "Nuxt",
-      },
-      {
-        icon: "devicon-plain:vuetify",
-        title: "vuetify",
-      },
-    ],
-    "tags": [
-      {
-        "title": "NuxtJs",
-        "color": "rgb(79 70 229)"
-      },
-      {
-        "title": "Portfolio",
-        "color": "rgb(71 85 105)"
-      }
-    ],
-    "src": "ui-ux",
-    "link": "https://hager-ui-ux.vercel.app/",
-    description: "Portfolio for a UI/UX designer showcasing her selected projects."
-  },
-    {
-    "title": "Movies Hunter",
-    show: true,
-    "type": "design",
-    "grid": "xx-large",
-    techs: <ITechIcon[]>[
+  {
+    title: "Movies Hunter",
+    type: "frontend",
+    grid: "medium",
+    techs: [
       {
         icon: "mdi:vuejs",
         title: "vue",
@@ -425,20 +328,95 @@ export const PROJECTS: Project[] =
         title: "RestAPI"
       }
     ],
-    "tags": [
+    src: "movies",
+    link: "https://movie-appio.vercel.app/",
+    description: "Dynamic cinema discovery app with live TMDB search, trending feeds, and responsive modal details.",
+    show: true
+  },
+  {
+    title: "Commerce-Hope",
+    type: "ecommerce",
+    grid: "medium",
+    techs: [
       {
-        "title": "VueJS",
-        "color": "rgb(66, 184, 131)"
+        icon: "mdi:nuxt",
+        title: "Nuxt",
+      },
+      {
+        icon: 'devicon-plain:vuetify',
+        title: "vuetify",
+      },
+      {
+        icon: 'carbon:api',
+        title: "RestAPI",
       }
     ],
-    "src": "movies",
-    "link": "https://movie-appio.vercel.app/",
-    description: "Movie discovery app with search, trending lists, and rich detail views."
+    src: "commerce-hope",
+    link: "https://commerce-hope.vercel.app/",
+    description: "Product catalog and checkout application built with Nuxt SSR and Vuetify design tokens.",
+    show: true
   },
-    {
-    title: ".Store",
-    show: false,
+  {
+    title: "Innovate Agency",
+    type: "frontend",
+    grid: "small",
+    techs: [
+      {
+        icon: "devicon-plain:vuetify",
+        title: "vuetify"
+      },
+      {
+        icon: "mdi:nuxt",
+        title: "Nuxt"
+      }
+    ],
+    src: "innovate",
+    link: "https://innovate3.online/",
+    description: "Digital agency portfolio built with Nuxt and smooth transitions.",
+    show: true
+  },
+  {
+    title: "Hager UI/UX Portfolio",
+    type: "frontend",
+    grid: "small",
+    techs: [
+      {
+        icon: "mdi:nuxt",
+        title: "Nuxt",
+      },
+      {
+        icon: "devicon-plain:vuetify",
+        title: "vuetify",
+      },
+    ],
+    src: "ui-ux",
+    link: "https://hager-ui-ux.vercel.app/",
+    description: "Designer portfolio showcasing UI case studies and interactive galleries.",
+    show: true
+  },
+  {
+    title: "Traders Academy",
+    type: "frontend",
+    grid: "small",
+    techs: [
+      {
+        icon: "mdi:vuejs",
+        title: "Vue",
+      },
+      {
+        icon: "devicon-plain:vuetify",
+        title: "Vuetify",
+      },
+    ],
+    src: "traders",
+    link: "https://traders-academy-gold.vercel.app/ar",
+    description: "Bilingual educational landing page with RTL support and course showcases.",
+    show: true
+  },
+  {
+    title: ".Store eCommerce",
     type: "ecommerce",
+    grid: "small",
     techs: [
       {
         icon: "mdi:nuxt",
@@ -449,54 +427,18 @@ export const PROJECTS: Project[] =
         title: "vuetify"
       }
     ],
-    tags: [
-      {
-        "title": "NuxtJs",
-        "color": "rgb(79 70 229)"
-      },
-      {
-        "title": "eCommerce",
-        "color": "rgb(71 85 105)"
-      }
-    ],
-    "src": "store",
-    "link": "https://storex.vercel.app/"
+    src: "store",
+    link: "https://storex.vercel.app/",
+    description: "Minimalist fashion e-commerce storefront with smooth filtering.",
+    show: true
   },
-    {
-    "title": "traders-academy",
-    "type": "design",
-    techs: <ITechIcon[]>[
+  {
+    title: "Pexels Store",
+    type: "ecommerce",
+    grid: "small",
+    techs: [
       {
-        icon: "mdi:vuejs",
-        title: "Vue",
-      },
-      {
-        icon: "devicon-plain:vuetify",
-        title: "Vuetify",
-      },
-    ],
-    "tags": [
-      {
-        "title": "VueJS",
-        "color": "rgb(66, 184, 131)"
-      },
-      {
-        "title": "Landing",
-        "color": "rgb(71 85 105)"
-      }
-    ],
-    "src": "traders",
-    "link": "https://traders-academy-gold.vercel.app/ar",
-    description: "Bilingual landing page for a trading education academy."
-  },
-    {
-    "title": "Pexels eCommerce",
-    show: false,
-    "type": "ecommerce",
-    "made_with": "Nuxtjs",
-    techs: <ITechIcon[]>[
-      {
-        icon: "mdi-nuxt",
+        icon: "mdi:nuxt",
         title: "Nuxt",
       },
       {
@@ -504,51 +446,40 @@ export const PROJECTS: Project[] =
         title: "vuetify",
       },
     ],
-    "grid": "medium",
-    "tags": [
-      {
-        "title": "NuxtJS",
-        "color": "rgb(79 70 229)"
-      }
-    ],
-    "src": "pexel",
-    "link": "https://ecommerce-pexels.vercel.app/"
+    src: "pexel",
+    link: "https://ecommerce-pexels.vercel.app/",
+    description: "Visual-first stock media storefront integration with Pexels API.",
+    show: true
   },
-    {
-    "title": "Restaurant",
-    techs: <ITechIcon[]>[
+  {
+    title: "Grand Restaurant",
+    type: "frontend",
+    grid: "small",
+    techs: [
       {
         icon: "ri:bootstrap-fill",
         title: "Bootstrap",
       },
     ],
-    "type": "design",
-    "made_with": "",
-    "grid": "xx-large",
-    "tags": [
-      {
-        "title": "Bootstrap",
-        "color": "rgb(118, 16, 245)"
-      }
-    ],
-    "src": "restaurant",
-    "link": "https://mohammed2711111.github.io/Restaurant_Site/resturant.html",
-    description: "Static restaurant website built with Bootstrap."
+    src: "restaurant",
+    link: "https://mohammed2711111.github.io/Restaurant_Site/resturant.html",
+    description: "Fine dining restaurant landing page with booking preview.",
+    show: true
   },
-    {
-    "title": "nix",
-    "type": "design",
-    "made_with": "",
-    techs: [],
-    "tags": [
+  {
+    title: "NIX Landing",
+    type: "frontend",
+    grid: "small",
+    techs: [
       {
-        "title": "Bootstrap",
-        "color": "rgb(118, 16, 245)"
+        icon: "ri:bootstrap-fill",
+        title: "Bootstrap",
       }
     ],
-    "src": "nix",
-    show: false,
-    "link": "https://mohammed2711111.github.io/NIX_Website/Nix.html"
+    src: "nix",
+    link: "https://mohammed2711111.github.io/NIX_Website/Nix.html",
+    description: "Product showcase landing page with clean layouts and dark accents.",
+    show: true
   },
 ]
 
