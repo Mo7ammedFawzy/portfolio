@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "to-spec": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/to-spec/SKILL.md",
+      "computedHash": "bb1135b6a8da696c9586486035722dd52899f01050916562c798629a641569d4"
+    },
+    "to-tickets": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/to-tickets/SKILL.md",
+      "computedHash": "ae4c5c3600ca0c21e58d36734a03ef366032b2d4804f7a20171a6d2d79887d02"
+    }
+  }
+}

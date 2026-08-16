@@ -40,6 +40,14 @@ MohammedFawzey's personal portfolio — a single-page Vue 3 app. All content is 
 - 4-space indentation.
 - Vue 3.5 `<script setup>` SFCs. Explicit imports for all non-Nuxt-UI symbols.
 
+### Google Stitch
+
+- Project: `Faithful Portfolio Reconstruction`
+- Project ID: `17286901482268677027`
+- Use this project for all UI/design tasks.
+- When a Stitch screen is referenced, access it directly from this project.
+- Do not enumerate or search unrelated Stitch projects.
+
 ## Verification
 
 After implementation:
