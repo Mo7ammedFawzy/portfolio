@@ -201,15 +201,64 @@ export interface Skill {
   icon: string
 }
 
-export const SKILLS: Skill[] = [
-  { title: "Java", icon: "devicon:java" },
-  { title: "Spring Boot", icon: "devicon:spring" },
-  { title: "Hibernate", icon: "devicon:hibernate" },
-  { title: "MySQL", icon: "devicon:mysql" },
-  { title: "REST API", icon: "material-symbols:api" },
-  { title: "Git", icon: "devicon:git" },
+export interface SkillGroup {
+  title: string,
+  icon: string,
+  items: Skill[]
+}
+
+export const CORE_SKILLS: Skill[] = [
   { title: "Vue 3", icon: "devicon:vuejs" },
-  { title: "JavaScript", icon: "devicon:javascript" },
+  { title: "TypeScript", icon: "devicon:typescript" },
+  { title: "Java", icon: "devicon:java" },
+  { title: "Jakarta EE", icon: "mdi:server" },
+  { title: "Spring Boot", icon: "devicon:spring" },
+  { title: "SQL Server", icon: "devicon:microsoftsqlserver" },
+]
+
+export const SKILL_GROUPS: SkillGroup[] = [
+  {
+    title: "Frontend",
+    icon: "material-symbols:laptop-mac",
+    items: [
+      { title: "Vue 3", icon: "devicon:vuejs" },
+      { title: "Nuxt", icon: "devicon:nuxtjs" },
+      { title: "Pinia", icon: "logos:pinia" },
+      { title: "VueUse", icon: "logos:vueuse" },
+      { title: "Quasar", icon: "devicon:quasar" },
+      { title: "Tailwind CSS", icon: "devicon:tailwindcss" },
+      { title: "Nuxt UI", icon: "devicon:nuxt" },
+      { title: "AG Grid", icon: "logos:grid" },
+    ]
+  },
+  {
+    title: "Backend",
+    icon: "material-symbols:database",
+    items: [
+      { title: "Java", icon: "devicon:java" },
+      { title: "Jakarta EE", icon: "mdi:server" },
+      { title: "Spring Boot", icon: "devicon:spring" },
+      { title: "JPA", icon: "material-symbols:schema" },
+      { title: "Hibernate", icon: "devicon:hibernate" },
+      { title: "Node.js", icon: "devicon:nodejs" },
+      { title: "Express", icon: "devicon:express" },
+      { title: "REST API", icon: "material-symbols:api" },
+    ]
+  },
+  {
+    title: "Tools & Databases",
+    icon: "material-symbols:construction",
+    items: [
+      { title: "SQL Server", icon: "devicon:microsoftsqlserver" },
+      { title: "Git", icon: "devicon:git" },
+      { title: "GitHub", icon: "mdi:github" },
+      { title: "IntelliJ IDEA", icon: "devicon:intellij" },
+      { title: "VS Code", icon: "devicon:vscode" },
+      { title: "Postman", icon: "devicon:postman" },
+      { title: "Maven", icon: "devicon:maven" },
+      { title: "Docker", icon: "devicon:docker" },
+    ]
+  },
 ]
 
 export interface Project {
@@ -565,11 +614,11 @@ export const TOOLS: Tool[] = [
   },
   {
     title: "postman",
-    icon: "simple-icons:postman"
+    icon: "devicon:postman"
   },
   {
     title: "Google Chrome",
-    icon: "simple-icons:googlechrome"
+    icon: "devicon:googlechrome"
   },
   {
     title: "Chat GPT",

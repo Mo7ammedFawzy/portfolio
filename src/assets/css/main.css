@@ -37,6 +37,7 @@
     --color-background: #fbf9f8;
     --color-surface: #fbf9f8;
     --color-surface-container-lowest: #ffffff;
+    --color-surface-container-low: #f5f3f3;
     --color-surface-container-high: #e9e8e7;
     --color-on-surface: #1b1c1c;
     --color-on-surface-variant: #594137;
@@ -65,6 +66,7 @@
     --color-background: #161412;
     --color-surface: #161412;
     --color-surface-container-lowest: #201c19;
+    --color-surface-container-low: #1d1916;
     --color-surface-container-high: #2b2622;
     --color-on-surface: #f3ede5;
     --color-on-surface-variant: #c9b8a8;
