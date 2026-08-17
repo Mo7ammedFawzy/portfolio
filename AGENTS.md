@@ -44,6 +44,7 @@ MohammedFawzey's personal portfolio — a single-page Vue 3 app. All content is 
 
 - Project: `Faithful Portfolio Reconstruction`
 - Project ID: `17286901482268677027`
+- Screen: `Mohammed Fawzey Portfolio - Refined`
 - Use this project for all UI/design tasks.
 - When a Stitch screen is referenced, access it directly from this project.
 - Do not enumerate or search unrelated Stitch projects.

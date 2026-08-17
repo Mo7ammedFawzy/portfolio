@@ -202,14 +202,14 @@ export interface Skill {
 }
 
 export const SKILLS: Skill[] = [
-  { title: "Java", icon: "devicon-plain:java" },
-  { title: "Spring Boot", icon: "devicon-plain:spring" },
-  { title: "Hibernate", icon: "devicon-plain:hibernate" },
-  { title: "MySQL", icon: "devicon-plain:mysql" },
+  { title: "Java", icon: "devicon:java" },
+  { title: "Spring Boot", icon: "devicon:spring" },
+  { title: "Hibernate", icon: "devicon:hibernate" },
+  { title: "MySQL", icon: "devicon:mysql" },
   { title: "REST API", icon: "material-symbols:api" },
-  { title: "Git", icon: "devicon-plain:git" },
-  { title: "Vue 3", icon: "devicon-plain:vuejs" },
-  { title: "JavaScript", icon: "devicon-plain:javascript" },
+  { title: "Git", icon: "devicon:git" },
+  { title: "Vue 3", icon: "devicon:vuejs" },
+  { title: "JavaScript", icon: "devicon:javascript" },
 ]
 
 export interface Project {
@@ -320,7 +320,7 @@ export const PROJECTS: Project[] = [
         title: "vue",
       },
       {
-        icon: "devicon-plain:vuetify",
+        icon: "devicon:vuetify",
         title: "vuetify",
       },
       {
@@ -343,7 +343,7 @@ export const PROJECTS: Project[] = [
         title: "Nuxt",
       },
       {
-        icon: 'devicon-plain:vuetify',
+        icon: 'devicon:vuetify',
         title: "vuetify",
       },
       {
@@ -362,7 +362,7 @@ export const PROJECTS: Project[] = [
     grid: "small",
     techs: [
       {
-        icon: "devicon-plain:vuetify",
+        icon: "devicon:vuetify",
         title: "vuetify"
       },
       {
@@ -385,7 +385,7 @@ export const PROJECTS: Project[] = [
         title: "Nuxt",
       },
       {
-        icon: "devicon-plain:vuetify",
+        icon: "devicon:vuetify",
         title: "vuetify",
       },
     ],
@@ -404,7 +404,7 @@ export const PROJECTS: Project[] = [
         title: "Vue",
       },
       {
-        icon: "devicon-plain:vuetify",
+        icon: "devicon:vuetify",
         title: "Vuetify",
       },
     ],
@@ -423,7 +423,7 @@ export const PROJECTS: Project[] = [
         title: "Nuxt",
       },
       {
-        icon: "devicon-plain:vuetify",
+        icon: "devicon:vuetify",
         title: "vuetify"
       }
     ],
@@ -442,7 +442,7 @@ export const PROJECTS: Project[] = [
         title: "Nuxt",
       },
       {
-        icon: "devicon-plain:vuetify",
+        icon: "devicon:vuetify",
         title: "vuetify",
       },
     ],
@@ -522,10 +522,10 @@ export const STACKS: Stack[] = [
   },
   {
     title: "vuetify",
-    icon: "devicon-plain:vuetify"
+    icon: "devicon:vuetify"
   },
   {
-    icon: "devicon-plain:quasar",
+    icon: "devicon:quasar",
     title: "quasar"
   },
   {
