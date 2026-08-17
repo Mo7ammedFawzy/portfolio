@@ -1,3 +1,5 @@
+import agGridLogo from '@/assets/icons/ag-grid-logo.svg'
+
 export interface IBase {
   title: string,
   icon: string
@@ -20,6 +22,7 @@ export type Icons =
   | 'mdi:tailwind'
   | 'carbon:api'
   | 'devicon-plain:vuetify'
+  | 'devicon:vuetify'
   | 'mdi:vuejs'
   | 'ri:bootstrap-fill'
   | 'file-icons:nuxt' |
@@ -198,7 +201,8 @@ export const EXPERIENCE: Experience[] = [
 
 export interface Skill {
   title: string,
-  icon: string
+  icon: string,
+  logo?: string
 }
 
 export interface SkillGroup {
@@ -228,7 +232,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
       { title: "Quasar", icon: "devicon:quasar" },
       { title: "Tailwind CSS", icon: "devicon:tailwindcss" },
       { title: "Nuxt UI", icon: "devicon:nuxt" },
-      { title: "AG Grid", icon: "logos:grid" },
+      { title: "AG Grid", icon: "logos:grid", logo: agGridLogo },
     ]
   },
   {
@@ -241,8 +245,8 @@ export const SKILL_GROUPS: SkillGroup[] = [
       { title: "JPA", icon: "material-symbols:schema" },
       { title: "Hibernate", icon: "devicon:hibernate" },
       { title: "Node.js", icon: "devicon:nodejs" },
-      { title: "Express", icon: "devicon:express" },
-      { title: "REST API", icon: "material-symbols:api" },
+      { title: "Express", icon: "simple-icons:express" },
+      { title: "REST API", icon: "mdi:api" },
     ]
   },
   {

@@ -162,11 +162,40 @@ html.lenis body {
         will-change: transform;
         background-color: var(--color-background);
         background-image:
-            radial-gradient(60% 50% at 18% 8%, color-mix(in srgb, var(--color-primary) 9%, transparent), transparent 70%),
-            radial-gradient(50% 45% at 85% 15%, color-mix(in srgb, var(--color-primary) 6%, transparent), transparent 70%),
-            radial-gradient(color-mix(in srgb, var(--color-primary) 22%, transparent) 1px, transparent 1.6px);
-        background-size: auto, auto, 26px 26px;
-        background-repeat: no-repeat, no-repeat, repeat;
+            radial-gradient(ellipse 80% 60% at 15% 10%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 70%),
+            radial-gradient(ellipse 60% 50% at 85% 20%, color-mix(in srgb, var(--color-secondary) 8%, transparent), transparent 65%),
+            radial-gradient(ellipse 40% 35% at 50% 80%, color-mix(in srgb, var(--color-primary) 6%, transparent), transparent 60%),
+            url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e85d04' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 36v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 6V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        background-size: auto, auto, auto, 60px 60px;
+        background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+        background-position: 0 0, 100% 0, 50% 100%, 0 0;
+    }
+
+    .bg-parallax::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 3%, transparent) 1px, transparent 1px),
+            linear-gradient(color-mix(in srgb, var(--color-primary) 3%, transparent) 1px, transparent 1px);
+        background-size: 40px 40px;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .dark .bg-parallax {
+        background-image:
+            radial-gradient(ellipse 80% 60% at 15% 10%, color-mix(in srgb, var(--color-primary) 15%, transparent), transparent 70%),
+            radial-gradient(ellipse 60% 50% at 85% 20%, color-mix(in srgb, var(--color-secondary) 10%, transparent), transparent 65%),
+            radial-gradient(ellipse 40% 35% at 50% 80%, color-mix(in srgb, var(--color-primary) 8%, transparent), transparent 60%),
+            url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e85d04' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 36v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 6V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .dark .bg-parallax::before {
+        background-image:
+            linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 5%, transparent) 1px, transparent 1px),
+            linear-gradient(color-mix(in srgb, var(--color-primary) 5%, transparent) 1px, transparent 1px);
+        opacity: 0.4;
     }
 
     .nav-transition {
@@ -222,6 +251,10 @@ html.lenis body {
         @apply bg-surface border border-card-border rounded-[32px] shadow-card p-8 md:p-10;
     }
 
+    .journey-card-stitch {
+        @apply bg-surface-container-lowest border border-card-border rounded-[32px] shadow-card p-6 sm:p-8;
+    }
+
     [data-reveal] {
         opacity: 0;
         transform: translateY(12px);
@@ -247,6 +280,105 @@ html.lenis body {
             transform: translateY(0);
         }
     }
+
+    /* Scroll Progress Bar */
+    .scroll-progress-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        z-index: 50;
+        pointer-events: none;
+        background: transparent;
+    }
+
+    .scroll-progress-bar {
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-primary-container));
+        transform-origin: left;
+        transform: scaleX(0);
+        will-change: transform;
+        box-shadow: 0 0 8px color-mix(in srgb, var(--color-primary) 50%, transparent),
+                    0 0 16px color-mix(in srgb, var(--color-primary) 30%, transparent);
+    }
+
+    /* Vertical Scroll Indicator */
+    .vertical-scroll-indicator {
+        position: fixed;
+        right: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 40;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .vertical-scroll-indicator.visible {
+        opacity: 1;
+    }
+
+    .vertical-scroll-track {
+        width: 2px;
+        height: 200px;
+        background: var(--color-outline-variant);
+        border-radius: 1px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .vertical-scroll-thumb {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(180deg, var(--color-primary), var(--color-primary-container));
+        border-radius: 1px;
+        transform-origin: top;
+        transform: scaleY(0);
+        will-change: transform;
+        box-shadow: 0 0 8px color-mix(in srgb, var(--color-primary) 50%, transparent);
+    }
+
+    .vertical-scroll-dots {
+        position: absolute;
+        right: -8px;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 8px 0;
+    }
+
+    .vertical-scroll-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--color-outline-variant);
+        border: 2px solid var(--color-surface);
+        transition: all 0.2s ease;
+    }
+
+    .vertical-scroll-dot.active {
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        transform: scale(1.3);
+        box-shadow: 0 0 8px var(--color-primary);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .scroll-progress-bar,
+        .vertical-scroll-thumb {
+            transition: none !important;
+            transform: scaleX(0) !important;
+        }
+        .vertical-scroll-thumb {
+            transform: scaleY(0) !important;
+        }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -265,14 +397,32 @@ html.lenis body {
     .btn-primary,
     .btn-secondary,
     .icon-btn,
-    .scroll-top-btn {
+    .scroll-top-btn,
+    .scroll-progress-bar,
+    .vertical-scroll-thumb,
+    .vertical-scroll-dot,
+    .timeline-progress-line,
+    .timeline-step-enter {
         transition: none !important;
         animation: none !important;
     }
 
     [data-reveal],
-    .hero-enter {
+    .hero-enter,
+    .timeline-step-enter {
         opacity: 1 !important;
         transform: none !important;
+    }
+
+    .scroll-progress-bar {
+        transform: scaleX(0) !important;
+    }
+
+    .vertical-scroll-thumb {
+        transform: scaleY(0) !important;
+    }
+
+    .timeline-progress-line {
+        height: 100% !important;
     }
 }

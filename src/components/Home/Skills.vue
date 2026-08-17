@@ -36,7 +36,9 @@ import { CORE_SKILLS, SKILL_GROUPS } from '@/constants'
                     <div class="grid grid-cols-2 gap-3">
                         <div v-for="item in group.items" :key="item.title"
                             class="bg-surface-container-lowest p-3 rounded-lg border border-card-border shadow-sm flex flex-col items-center gap-2">
-                            <UIcon :name="item.icon" class="w-8 h-8 text-on-surface-variant" />
+                            <img v-if="item.logo" :src="item.logo" :alt="item.title"
+                            class="h-5 w-auto rounded-md bg-neutral-900 px-2 py-1" />
+                        <UIcon v-else :name="item.icon" class="w-8 h-8 text-on-surface-variant" />
                             <span class="text-xs font-bold text-on-surface" v-text="item.title" />
                         </div>
                     </div>
