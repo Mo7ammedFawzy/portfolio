@@ -18,39 +18,58 @@ onMounted(() => {
 })
 
 function animateTimeline() {
-    const line = timelineContainer.value?.querySelector('.timeline-progress-line') as HTMLElement
-    if (!line) return
+    const track = timelineContainer.value?.querySelector('.timeline-track') as HTMLElement
+    const progress = timelineContainer.value?.querySelector('.timeline-progress-line') as HTMLElement
+    if (!track || !progress) return
 
     const steps = stepElements.value
     if (steps.length === 0) return
 
-    const stepHeights = steps.map(step => step.offsetHeight + 24)
-    const totalHeight = stepHeights.reduce((a, b) => a + b, 0)
+    // Get icon centers for each step
+    const iconCenters = steps.map(step => {
+        const icon = step.querySelector('.shrink-0') as HTMLElement
+        if (!icon) return 0
+        const containerRect = timelineContainer.value!.getBoundingClientRect()
+        const iconRect = icon.getBoundingClientRect()
+        return iconRect.top - containerRect.top + iconRect.height / 2
+    })
 
-    let accumulatedHeight = 0
+    const firstIconCenter = iconCenters[0]
+    const lastIconCenter = iconCenters[iconCenters.length - 1]
+    const totalTrackHeight = lastIconCenter - firstIconCenter
+
+    // Position track container at first icon center, full height to last icon center
+    track.style.top = `${firstIconCenter}px`
+    track.style.height = `${totalTrackHeight}px`
+
+    // Both track bg and progress line start at 0%
+    track.style.setProperty('--track-height', '0%')
+    progress.style.setProperty('--progress-height', '0%')
+
+    let accumulatedDelay = 800
 
     steps.forEach((step, index) => {
-        const stepTop = accumulatedHeight
-        const stepBottom = accumulatedHeight + stepHeights[index]
-        accumulatedHeight = stepBottom
-
-        const stepDelay = 800 + index * 400 // Slower: 800ms start, 400ms between steps
-        const progressDelay = stepDelay + 150 // Line grows slightly after step appears
+        const targetPercent = ((iconCenters[index] - firstIconCenter) / totalTrackHeight) * 100
+        const stepDelay = accumulatedDelay
 
         // Animate step entrance (vertical slide up + fade)
         step.style.setProperty('--step-delay', `${stepDelay}ms`)
         step.classList.add('timeline-step-enter')
 
-        // Animate progress line to this step's position
+        // Animate BOTH track bg and progress line to this step's position IN SYNC
         setTimeout(() => {
-            line.style.setProperty('--progress-height', `${(stepBottom / totalHeight) * 100}%`)
-        }, progressDelay)
+            track.style.setProperty('--track-height', `${targetPercent}%`)
+            progress.style.setProperty('--progress-height', `${targetPercent}%`)
+        }, stepDelay)
+
+        accumulatedDelay += 400
     })
 
-    // Final fill to 100%
+    // Final grow to 100%
     setTimeout(() => {
-        line.style.setProperty('--progress-height', '100%')
-    }, 800 + steps.length * 400 + 300)
+        track.style.setProperty('--track-height', '100%')
+        progress.style.setProperty('--progress-height', '100%')
+    }, accumulatedDelay + 100)
 }
 </script>
 
@@ -135,9 +154,11 @@ function animateTimeline() {
                     <!-- Timeline Body -->
                     <div class="relative z-10">
                         <!-- Connecting Orange Animated Line Track -->
-                        <div class="absolute left-[23px] top-6 bottom-6 w-[2px] bg-primary/30 rounded-full overflow-hidden" aria-hidden="true">
-                            <!-- Creative flowing energy light beam pulse - synced with step reveals -->
-                            <div class="timeline-progress-line" style="--progress-height: 0%;" />
+                        <div class="timeline-track absolute left-[23px] w-[2px] rounded-full" aria-hidden="true" style="top: 0; height: 0;">
+                            <!-- Track background (dim orange) -->
+                            <div class="timeline-track-bg absolute inset-0 bg-primary/30 rounded-full" style="height: var(--track-height, 0%);" />
+                            <!-- Progress line (bright gradient) -->
+                            <div class="timeline-progress-line absolute left-0 w-full rounded-full" style="height: var(--progress-height, 0%);" />
                         </div>
 
                         <div class="space-y-6 sm:space-y-7">
@@ -209,19 +230,34 @@ function animateTimeline() {
 </template>
 
 <style scoped>
+.timeline-track {
+    position: absolute;
+    left: 23px;
+    width: 2px;
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1), top 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-track-bg,
 .timeline-progress-line {
     position: absolute;
-    top: 0;
     left: 0;
     width: 100%;
-    height: var(--progress-height, 0%);
+    border-radius: inherit;
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-track-bg {
+    background: var(--color-primary);
+    opacity: 0.3;
+}
+
+.timeline-progress-line {
     background: linear-gradient(180deg, 
         var(--color-primary) 0%, 
         color-mix(in srgb, var(--color-primary) 70%, var(--color-on-primary)) 50%, 
         var(--color-on-primary) 100%);
-    border-radius: inherit;
-    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 0 8px var(--color-primary), 0 0 16px var(--color-primary);
+    z-index: 1;
 }
 
 .timeline-step-enter {
@@ -277,6 +313,8 @@ function animateTimeline() {
 
 @media (prefers-reduced-motion: reduce) {
     .timeline-step-enter,
+    .timeline-track,
+    .timeline-track-bg,
     .timeline-progress-line,
     .scroll-progress-bar {
         animation: none !important;
@@ -286,6 +324,12 @@ function animateTimeline() {
         opacity: 1 !important;
         transform: none !important;
     }
+    .timeline-track {
+        height: auto !important;
+        top: 0 !important;
+        bottom: 0 !important;
+    }
+    .timeline-track-bg,
     .timeline-progress-line {
         height: 100% !important;
     }
