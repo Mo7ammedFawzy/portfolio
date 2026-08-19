@@ -97,6 +97,7 @@
 
     body {
         @apply font-sans text-on-surface bg-background antialiased;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     body::-webkit-scrollbar {
@@ -139,7 +140,7 @@ html.lenis body {
     }
 
     .btn-primary {
-        @apply inline-flex items-center justify-center gap-2 bg-primary text-on-primary font-sans text-sm font-semibold px-6 py-3 rounded-lg shadow-sm transition-all duration-200 hover:bg-primary-container hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60 disabled:pointer-events-none;
+        @apply inline-flex items-center justify-center gap-2 bg-primary text-on-primary font-sans text-sm font-semibold px-6 py-3 rounded-lg shadow-sm transition-all duration-200 hover:bg-primary-container hover:scale-[1.03] hover:shadow-[0_8px_24px_rgba(232,93,4,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60 disabled:pointer-events-none;
     }
 
     .btn-secondary {
@@ -223,6 +224,66 @@ html.lenis body {
         transform: scaleX(1);
     }
 
+    .theme-toggle-icon {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        display: inline-flex;
+    }
+
+    .theme-toggle-icon--spin {
+        animation: theme-spin 0.3s ease;
+    }
+
+    @keyframes theme-spin {
+        0% { transform: rotate(0deg) scale(1); opacity: 1; }
+        50% { transform: rotate(180deg) scale(0.5); opacity: 0; }
+        100% { transform: rotate(360deg) scale(1); opacity: 1; }
+    }
+
+    .shimmer-text {
+        background: linear-gradient(
+            90deg,
+            var(--color-primary) 0%,
+            color-mix(in srgb, var(--color-primary) 60%, var(--color-primary-container)) 25%,
+            color-mix(in srgb, var(--color-primary) 30%, #f59e0b) 50%,
+            color-mix(in srgb, var(--color-primary) 60%, var(--color-primary-container)) 75%,
+            var(--color-primary) 100%
+        );
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 7s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+        0%, 100% { background-position: 0% center; }
+        50% { background-position: 200% center; }
+    }
+
+    .rocket-bob {
+        animation: rocket-bob 3.5s ease-in-out infinite;
+    }
+
+    @keyframes rocket-bob {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+
+    .timeline-now-pulse::after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 9999px;
+        border: 2px solid var(--color-primary);
+        animation: now-pulse 2s ease-in-out 0.6s infinite;
+        pointer-events: none;
+    }
+
+    @keyframes now-pulse {
+        0%, 100% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(1.15); opacity: 0; }
+    }
+
     .project-card {
         @apply bg-surface-container-lowest border border-card-border rounded-2xl overflow-hidden shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover;
     }
@@ -235,6 +296,10 @@ html.lenis body {
         transform: scale(1.03);
     }
 
+    .project-card:hover {
+        border-color: var(--color-primary);
+    }
+
     .tech-pill {
         @apply inline-flex items-center gap-2 rounded-full border border-card-border bg-surface-container-lowest px-3 py-1.5 font-sans text-xs font-bold uppercase tracking-wide text-on-surface-variant;
     }
@@ -245,6 +310,18 @@ html.lenis body {
 
     .skill-card {
         @apply aspect-square bg-surface-container-lowest border border-card-border rounded-xl shadow-sm flex flex-col items-center justify-center gap-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-card;
+    }
+
+    .skill-tile {
+        @apply transition-all duration-300 hover:scale-[1.06] hover:shadow-card;
+    }
+
+    .skill-tile:hover {
+        border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-card-border));
+    }
+
+    .skill-tile:hover .skill-tile-icon {
+        @apply text-primary;
     }
 
     .journey-card {
@@ -392,6 +469,7 @@ html.lenis body {
     .project-card img,
     .project-card,
     .skill-card,
+    .skill-tile,
     .exp-card,
     .link-underline::after,
     .btn-primary,
@@ -404,7 +482,11 @@ html.lenis body {
     .timeline-progress,
     .timeline-step-hidden .shrink-0,
     .timeline-step-pop .shrink-0,
-    .scroll-progress-bar {
+    .scroll-progress-bar,
+    .theme-toggle-icon,
+    .shimmer-text,
+    .rocket-bob,
+    .timeline-now-pulse::after {
         transition: none !important;
         animation: none !important;
     }
@@ -418,6 +500,11 @@ html.lenis body {
     .hero-enter {
         opacity: 1 !important;
         transform: none !important;
+    }
+
+    .shimmer-text {
+        -webkit-text-fill-color: var(--color-primary) !important;
+        background: none !important;
     }
 
     .scroll-progress-bar {

@@ -9,7 +9,7 @@ import { EMAIL } from '@/constants'
             <div class="absolute -bottom-32 -left-24 w-72 h-72 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
             <div class="relative">
                 <span class="inline-flex w-16 h-16 rounded-full bg-surface-container-lowest border border-card-border items-center justify-center text-primary shadow-sm mb-8">
-                    <UIcon name="material-symbols:rocket-launch" class="text-3xl" />
+                    <UIcon name="material-symbols:rocket-launch" class="text-3xl rocket-bob" />
                 </span>
                 <p class="label-caps text-primary mb-3">Let's work together</p>
                 <h2 class="font-display text-headline-lg text-on-surface mb-4">Have a Project in Mind?</h2>

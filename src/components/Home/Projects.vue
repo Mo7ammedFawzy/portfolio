@@ -184,7 +184,12 @@ const getBentoSpan = (project: Project, index: number) => {
                 <!-- Footer Tech Pills -->
                 <div class="px-6 pb-6 pt-0 mt-auto">
                     <div class="flex flex-wrap gap-1.5 pt-4 border-t border-card-border/60">
-                        <span v-for="tech in project.techs" :key="tech.title" class="tech-pill text-[11px] py-1 px-2.5">
+                        <span
+                            v-for="(tech, techIndex) in project.techs"
+                            :key="tech.title"
+                            data-reveal
+                            :style="{ '--reveal-delay': `${(index % 4) * 60 + 100 + techIndex * 40}ms` }"
+                            class="tech-pill text-[11px] py-1 px-2.5">
                             <span class="w-1.5 h-1.5 rounded-full" :style="{ backgroundColor: pillColor(tech.title) }" />
                             {{ tech.title }}
                         </span>

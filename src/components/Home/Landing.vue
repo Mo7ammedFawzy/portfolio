@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
+import { CONTACT, CV_URL, JOURNEY } from '@/constants'
+import { useTypewriter } from '@/composables/useTypewriter'
+
+const { displayText: roleText } = useTypewriter()
 
 const timelineContainer = ref<HTMLElement | null>(null)
+const hasPlayed = ref(false)
 
 onMounted(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -11,7 +15,8 @@ onMounted(() => {
 
 function animateTimeline() {
     const container = timelineContainer.value
-    if (!container) return
+    if (!container || hasPlayed.value) return
+    hasPlayed.value = true
 
     const track = container.querySelector<HTMLElement>('.timeline-track')
     const progress = container.querySelector<HTMLElement>('.timeline-progress')
@@ -95,10 +100,10 @@ function easeInOutCubic(t: number): number {
             <div class="lg:col-span-5">
                 <p class="hero-enter label-caps text-primary mb-4" style="--hero-delay: 0ms">Hello, I'm</p>
                 <h1 class="hero-enter font-display text-display-md md:text-display-lg text-on-surface mb-4" style="--hero-delay: 80ms">
-                    Mohammed <span class="text-primary">Fawzey</span>
+                    Mohammed <span class="shimmer-text">Fawzey</span>
                 </h1>
                 <p class="hero-enter text-headline-sm font-sans font-semibold text-on-surface mb-4" style="--hero-delay: 160ms">
-                    {{ ROLE }}
+                    {{ roleText }}
                 </p>
                 <p class="hero-enter text-body-lg text-on-surface-variant mb-6" style="--hero-delay: 240ms">
                     Building modern, maintainable web applications with Vue.js, TypeScript, Java, and Spring Boot.
@@ -181,7 +186,7 @@ function easeInOutCubic(t: number): number {
                                 <!-- Timeline Icon Node -->
                                 <div class="relative shrink-0 w-12 h-12 flex items-center justify-center z-10">
                                     <!-- Animated pulse ring for current active step -->
-                                    <div v-if="step.current" class="absolute inset-0 rounded-full bg-primary animate-ping opacity-25" />
+                                    <div v-if="step.current" class="absolute inset-0 rounded-full bg-primary/20 timeline-now-pulse" />
                                     
                                     <div
                                         class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 relative z-10"

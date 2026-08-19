@@ -18,7 +18,7 @@ import { CONTACT, HEADERLINKS, SITE_NAME } from '@/constants'
                 <h3 class="label-caps text-on-surface mb-5">Navigation</h3>
                 <div class="grid grid-cols-2 gap-x-6 gap-y-3">
                     <a v-for="link in HEADERLINKS" :key="link.section" :href="`#${link.section}`"
-                        class="text-body-sm text-on-surface-variant hover:text-primary transition-colors"
+                        class="link-underline text-body-sm text-on-surface-variant hover:text-primary transition-colors"
                         v-text="link.title" />
                 </div>
             </div>

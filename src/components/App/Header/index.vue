@@ -11,6 +11,13 @@ const { isDark, toggleTheme } = useTheme()
 
 const menuOpen = ref(false)
 const closeMenu = () => { menuOpen.value = false }
+
+const themeToggleKey = ref(0)
+
+function handleToggleTheme() {
+    themeToggleKey.value++
+    toggleTheme()
+}
 </script>
 
 <template>
@@ -28,8 +35,8 @@ const closeMenu = () => { menuOpen.value = false }
                             : 'text-on-surface-variant border-transparent hover:text-primary']"
                     v-text="link.title" />
                 <button type="button" class="icon-btn !w-10 !h-10" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
-                    @click="toggleTheme">
-                    <UIcon :name="isDark ? 'material-symbols:light-mode' : 'material-symbols:dark-mode'" class="text-xl" />
+                    @click="handleToggleTheme">
+                    <UIcon :key="themeToggleKey" :name="isDark ? 'material-symbols:light-mode' : 'material-symbols:dark-mode'" class="theme-toggle-icon theme-toggle-icon--spin text-xl" />
                 </button>
                 <a :href="`mailto:${EMAIL}`" class="btn-primary !px-5 !py-2.5">
                     Let's Talk
@@ -46,8 +53,8 @@ const closeMenu = () => { menuOpen.value = false }
                 <div class="flex items-center justify-between">
                     <span class="label-caps text-on-surface-variant">Appearance</span>
                     <button type="button" class="icon-btn !w-10 !h-10" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
-                        @click="toggleTheme">
-                        <UIcon :name="isDark ? 'material-symbols:light-mode' : 'material-symbols:dark-mode'" class="text-xl" />
+                        @click="handleToggleTheme">
+                        <UIcon :key="themeToggleKey" :name="isDark ? 'material-symbols:light-mode' : 'material-symbols:dark-mode'" class="theme-toggle-icon theme-toggle-icon--spin text-xl" />
                     </button>
                 </div>
                 <a v-for="link in HEADERLINKS" :key="link.section" :href="`#${link.section}`"
