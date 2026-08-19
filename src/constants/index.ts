@@ -70,20 +70,16 @@ export const HEADERLINKS: HeaderLink[] = [
     section: "home"
   },
   {
-    title: "About",
-    section: "about"
-  },
-  {
     title: "Projects",
     section: "projects"
   },
   {
-    title: "Skills",
-    section: "skills"
-  },
-  {
     title: "Experience",
     section: "experience"
+  },
+  {
+    title: "Skills",
+    section: "skills"
   },
   {
     title: "Contact",

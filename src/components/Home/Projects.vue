@@ -1,9 +1,19 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { GITHUB_URL, PROJECTS, type Project } from '@/constants'
 import LivePreviewModal from '@/components/Home/LivePreviewModal.vue'
 
 const activeCategory = ref<'all' | 'fullstack' | 'ecommerce' | 'frontend'>('all')
+const gridRef = ref<HTMLElement | null>(null)
+
+const revealNewItems = async () => {
+    await nextTick()
+    const container = gridRef.value
+    if (!container) return
+    container.querySelectorAll<HTMLElement>('[data-reveal]:not(.appear)').forEach(el => el.classList.add('appear'))
+}
+
+watch(activeCategory, revealNewItems)
 
 const categories = [
     { label: 'All Projects', value: 'all' },
@@ -109,7 +119,7 @@ const getBentoSpan = (project: Project, index: number) => {
         </div>
 
         <!-- Bento Grid Layout -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 grid-flow-dense">
+        <div ref="gridRef" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 grid-flow-dense">
             <article
                 v-for="(project, index) in filteredProjects"
                 :key="project.title"

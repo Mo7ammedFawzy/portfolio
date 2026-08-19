@@ -58,6 +58,10 @@ function updateVerticalScrollIndicator() {
     }
 }
 
+function scrollToSection(sectionId: string) {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
+}
+
 let rafId: number | null = null
 
 function animateVerticalScroll() {
@@ -87,17 +91,17 @@ onUnmounted(() => {
             </div>
 
             <!-- Vertical Scroll Indicator -->
-            <div class="vertical-scroll-indicator" aria-hidden="true" ref="verticalScrollIndicator">
+            <div class="vertical-scroll-indicator" ref="verticalScrollIndicator">
                 <div class="vertical-scroll-track">
                     <div class="vertical-scroll-thumb" ref="verticalScrollThumb" />
                 </div>
                 <div class="vertical-scroll-dots">
-                    <div class="vertical-scroll-dot" data-section="home" />
-                    <div class="vertical-scroll-dot" data-section="projects" />
-                    <div class="vertical-scroll-dot" data-section="about" />
-                    <div class="vertical-scroll-dot" data-section="experience" />
-                    <div class="vertical-scroll-dot" data-section="skills" />
-                    <div class="vertical-scroll-dot" data-section="contact" />
+                    <div class="vertical-scroll-dot" data-section="home" role="button" tabindex="0" @click="scrollToSection('home')" @keydown.enter="scrollToSection('home')" @keydown.space.prevent="scrollToSection('home')" />
+                    <div class="vertical-scroll-dot" data-section="projects" role="button" tabindex="0" @click="scrollToSection('projects')" @keydown.enter="scrollToSection('projects')" @keydown.space.prevent="scrollToSection('projects')" />
+                    <div class="vertical-scroll-dot" data-section="about" role="button" tabindex="0" @click="scrollToSection('about')" @keydown.enter="scrollToSection('about')" @keydown.space.prevent="scrollToSection('about')" />
+                    <div class="vertical-scroll-dot" data-section="experience" role="button" tabindex="0" @click="scrollToSection('experience')" @keydown.enter="scrollToSection('experience')" @keydown.space.prevent="scrollToSection('experience')" />
+                    <div class="vertical-scroll-dot" data-section="skills" role="button" tabindex="0" @click="scrollToSection('skills')" @keydown.enter="scrollToSection('skills')" @keydown.space.prevent="scrollToSection('skills')" />
+                    <div class="vertical-scroll-dot" data-section="contact" role="button" tabindex="0" @click="scrollToSection('contact')" @keydown.enter="scrollToSection('contact')" @keydown.space.prevent="scrollToSection('contact')" />
                 </div>
             </div>
 
