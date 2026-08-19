@@ -402,14 +402,20 @@ html.lenis body {
     .vertical-scroll-thumb,
     .vertical-scroll-dot,
     .timeline-progress,
-    .timeline-step-enter {
+    .timeline-step-hidden .shrink-0,
+    .timeline-step-pop .shrink-0,
+    .scroll-progress-bar {
         transition: none !important;
         animation: none !important;
     }
 
+    .timeline-step-hidden .shrink-0 {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
     [data-reveal],
-    .hero-enter,
-    .timeline-step-enter {
+    .hero-enter {
         opacity: 1 !important;
         transform: none !important;
     }

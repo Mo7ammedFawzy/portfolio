@@ -15,8 +15,11 @@ function animateTimeline() {
 
     const track = container.querySelector<HTMLElement>('.timeline-track')
     const progress = container.querySelector<HTMLElement>('.timeline-progress')
+    const cometEl = container.querySelector<HTMLElement>('.timeline-comet')
     const steps = Array.from(container.querySelectorAll<HTMLElement>('.timeline-step'))
     if (!track || !progress || steps.length === 0) return
+
+    const progressEl = progress
 
     const containerRect = container.getBoundingClientRect()
 
@@ -29,28 +32,55 @@ function animateTimeline() {
 
     const firstCenter = iconCenters[0]
     const lastCenter = iconCenters[iconCenters.length - 1]
+    const totalHeight = lastCenter - firstCenter
 
     track.style.setProperty('--track-top', `${firstCenter}px`)
-    track.style.setProperty('--track-height', `${lastCenter - firstCenter}px`)
+    track.style.setProperty('--track-height', `${totalHeight}px`)
 
-    let delay = 800
+    const nodeScales = iconCenters.map(c => (c - firstCenter) / totalHeight)
 
-    steps.forEach((step, index) => {
-        const scale = (iconCenters[index] - firstCenter) / (lastCenter - firstCenter)
-
-        step.style.setProperty('--step-delay', `${delay}ms`)
-        step.classList.add('timeline-step-enter')
-
-        setTimeout(() => {
-            progress.style.setProperty('--progress-scale', `${scale}`)
-        }, delay)
-
-        delay += 400
+    steps.forEach(step => {
+        step.classList.add('timeline-step-hidden')
     })
 
-    setTimeout(() => {
-        progress.style.setProperty('--progress-scale', '1')
-    }, delay + 100)
+    const totalDuration = 2200
+    const popped = new Set<number>()
+    let startTime: number | null = null
+
+    function tick(now: number) {
+        if (startTime === null) startTime = now
+        const elapsed = now - startTime
+        const rawProgress = Math.min(elapsed / totalDuration, 1)
+        const eased = easeInOutCubic(rawProgress)
+
+        progressEl.style.setProperty('--progress-scale', `${eased}`)
+
+        if (cometEl) {
+            const cometY = firstCenter + eased * totalHeight
+            cometEl.style.setProperty('--comet-top', `${cometY}px`)
+            cometEl.style.opacity = rawProgress < 1 ? '1' : '0'
+        }
+
+        nodeScales.forEach((nodePos, i) => {
+            if (!popped.has(i) && eased >= nodePos) {
+                popped.add(i)
+                steps[i].classList.remove('timeline-step-hidden')
+                steps[i].classList.add('timeline-step-pop')
+            }
+        })
+
+        if (rawProgress < 1) {
+            requestAnimationFrame(tick)
+        } else {
+            if (cometEl) cometEl.style.opacity = '0'
+        }
+    }
+
+    setTimeout(() => requestAnimationFrame(tick), 400)
+}
+
+function easeInOutCubic(t: number): number {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 }
 </script>
 
@@ -137,6 +167,7 @@ function animateTimeline() {
                         <!-- Connecting Animated Line -->
                         <div class="timeline-track" aria-hidden="true">
                             <div class="timeline-progress" />
+                            <div class="timeline-comet" />
                         </div>
 
                         <div class="space-y-6 sm:space-y-7">
@@ -224,24 +255,56 @@ function animateTimeline() {
     border-radius: inherit;
     transform: scaleY(var(--progress-scale, 0));
     transform-origin: top;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: none;
     background: linear-gradient(180deg,
         var(--color-primary) 0%,
         color-mix(in srgb, var(--color-primary) 70%, var(--color-on-primary)) 100%);
     box-shadow: 0 0 8px var(--color-primary), 0 0 16px var(--color-primary);
 }
 
-.timeline-step-enter {
+.timeline-comet {
+    position: absolute;
+    left: 50%;
+    top: var(--comet-top, 0px);
+    width: 8px;
+    height: 8px;
+    margin-left: -4px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background: var(--color-on-primary);
+    box-shadow:
+        0 0 6px 2px var(--color-primary),
+        0 0 14px 4px color-mix(in srgb, var(--color-primary) 60%, transparent);
     opacity: 0;
-    transform: translateY(30px);
-    animation: timeline-step-in 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    animation-delay: var(--step-delay, 0ms);
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    pointer-events: none;
 }
 
-@keyframes timeline-step-in {
-    to {
-        opacity: 1;
-        transform: translateY(0);
+.timeline-step-hidden .shrink-0 {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: none;
+}
+
+.timeline-step-pop .shrink-0 {
+    opacity: 1;
+    transform: scale(1);
+    animation: node-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes node-pop {
+    0% {
+        transform: scale(0.5);
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 40%, transparent);
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-primary) 0%, transparent);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent);
     }
 }
 
@@ -283,18 +346,23 @@ function animateTimeline() {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .timeline-step-enter,
+    .timeline-step-hidden .shrink-0,
+    .timeline-step-pop .shrink-0,
     .timeline-progress,
+    .timeline-comet,
     .scroll-progress-bar {
         animation: none !important;
         transition: none !important;
     }
-    .timeline-step-enter {
+    .timeline-step-hidden .shrink-0 {
         opacity: 1 !important;
         transform: none !important;
     }
     .timeline-progress {
         transform: scaleY(1) !important;
+    }
+    .timeline-comet {
+        display: none !important;
     }
     .scroll-progress-bar {
         transform: scaleX(0) !important;
