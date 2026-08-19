@@ -401,7 +401,7 @@ html.lenis body {
     .scroll-progress-bar,
     .vertical-scroll-thumb,
     .vertical-scroll-dot,
-    .timeline-progress-line,
+    .timeline-progress,
     .timeline-step-enter {
         transition: none !important;
         animation: none !important;
@@ -422,7 +422,7 @@ html.lenis body {
         transform: scaleY(0) !important;
     }
 
-    .timeline-progress-line {
-        height: 100% !important;
+    .timeline-progress {
+        transform: scaleY(1) !important;
     }
 }

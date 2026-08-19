@@ -3,73 +3,54 @@ import { onMounted, ref } from 'vue'
 import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
 
 const timelineContainer = ref<HTMLElement | null>(null)
-const stepElements = ref<HTMLElement[]>([])
 
 onMounted(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    const container = timelineContainer.value
-    if (!container) return
-
-    const steps = Array.from(container.querySelectorAll<HTMLElement>('.timeline-step'))
-    stepElements.value = steps
-
     animateTimeline()
 })
 
 function animateTimeline() {
-    const track = timelineContainer.value?.querySelector('.timeline-track') as HTMLElement
-    const progress = timelineContainer.value?.querySelector('.timeline-progress-line') as HTMLElement
-    if (!track || !progress) return
+    const container = timelineContainer.value
+    if (!container) return
 
-    const steps = stepElements.value
-    if (steps.length === 0) return
+    const track = container.querySelector<HTMLElement>('.timeline-track')
+    const progress = container.querySelector<HTMLElement>('.timeline-progress')
+    const steps = Array.from(container.querySelectorAll<HTMLElement>('.timeline-step'))
+    if (!track || !progress || steps.length === 0) return
 
-    // Get icon centers for each step
+    const containerRect = container.getBoundingClientRect()
+
     const iconCenters = steps.map(step => {
-        const icon = step.querySelector('.shrink-0') as HTMLElement
+        const icon = step.querySelector<HTMLElement>('.shrink-0')
         if (!icon) return 0
-        const containerRect = timelineContainer.value!.getBoundingClientRect()
-        const iconRect = icon.getBoundingClientRect()
-        return iconRect.top - containerRect.top + iconRect.height / 2
+        const rect = icon.getBoundingClientRect()
+        return rect.top - containerRect.top + rect.height / 2
     })
 
-    const firstIconCenter = iconCenters[0]
-    const lastIconCenter = iconCenters[iconCenters.length - 1]
-    const totalTrackHeight = lastIconCenter - firstIconCenter
+    const firstCenter = iconCenters[0]
+    const lastCenter = iconCenters[iconCenters.length - 1]
 
-    // Position track container at first icon center, full height to last icon center
-    track.style.top = `${firstIconCenter}px`
-    track.style.height = `${totalTrackHeight}px`
+    track.style.setProperty('--track-top', `${firstCenter}px`)
+    track.style.setProperty('--track-height', `${lastCenter - firstCenter}px`)
 
-    // Both track bg and progress line start at 0%
-    track.style.setProperty('--track-height', '0%')
-    progress.style.setProperty('--progress-height', '0%')
-
-    let accumulatedDelay = 800
+    let delay = 800
 
     steps.forEach((step, index) => {
-        const targetPercent = ((iconCenters[index] - firstIconCenter) / totalTrackHeight) * 100
-        const stepDelay = accumulatedDelay
+        const scale = (iconCenters[index] - firstCenter) / (lastCenter - firstCenter)
 
-        // Animate step entrance (vertical slide up + fade)
-        step.style.setProperty('--step-delay', `${stepDelay}ms`)
+        step.style.setProperty('--step-delay', `${delay}ms`)
         step.classList.add('timeline-step-enter')
 
-        // Animate BOTH track bg and progress line to this step's position IN SYNC
         setTimeout(() => {
-            track.style.setProperty('--track-height', `${targetPercent}%`)
-            progress.style.setProperty('--progress-height', `${targetPercent}%`)
-        }, stepDelay)
+            progress.style.setProperty('--progress-scale', `${scale}`)
+        }, delay)
 
-        accumulatedDelay += 400
+        delay += 400
     })
 
-    // Final grow to 100%
     setTimeout(() => {
-        track.style.setProperty('--track-height', '100%')
-        progress.style.setProperty('--progress-height', '100%')
-    }, accumulatedDelay + 100)
+        progress.style.setProperty('--progress-scale', '1')
+    }, delay + 100)
 }
 </script>
 
@@ -114,7 +95,7 @@ function animateTimeline() {
                 </div>
             </div>
             <div class="lg:col-span-7">
-                <article ref="timelineContainer" class="hero-enter journey-card-stitch relative bg-surface-container-lowest border border-card-border rounded-[32px] p-6 sm:p-8 shadow-card overflow-hidden" style="--hero-delay: 320ms">
+                <article class="hero-enter journey-card-stitch relative bg-surface-container-lowest border border-card-border rounded-[32px] p-6 sm:p-8 shadow-card overflow-hidden" style="--hero-delay: 320ms">
                     <!-- Top-Right Clean Orange Dot Matrix -->
                     <div class="absolute top-5 right-5 w-36 h-36 opacity-80 pointer-events-none" aria-hidden="true">
                         <svg class="w-full h-full text-primary/50" fill="currentColor" viewBox="0 0 120 120">
@@ -152,13 +133,10 @@ function animateTimeline() {
                     </div>
 
                     <!-- Timeline Body -->
-                    <div class="relative z-10">
-                        <!-- Connecting Orange Animated Line Track -->
-                        <div class="timeline-track absolute left-[23px] w-[2px] rounded-full" aria-hidden="true" style="top: 0; height: 0;">
-                            <!-- Track background (dim orange) -->
-                            <div class="timeline-track-bg absolute inset-0 bg-primary/30 rounded-full" style="height: var(--track-height, 0%);" />
-                            <!-- Progress line (bright gradient) -->
-                            <div class="timeline-progress-line absolute left-0 w-full rounded-full" style="height: var(--progress-height, 0%);" />
+                    <div ref="timelineContainer" class="relative z-10">
+                        <!-- Connecting Animated Line -->
+                        <div class="timeline-track" aria-hidden="true">
+                            <div class="timeline-progress" />
                         </div>
 
                         <div class="space-y-6 sm:space-y-7">
@@ -232,32 +210,25 @@ function animateTimeline() {
 <style scoped>
 .timeline-track {
     position: absolute;
-    left: 23px;
+    left: 24px;
     width: 2px;
-    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1), top 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    top: var(--track-top, 0px);
+    height: var(--track-height, 0px);
+    background: color-mix(in srgb, var(--color-primary) 25%, transparent);
+    border-radius: 9999px;
 }
 
-.timeline-track-bg,
-.timeline-progress-line {
+.timeline-progress {
     position: absolute;
-    left: 0;
-    width: 100%;
+    inset: 0;
     border-radius: inherit;
-    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.timeline-track-bg {
-    background: var(--color-primary);
-    opacity: 0.3;
-}
-
-.timeline-progress-line {
-    background: linear-gradient(180deg, 
-        var(--color-primary) 0%, 
-        color-mix(in srgb, var(--color-primary) 70%, var(--color-on-primary)) 50%, 
-        var(--color-on-primary) 100%);
+    transform: scaleY(var(--progress-scale, 0));
+    transform-origin: top;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(180deg,
+        var(--color-primary) 0%,
+        color-mix(in srgb, var(--color-primary) 70%, var(--color-on-primary)) 100%);
     box-shadow: 0 0 8px var(--color-primary), 0 0 16px var(--color-primary);
-    z-index: 1;
 }
 
 .timeline-step-enter {
@@ -313,9 +284,7 @@ function animateTimeline() {
 
 @media (prefers-reduced-motion: reduce) {
     .timeline-step-enter,
-    .timeline-track,
-    .timeline-track-bg,
-    .timeline-progress-line,
+    .timeline-progress,
     .scroll-progress-bar {
         animation: none !important;
         transition: none !important;
@@ -324,14 +293,8 @@ function animateTimeline() {
         opacity: 1 !important;
         transform: none !important;
     }
-    .timeline-track {
-        height: auto !important;
-        top: 0 !important;
-        bottom: 0 !important;
-    }
-    .timeline-track-bg,
-    .timeline-progress-line {
-        height: 100% !important;
+    .timeline-progress {
+        transform: scaleY(1) !important;
     }
     .scroll-progress-bar {
         transform: scaleX(0) !important;
