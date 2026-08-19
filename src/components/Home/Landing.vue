@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { CONTACT, CV_URL, JOURNEY } from '@/constants'
-import { useTypewriter } from '@/composables/useTypewriter'
-
-const { displayText: roleText } = useTypewriter()
+import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
 
 const timelineContainer = ref<HTMLElement | null>(null)
 const hasPlayed = ref(false)
@@ -103,7 +100,7 @@ function easeInOutCubic(t: number): number {
                     Mohammed <span class="shimmer-text">Fawzey</span>
                 </h1>
                 <p class="hero-enter text-headline-sm font-sans font-semibold text-on-surface mb-4" style="--hero-delay: 160ms">
-                    {{ roleText }}
+                    {{ ROLE }}
                 </p>
                 <p class="hero-enter text-body-lg text-on-surface-variant mb-6" style="--hero-delay: 240ms">
                     Building modern, maintainable web applications with Vue.js, TypeScript, Java, and Spring Boot.
