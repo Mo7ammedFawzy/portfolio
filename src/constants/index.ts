@@ -126,31 +126,36 @@ export interface JourneyStep {
   title: string,
   subtitle: string,
   icon: string,
-  tags: string[],
+  tags: { label: string, icon: string }[],
   current?: boolean
 }
 
-export const JOURNEY: JourneyStep[] = [
+export const JOURNEY: JourneyStep[] =
+  [
   {
     year: "2021",
     title: "Computer Science Graduate",
     subtitle: "Helwan University",
     icon: "material-symbols:school",
-    tags: ["Education"]
+    tags: [{ label: "Education", icon: "noto:graduation-cap" }]
   },
   {
     year: "2023",
     title: "Frontend Developer",
     subtitle: "Innovate",
     icon: "material-symbols:code",
-    tags: ["Vue.js"]
+    tags: [{ label: "Vue.js", icon: "devicon:vuejs" }]
   },
   {
     year: "2025",
     title: "Java Developer",
     subtitle: "Namasoft (ERP Company)",
     icon: "material-symbols:settings",
-    tags: ["Java", "Spring Boot", "Vue 3"]
+    tags: [
+      { label: "Java", icon: "logos:java" },
+      { label: "Spring Boot", icon: "thesvg-color:spring-boot" },
+      { label: "Vue.js", icon: "devicon:vuejs" }
+    ]
   },
   {
     year: "Now",

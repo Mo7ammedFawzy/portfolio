@@ -197,28 +197,27 @@ function easeInOutCubic(t: number): number {
                                     </div>
                                 </div>
 
-                                <!-- Year Column (Aligned directly with node) -->
-                                <div class="w-12 sm:w-14 pt-3 shrink-0">
-                                    <span class="font-sans text-[15px] font-bold text-primary tracking-tight">
-                                        {{ step.year }}
-                                    </span>
-                                </div>
-
                                 <!-- Content Column -->
                                 <div class="flex-1 min-w-0 pt-2">
                                     <h3 class="font-sans text-[15px] sm:text-[16px] font-bold text-on-surface leading-snug">
+                                        <span class="font-sans text-[13px] font-bold text-primary tracking-tight mr-1.5">
+                                            {{ step.year }}
+                                        </span>
                                         {{ step.title }}
                                     </h3>
                                     <p class="text-xs sm:text-[13px] text-on-surface-variant font-normal mt-0.5">
                                         {{ step.subtitle }}
                                     </p>
                                     <div v-if="step.tags.length" class="flex flex-wrap gap-1.5 mt-2.5">
-                                        <span
+                                        <UBadge
                                             v-for="tag in step.tags"
-                                            :key="tag"
-                                            class="inline-flex items-center text-xs font-semibold text-primary bg-surface-container-lowest border border-primary/40 px-3 py-0.5 rounded-lg shadow-2xs transition-colors hover:border-primary">
-                                            {{ tag }}
-                                        </span>
+                                            :key="tag.label"
+                                            :icon="tag.icon"
+                                            color="neutral"
+                                            variant="subtle"
+                                            size="md">
+                                            {{ tag.label }}
+                                        </UBadge>
                                     </div>
                                 </div>
                             </div>
