@@ -23,7 +23,7 @@ useReveal(root)
 useParallax(parallaxLayer)
 useScrollProgress()
 
-const sections = ['home', 'projects', 'about', 'experience', 'skills', 'contact']
+const sections = ['home', 'projects', 'experience', 'skills', 'contact']
 
 function updateVerticalScrollIndicator() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -98,7 +98,6 @@ onUnmounted(() => {
                 <div class="vertical-scroll-dots">
                     <div class="vertical-scroll-dot" data-section="home" role="button" tabindex="0" @click="scrollToSection('home')" @keydown.enter="scrollToSection('home')" @keydown.space.prevent="scrollToSection('home')" />
                     <div class="vertical-scroll-dot" data-section="projects" role="button" tabindex="0" @click="scrollToSection('projects')" @keydown.enter="scrollToSection('projects')" @keydown.space.prevent="scrollToSection('projects')" />
-                    <div class="vertical-scroll-dot" data-section="about" role="button" tabindex="0" @click="scrollToSection('about')" @keydown.enter="scrollToSection('about')" @keydown.space.prevent="scrollToSection('about')" />
                     <div class="vertical-scroll-dot" data-section="experience" role="button" tabindex="0" @click="scrollToSection('experience')" @keydown.enter="scrollToSection('experience')" @keydown.space.prevent="scrollToSection('experience')" />
                     <div class="vertical-scroll-dot" data-section="skills" role="button" tabindex="0" @click="scrollToSection('skills')" @keydown.enter="scrollToSection('skills')" @keydown.space.prevent="scrollToSection('skills')" />
                     <div class="vertical-scroll-dot" data-section="contact" role="button" tabindex="0" @click="scrollToSection('contact')" @keydown.enter="scrollToSection('contact')" @keydown.space.prevent="scrollToSection('contact')" />
