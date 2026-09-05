@@ -274,6 +274,7 @@ export interface Project {
   src: string,
   link: string,
   githubLink?: string
+  featured?: boolean,
   tags?: {
     title: string,
     color: string
@@ -285,31 +286,28 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
-    title: "eCommerceHope",
-    type: "ecommerce",
-    grid: "large",
+    title: "Library Management",
+    type: "fullstack",
+    grid: "medium",
+    featured: true,
     techs: [
+      {
+        icon: "devicon:spring",
+        title: "Spring",
+      },
+      {
+        icon: "carbon:api",
+        title: "RestAPI"
+      },
       {
         icon: "logos:vue",
         title: "Vue"
-      },
-      {
-        icon: "logos:nodejs-icon",
-        title: "NodeJS"
-      },
-      {
-        icon: "bxl:typescript",
-        title: "typescript"
-      },
-      {
-        icon: "mdi:tailwind",
-        title: "tailwindcss"
-      },
+      }
     ],
-    src: "eCommerce",
-    link: "https://ecommercelytics.vercel.app/",
-    githubLink: "https://github.com/Mo7ammedFawzy/eCommerce",
-    description: "Full-stack storefront with an editorial design, cart state management, and seamless product exploration.",
+    src: "https://raw.githubusercontent.com/Mo7ammedFawzy/Spring-Boot-Library-Management/main/preview.png",
+    link: "https://spring-boot-library-management.vercel.app/",
+    githubLink: "https://github.com/Mo7ammedFawzy/Spring-Boot-Library-Management",
+    description: "Full-stack system with Spring Boot REST services, JWT auth, and interactive Vue interface.",
     show: true
   },
   {
@@ -341,30 +339,6 @@ export const PROJECTS: Project[] = [
     show: true
   },
   {
-    title: "Library Management",
-    type: "fullstack",
-    grid: "medium",
-    techs: [
-      {
-        icon: "devicon:spring",
-        title: "Spring",
-      },
-      {
-        icon: "carbon:api",
-        title: "RestAPI"
-      },
-      {
-        icon: "logos:vue",
-        title: "Vue"
-      }
-    ],
-    src: "https://raw.githubusercontent.com/Mo7ammedFawzy/Spring-Boot-Library-Management/main/preview.png",
-    link: "https://spring-boot-library-management.vercel.app/",
-    githubLink: "https://github.com/Mo7ammedFawzy/Spring-Boot-Library-Management",
-    description: "Full-stack system with Spring Boot REST services, JWT auth, and interactive Vue interface.",
-    show: true
-  },
-  {
     title: "Movies Hunter",
     type: "frontend",
     grid: "medium",
@@ -388,6 +362,82 @@ export const PROJECTS: Project[] = [
     show: true
   },
   {
+    title: "GemyClass E-Learning",
+    type: "fullstack",
+    grid: "medium",
+    featured: true,
+    techs: [
+      {
+        icon: "logos:vue",
+        title: "Vue"
+      },
+      {
+        icon: "logos:nodejs-icon",
+        title: "NodeJS"
+      },
+      {
+        icon: "devicon:spring",
+        title: "Spring",
+      },
+      {
+        icon: "carbon:api",
+        title: "RestAPI"
+      }
+    ],
+    src: "gemyclass",
+    link: "https://gemyclass.com/",
+    githubLink: "https://github.com/Mo7ammedFawzy/e-learning-platform",
+    description: "Arabic RTL e-learning platform for Math/Physics with admin dashboards, payments, QR attendance, and auto-graded exams.",
+    show: true
+  },
+  {
+    title: "Innovate Agency",
+    type: "frontend",
+    grid: "small",
+    techs: [
+      {
+        icon: "devicon:vuetify",
+        title: "vuetify"
+      },
+      {
+        icon: "mdi:nuxt",
+        title: "Nuxt"
+      }
+    ],
+    src: "innovate",
+    link: "https://innovate3.online/",
+    description: "Digital agency portfolio built with Nuxt and smooth transitions.",
+    show: true
+  },
+  {
+    title: "eCommerceHope",
+    type: "ecommerce",
+    grid: "large",
+    techs: [
+      {
+        icon: "logos:vue",
+        title: "Vue"
+      },
+      {
+        icon: "logos:nodejs-icon",
+        title: "NodeJS"
+      },
+      {
+        icon: "bxl:typescript",
+        title: "typescript"
+      },
+      {
+        icon: "mdi:tailwind",
+        title: "tailwindcss"
+      },
+    ],
+    src: "eCommerce",
+    link: "https://ecommercelytics.vercel.app/",
+    githubLink: "https://github.com/Mo7ammedFawzy/eCommerce",
+    description: "Full-stack storefront with an editorial design, cart state management, and seamless product exploration.",
+    show: true
+  },
+  {
     title: "Commerce-Hope",
     type: "ecommerce",
     grid: "medium",
@@ -408,25 +458,6 @@ export const PROJECTS: Project[] = [
     src: "commerce-hope",
     link: "https://commerce-hope.vercel.app/",
     description: "Product catalog and checkout application built with Nuxt SSR and Vuetify design tokens.",
-    show: true
-  },
-  {
-    title: "Innovate Agency",
-    type: "frontend",
-    grid: "small",
-    techs: [
-      {
-        icon: "devicon:vuetify",
-        title: "vuetify"
-      },
-      {
-        icon: "mdi:nuxt",
-        title: "Nuxt"
-      }
-    ],
-    src: "innovate",
-    link: "https://innovate3.online/",
-    description: "Digital agency portfolio built with Nuxt and smooth transitions.",
     show: true
   },
   {

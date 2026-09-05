@@ -300,6 +300,15 @@ html.lenis body {
         border-color: var(--color-primary);
     }
 
+    .project-card-featured {
+        border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-card-border));
+        box-shadow: var(--shadow-card-hover), 0 0 0 1px color-mix(in srgb, var(--color-primary) 25%, transparent);
+    }
+
+    .project-card-featured:hover {
+        border-color: var(--color-primary);
+    }
+
     .tech-pill {
         @apply inline-flex items-center gap-2 rounded-full border border-card-border bg-surface-container-lowest px-3 py-1.5 font-sans text-xs font-bold uppercase tracking-wide text-on-surface-variant;
     }

@@ -59,6 +59,8 @@ const closePreview = () => {
 }
 
 const getBentoSpan = (project: Project, index: number) => {
+    // Primary projects always get a wide featured span
+    if (project.featured) return 'md:col-span-2'
     // Dynamic organic bento layout pattern:
     // Index 0: 2-column wide featured
     // Index 1: 1-column standard
@@ -124,7 +126,7 @@ const getBentoSpan = (project: Project, index: number) => {
                 v-for="(project, index) in filteredProjects"
                 :key="project.title"
                 data-reveal
-                :class="[getBentoSpan(project, index), 'project-card group flex flex-col justify-between relative']"
+                :class="[getBentoSpan(project, index), 'project-card group flex flex-col justify-between relative', project.featured ? 'project-card-featured' : '']"
                 :style="{ '--reveal-delay': `${(index % 4) * 60}ms` }">
 
                 <div>
@@ -135,6 +137,12 @@ const getBentoSpan = (project: Project, index: number) => {
                             role="button"
                             tabindex="0"
                             class="aspect-[16/10] rounded-xl overflow-hidden bg-surface-container-high relative cursor-pointer group-hover:shadow-md transition-all">
+                            <span
+                                v-if="project.featured"
+                                class="absolute top-3 left-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 font-sans text-[11px] font-bold uppercase tracking-wider text-on-primary shadow-md">
+                                <UIcon name="material-symbols:star-rounded" class="text-sm" />
+                                Primary
+                            </span>
                             <img
                                 :src="project.src.startsWith('http') ? project.src : `/compressed/${project.src}.png`"
                                 :alt="project.title"
@@ -215,4 +223,3 @@ const getBentoSpan = (project: Project, index: number) => {
             @close="closePreview" />
     </section>
 </template>
-
