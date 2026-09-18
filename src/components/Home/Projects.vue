@@ -29,22 +29,6 @@ const filteredProjects = computed(() => {
     return PROJECTS.filter(p => p.show !== false && p.type === activeCategory.value)
 })
 
-const pillColors: Record<string, string> = {
-    vue: '#42b883',
-    vuejs: '#42b883',
-    nuxt: '#00dc82',
-    nuxtui: '#00dc82',
-    vuetify: '#1867c0',
-    typescript: '#3178c6',
-    tailwindcss: '#38bdf8',
-    nodejs: '#339933',
-    spring: '#6db33f',
-    restapi: '#e85d04',
-    bootstrap: '#7952b3',
-}
-
-const pillColor = (title: string) => pillColors[title.toLowerCase()] ?? '#8d7165'
-
 // Modal State
 const selectedProject = ref<Project | null>(null)
 const isPreviewOpen = ref(false)
@@ -90,97 +74,78 @@ const closePreview = () => {
             </button>
         </div>
 
-        <!-- Masonry Layout -->
-        <div ref="gridRef" class="columns-1 md:columns-2 lg:columns-3 2xl:columns-4 gap-4 lg:gap-5">
+        <!-- Masonry Gallery -->
+        <div ref="gridRef" class="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 gap-3">
             <article
                 v-for="(project, index) in filteredProjects"
                 :key="project.title"
                 data-reveal
-                :class="['project-card group flex flex-col justify-between relative rounded-[20px] break-inside-avoid mb-4 lg:mb-5', project.featured ? 'project-card-featured' : '']"
+                class="group relative break-inside-avoid mb-3 overflow-hidden rounded-lg bg-surface-container-high"
                 :style="{ '--reveal-delay': `${(index % 3) * 60}ms` }">
+                <span
+                    v-if="project.featured"
+                    class="absolute top-3 left-3 z-10 inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-primary backdrop-blur-sm">
+                    <UIcon name="material-symbols:star-rounded" class="text-sm" aria-hidden="true" />
+                    Featured
+                </span>
+                <button
+                    type="button"
+                    @click="openPreview(project)"
+                    :aria-label="`Open live preview of ${project.title}`"
+                    class="block w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset">
+                    <img
+                        :src="project.src.startsWith('http') ? project.src : `/compressed/${project.src}.png`"
+                        :alt="project.title"
+                        loading="lazy"
+                        decoding="async"
+                        class="block w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]" />
+                </button>
 
-                <div>
-                    <!-- Visual Thumbnail / Sandbox Trigger -->
-                    <div class="p-4 pb-0 relative lg:p-6">
-                        <button
-                            type="button"
-                            @click="openPreview(project)"
-                            :aria-label="`Open live preview of ${project.title}`"
-                            class="block w-full text-left aspect-[16/10] rounded-xl overflow-hidden bg-surface-container-high relative cursor-pointer group-hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-                            <span
-                                v-if="project.featured"
-                                class="absolute top-3 left-3 z-10 inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-primary backdrop-blur-sm">
-                                <UIcon name="material-symbols:star-rounded" class="text-sm" aria-hidden="true" />
-                                Featured
-                            </span>
-                            <img
-                                :src="project.src.startsWith('http') ? project.src : `/compressed/${project.src}.png`"
-                                alt=""
-                                loading="lazy"
-                                decoding="async"
-                                class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
-
-                            <!-- Overlay Hover Action (visual only — the wrapping button is the control) -->
-                            <span aria-hidden="true" class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:hidden transition-opacity duration-300 flex items-center justify-center gap-3">
-                                <span
-                                    class="px-4 py-2 rounded-lg bg-surface-container-lowest/95 text-on-surface text-xs font-semibold shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                    <UIcon name="material-symbols:visibility-outline" class="text-base text-primary" />
-                                    Live Preview
-                                </span>
-                            </span>
-                        </button>
-                    </div>
-
-                    <!-- Card Body -->
-                    <div class="p-6">
-                        <div class="flex items-start justify-between gap-4">
-                            <div>
-                                <a
-                                    :href="project.link"
-                                    target="_blank"
-                                    rel="noopener"
-                                    class="font-sans text-title-lg font-semibold text-on-surface hover:text-primary transition-colors inline-flex items-center gap-1.5"
-                                    v-text="project.title" />
-                                <span v-if="project.type" class="block text-[11px] font-bold uppercase tracking-wider text-primary mt-0.5">
-                                    {{ project.type }}
-                                </span>
-                            </div>
-
-                            <div class="flex items-center gap-2 shrink-0">
-                                <button
-                                    type="button"
-                                    @click="openPreview(project)"
-                                    class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-container-high focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                                    :aria-label="`Open preview of ${project.title}`">
-                                    <UIcon name="material-symbols:open-in-browser" class="text-xl" aria-hidden="true" />
-                                </button>
-                                <a
-                                    v-if="project.githubLink"
-                                    :href="project.githubLink"
-                                    target="_blank"
-                                    rel="noopener"
-                                    class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-container-high focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                                    :aria-label="`View ${project.title} source on GitHub`">
-                                    <UIcon name="mdi:github" class="text-xl" aria-hidden="true" />
-                                </a>
-                            </div>
-                        </div>
-
-                        <p v-if="project.description" class="mt-3 text-body-sm text-on-surface-variant line-clamp-2" v-text="project.description" />
+                <!-- Hover overlay: title + actions -->
+                <div class="pointer-events-none absolute inset-0 z-10 flex flex-col justify-end bg-gradient-to-t from-black/75 via-black/20 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:hidden">
+                    <p class="font-sans text-base font-semibold text-white" v-text="project.title" />
+                    <div class="pointer-events-auto mt-2 flex items-center gap-2">
+                        <a
+                            :href="project.link"
+                            target="_blank"
+                            rel="noopener"
+                            @click.stop
+                            class="inline-flex items-center gap-1 rounded-md bg-white/95 px-2.5 py-1 text-xs font-semibold text-on-surface transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                            :aria-label="`Open ${project.title} live site`">
+                            <UIcon name="material-symbols:open-in-new" class="text-sm" aria-hidden="true" />
+                            Visit
+                        </a>
+                        <a
+                            v-if="project.githubLink"
+                            :href="project.githubLink"
+                            target="_blank"
+                            rel="noopener"
+                            @click.stop
+                            class="inline-flex items-center gap-1 rounded-md bg-white/15 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                            :aria-label="`View ${project.title} source on GitHub`">
+                            <UIcon name="mdi:github" class="text-sm" aria-hidden="true" />
+                            Code
+                        </a>
                     </div>
                 </div>
 
-                <!-- Footer Tech Pills -->
-                <div class="px-6 pb-6 pt-0 mt-auto">
-                    <ul class="flex flex-wrap gap-1.5 pt-4 border-t border-card-border/60" aria-label="Technologies used">
-                        <li
-                            v-for="tech in project.techs"
-                            :key="tech.title"
-                            class="tech-pill text-[11px] py-1 px-2.5">
-                            <span class="w-1.5 h-1.5 rounded-full" aria-hidden="true" :style="{ backgroundColor: pillColor(tech.title) }" />
-                            {{ tech.title }}
-                        </li>
-                    </ul>
+                <!-- Touch fallback caption (no hover on touch devices) -->
+                <div class="hidden [@media(hover:none)]:flex items-center justify-between gap-2 bg-surface-container-lowest px-3 py-2">
+                    <a
+                        :href="project.link"
+                        target="_blank"
+                        rel="noopener"
+                        class="truncate font-sans text-sm font-semibold text-on-surface"
+                        v-text="project.title" />
+                    <a
+                        v-if="project.githubLink"
+                        :href="project.githubLink"
+                        target="_blank"
+                        rel="noopener"
+                        class="shrink-0 text-on-surface-variant"
+                        :aria-label="`View ${project.title} source on GitHub`">
+                        <UIcon name="mdi:github" class="text-lg" aria-hidden="true" />
+                    </a>
                 </div>
             </article>
 
@@ -190,7 +155,7 @@ const closePreview = () => {
                 target="_blank"
                 rel="noopener"
                 data-reveal
-                class="group flex min-h-[260px] flex-col justify-between rounded-[20px] border border-dashed border-outline-variant bg-surface-container-low p-6 break-inside-avoid mb-4 lg:mb-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                class="group flex min-h-[260px] flex-col justify-between rounded-lg border border-dashed border-outline-variant bg-surface-container-low p-6 break-inside-avoid mb-3 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                 <span class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-card-border bg-surface-container-lowest text-on-surface-variant shadow-sm transition-colors group-hover:border-primary group-hover:text-primary">
                     <UIcon name="mdi:github" class="text-2xl" aria-hidden="true" />
                 </span>
