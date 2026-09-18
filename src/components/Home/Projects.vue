@@ -107,8 +107,8 @@ const onThumbError = (event: Event, project: Project) => {
                 :key="project.title"
                 data-reveal
                 :class="[
-                    'project-gallery-card group break-inside-avoid mb-5 overflow-hidden rounded-2xl border bg-surface-container-lowest shadow-card',
-                    project.featured ? 'border-primary/35' : 'border-card-border'
+                    'project-gallery-card group break-inside-avoid mb-5 overflow-hidden rounded-[1.25rem] border bg-surface-container-lowest shadow-card',
+                    project.featured ? 'border-primary/40 ring-1 ring-primary/25' : 'border-card-border'
                 ]"
                 :style="{ '--reveal-delay': `${(index % 3) * 60}ms` }">
                 <div :class="['relative overflow-hidden bg-surface-container-high', project.featured ? 'aspect-[4/3]' : 'aspect-video']">
@@ -129,8 +129,9 @@ const onThumbError = (event: Event, project: Project) => {
                             loading="lazy"
                             decoding="async"
                             @error="onThumbError($event, project)"
-                            class="block h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]" />
+                            class="block h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.05]" />
                     </button>
+                    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
                     <button
                         type="button"
                         @click="openPreview(project)"
@@ -139,12 +140,16 @@ const onThumbError = (event: Event, project: Project) => {
                         <UIcon name="material-symbols:visibility-rounded" class="text-lg" aria-hidden="true" />
                     </button>
                 </div>
-                <div class="p-5">
-                    <div class="mb-3 flex items-center justify-between gap-3">
-                        <span class="label-caps text-[10px] text-primary">{{ categoryLabel(project.type) }}</span>
-                        <span class="text-xs text-on-surface-variant">{{ project.techs.length }} technologies</span>
+                <div class="p-5 sm:p-6">
+                    <div class="mb-3 flex items-baseline justify-between gap-3">
+                        <p class="font-mono text-[11px] tracking-[0.08em] text-on-surface-variant">
+                            <span class="font-bold text-primary">{{ String(index + 1).padStart(2, '0') }}</span>
+                            <span aria-hidden="true" class="mx-2">/</span>
+                            <span class="label-caps text-[10px]">{{ categoryLabel(project.type) }}</span>
+                        </p>
+                        <span class="shrink-0 text-xs text-on-surface-variant">{{ project.techs.length }} technologies</span>
                     </div>
-                    <h3 class="font-display text-xl leading-tight text-on-surface">{{ project.title }}</h3>
+                    <h3 class="font-display text-[1.35rem] leading-tight text-on-surface">{{ project.title }}</h3>
                     <p v-if="project.description" class="mt-2 text-sm leading-6 text-on-surface-variant">{{ project.description }}</p>
                     <div class="mt-5 flex items-center justify-between gap-3 border-t border-card-border pt-4">
                         <div class="flex -space-x-1.5" :aria-label="`${project.title} technologies`">
@@ -152,13 +157,13 @@ const onThumbError = (event: Event, project: Project) => {
                                 v-for="tech in project.techs.slice(0, 4)"
                                 :key="tech.title"
                                 :title="tech.title"
-                                class="flex h-7 w-7 items-center justify-center rounded-full border-2 border-surface-container-lowest bg-surface-container-low text-on-surface-variant">
+                                class="flex h-7 w-7 items-center justify-center rounded-full border-2 border-surface-container-lowest bg-surface-container-low text-on-surface-variant transition-colors duration-200 group-hover:border-primary/30">
                                 <UIcon :name="tech.icon" class="text-sm" aria-hidden="true" />
                             </span>
                         </div>
                         <div class="flex items-center gap-1">
                             <a :href="project.link" target="_blank" rel="noopener" class="project-action" :aria-label="`Open ${project.title} live site`">
-                                <UIcon name="material-symbols:arrow-outward-rounded" class="text-lg" aria-hidden="true" />
+                                <UIcon name="material-symbols:arrow-outward-rounded" class="text-lg transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
                             </a>
                             <a v-if="project.githubLink" :href="project.githubLink" target="_blank" rel="noopener" class="project-action" :aria-label="`View ${project.title} source on GitHub`">
                                 <UIcon name="mdi:github" class="text-base" aria-hidden="true" />
@@ -212,9 +217,9 @@ const onThumbError = (event: Event, project: Project) => {
 }
 
 .project-gallery-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
     border-color: color-mix(in srgb, var(--color-primary) 55%, var(--color-card-border));
-    box-shadow: var(--shadow-card-hover);
+    box-shadow: var(--shadow-card-hover), 0 16px 44px -16px color-mix(in srgb, var(--color-primary) 28%, transparent);
 }
 
 .project-action {
