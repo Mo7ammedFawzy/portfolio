@@ -24,12 +24,12 @@ const categories = [
 
 const projectOrder = [
     'Library Management',
-    'Tabarak Trading',
-    'GemyClass E-Learning',
-    'eCommerceHope',
-    'Grand Restaurant',
-    'Hager UI/UX Portfolio',
     'Traders Academy',
+    'Hager UI/UX Portfolio',
+    'Tabarak Trading',
+  'eCommerceHope',
+    'Grand Restaurant',
+    'GemyClass E-Learning',
     'Pexels Store',
     'Innovate Agency',
 ]
@@ -111,7 +111,7 @@ const onThumbError = (event: Event, project: Project) => {
                     project.featured ? 'border-primary/35' : 'border-card-border'
                 ]"
                 :style="{ '--reveal-delay': `${(index % 3) * 60}ms` }">
-                <div class="relative overflow-hidden bg-surface-container-high">
+                <div :class="['relative overflow-hidden bg-surface-container-high', project.featured ? 'aspect-[4/3]' : 'aspect-video']">
                     <span
                         v-if="project.featured"
                         class="absolute left-4 top-4 z-10 inline-flex items-center gap-1 rounded-full bg-on-surface px-2.5 py-1 font-sans text-[10px] font-bold uppercase tracking-[0.13em] text-surface shadow-sm">
@@ -122,14 +122,14 @@ const onThumbError = (event: Event, project: Project) => {
                         type="button"
                         @click="openPreview(project)"
                         :aria-label="`Open live preview of ${project.title}`"
-                        class="block w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset">
+                        class="absolute inset-0 block h-full w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset">
                         <img
                             :src="project.src.startsWith('http') ? project.src : `/compressed/${project.src}.png`"
                             :alt="project.title"
                             loading="lazy"
                             decoding="async"
                             @error="onThumbError($event, project)"
-                            class="block h-auto w-full transition-transform duration-700 group-hover:scale-[1.035]" />
+                            class="block h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]" />
                     </button>
                     <button
                         type="button"
