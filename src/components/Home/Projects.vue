@@ -60,7 +60,7 @@ const closePreview = () => {
 </script>
 
 <template>
-    <section id="projects" class="container-editorial min-h-screen flex flex-col justify-center py-16 sm:py-20">
+    <section id="projects" class="w-full max-w-[1600px] mx-auto px-6 md:px-10 min-h-screen flex flex-col justify-center py-16 sm:py-20">
         <!-- Section Header -->
         <div class="flex flex-col gap-6 mb-10" data-reveal>
             <div>
@@ -91,7 +91,7 @@ const closePreview = () => {
         </div>
 
         <!-- Masonry Layout -->
-        <div ref="gridRef" class="columns-1 md:columns-2 lg:columns-3 gap-4 lg:gap-5">
+        <div ref="gridRef" class="columns-1 md:columns-2 lg:columns-3 2xl:columns-4 gap-4 lg:gap-5">
             <article
                 v-for="(project, index) in filteredProjects"
                 :key="project.title"
