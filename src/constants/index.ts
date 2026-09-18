@@ -275,6 +275,8 @@ export interface Project {
   grid?: string,
   techs: ITechIcon[],
   src: string,
+  /** Local compressed asset key used if the remote `src` fails to load. */
+  fallbackSrc?: string,
   link: string,
   githubLink?: string
   featured?: boolean,
@@ -307,7 +309,7 @@ export const PROJECTS: Project[] = [
         title: "Vue"
       }
     ],
-    src: "https://raw.githubusercontent.com/Mo7ammedFawzy/Spring-Boot-Library-Management/main/preview.png",
+    src: "https://raw.githubusercontent.com/Mo7ammedFawzy/Spring-Boot-Library-Management/master/preview.png",
     link: "https://spring-boot-library-management.vercel.app/",
     githubLink: "https://github.com/Mo7ammedFawzy/Spring-Boot-Library-Management",
     description: "Full-stack system with Spring Boot REST services, JWT auth, and interactive Vue interface.",
@@ -337,6 +339,7 @@ export const PROJECTS: Project[] = [
       }
     ],
     src: "https://raw.githubusercontent.com/Mo7ammedFawzy/e-learning-platform/master/preview.png",
+    fallbackSrc: "gemyclass",
     link: "https://elearning-platform-frontend-hazel.vercel.app/",
     githubLink: "https://github.com/Mo7ammedFawzy/e-learning-platform",
     description: "Arabic RTL e-learning platform for Math/Physics with admin dashboards, payments, QR attendance, and auto-graded exams.",

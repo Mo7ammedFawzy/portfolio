@@ -41,6 +41,14 @@ const openPreview = (project: Project) => {
 const closePreview = () => {
     isPreviewOpen.value = false
 }
+
+const onThumbError = (event: Event, project: Project) => {
+    if (!project.fallbackSrc) return
+    const img = event.target as HTMLImageElement | null
+    if (!img || img.dataset.fallbackApplied) return
+    img.dataset.fallbackApplied = '1'
+    img.src = `/compressed/${project.fallbackSrc}.png`
+}
 </script>
 
 <template>
@@ -98,6 +106,7 @@ const closePreview = () => {
                         :alt="project.title"
                         loading="lazy"
                         decoding="async"
+                        @error="onThumbError($event, project)"
                         class="block w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]" />
                 </button>
 
