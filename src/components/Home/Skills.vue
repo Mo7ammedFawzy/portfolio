@@ -25,16 +25,6 @@ import { CORE_SKILLS, SKILL_GROUPS } from '@/constants'
                 </div>
             </div>
 
-            <div data-reveal class="marquee rounded-2xl border border-card-border bg-surface-container-low/30 px-6 py-4" aria-hidden="true">
-                <div class="marquee-track">
-                    <span v-for="(skill, i) in [...CORE_SKILLS, ...CORE_SKILLS]" :key="`marquee-${skill.title}-${i}`" class="inline-flex items-center gap-2 text-sm font-semibold text-on-surface-variant whitespace-nowrap">
-                        <UIcon :name="skill.icon" class="text-lg text-primary" aria-hidden="true" />
-                        {{ skill.title }}
-                        <span class="ml-6 inline-block h-1 w-1 rounded-full bg-primary/60" aria-hidden="true" />
-                    </span>
-                </div>
-            </div>
-
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div v-for="(group, groupIndex) in SKILL_GROUPS" :key="group.title" data-reveal
                     class="bg-surface-container-low/30 rounded-2xl p-6 border border-card-border"

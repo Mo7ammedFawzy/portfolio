@@ -636,29 +636,6 @@ html.lenis body {
         }
     }
 
-    .marquee {
-        overflow: hidden;
-        mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-    }
-
-    .marquee-track {
-        display: flex;
-        gap: 2.5rem;
-        width: max-content;
-        animation: marquee-scroll 32s linear infinite;
-        will-change: transform;
-    }
-
-    .marquee:hover .marquee-track {
-        animation-play-state: paused;
-    }
-
-    @keyframes marquee-scroll {
-        to {
-            transform: translateX(-50%);
-        }
-    }
-
     .blob-drift {
         animation: blob-drift 14s ease-in-out infinite;
         will-change: transform;
@@ -766,7 +743,6 @@ html.lenis body {
     .rocket-bob,
     .btn-magnetic,
     .btn-shine::before,
-    .marquee-track,
     .blob-drift,
     .blob-drift-slow,
     .scroll-down-bob,
@@ -788,12 +764,6 @@ html.lenis body {
     .journey-pop {
         opacity: 1 !important;
         transform: none !important;
-    }
-
-    .marquee-track {
-        animation: none !important;
-        flex-wrap: wrap;
-        width: auto;
     }
 
     .headline-underline svg path {
