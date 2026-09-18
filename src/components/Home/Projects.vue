@@ -111,7 +111,7 @@ const onThumbError = (event: Event, project: Project) => {
                     project.featured ? 'border-primary/35' : 'border-card-border'
                 ]"
                 :style="{ '--reveal-delay': `${(index % 3) * 60}ms` }">
-                <div :class="['relative overflow-hidden bg-surface-container-high', project.featured && 'project-gallery-preview--featured']">
+                <div class="relative overflow-hidden bg-surface-container-high">
                     <span
                         v-if="project.featured"
                         class="absolute left-4 top-4 z-10 inline-flex items-center gap-1 rounded-full bg-on-surface px-2.5 py-1 font-sans text-[10px] font-bold uppercase tracking-[0.13em] text-surface shadow-sm">
@@ -129,7 +129,7 @@ const onThumbError = (event: Event, project: Project) => {
                             loading="lazy"
                             decoding="async"
                             @error="onThumbError($event, project)"
-                            :class="['block w-full transition-transform duration-700 group-hover:scale-[1.035]', project.featured ? 'h-full object-cover' : 'h-auto']" />
+                            class="block h-auto w-full transition-transform duration-700 group-hover:scale-[1.035]" />
                     </button>
                     <button
                         type="button"
@@ -215,10 +215,6 @@ const onThumbError = (event: Event, project: Project) => {
     transform: translateY(-5px);
     border-color: color-mix(in srgb, var(--color-primary) 55%, var(--color-card-border));
     box-shadow: var(--shadow-card-hover);
-}
-
-.project-gallery-preview--featured {
-    aspect-ratio: 4 / 5;
 }
 
 .project-action {

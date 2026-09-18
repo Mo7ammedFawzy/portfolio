@@ -310,7 +310,7 @@ export const PROJECTS: Project[] = [
         title: "Vue"
       }
     ],
-    src: "https://raw.githubusercontent.com/Mo7ammedFawzy/Spring-Boot-Library-Management/master/preview.png",
+    src: "library-dashboard",
     link: "https://spring-boot-library-management.vercel.app/",
     githubLink: "https://github.com/Mo7ammedFawzy/Spring-Boot-Library-Management",
     description: "Full-stack system with Spring Boot REST services, JWT auth, and interactive Vue interface.",
