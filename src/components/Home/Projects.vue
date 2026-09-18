@@ -29,6 +29,10 @@ const filteredProjects = computed(() => {
     return PROJECTS.filter(p => p.show !== false && p.type === activeCategory.value)
 })
 
+const categoryLabel = (type: string) => {
+    return categories.find(category => category.value === type)?.label.replace('Full-Stack & ', '').replace('Frontend / ', '') ?? type
+}
+
 // Modal State
 const selectedProject = ref<Project | null>(null)
 const isPreviewOpen = ref(false)
@@ -52,15 +56,19 @@ const onThumbError = (event: Event, project: Project) => {
 </script>
 
 <template>
-    <section id="projects" class="w-full max-w-[1600px] mx-auto px-6 md:px-10 min-h-screen flex flex-col justify-center py-16 sm:py-20">
+    <section id="projects" class="w-full max-w-[1600px] mx-auto px-6 md:px-10 min-h-screen flex flex-col justify-center py-20 sm:py-28">
         <!-- Section Header -->
-        <div class="flex flex-col gap-6 mb-10" data-reveal>
-            <div>
-                <p class="label-caps text-primary mb-3">Featured Work</p>
-                <h2 class="font-display text-headline-lg text-on-surface">Interactive Projects</h2>
-                <p class="text-body-sm text-on-surface-variant mt-2 max-w-lg">
-                    Explore web applications, full-stack systems, and design implementations. Click any preview to test the live sandbox.
+        <div class="mb-10 flex flex-col justify-between gap-6 border-b border-card-border pb-8 lg:flex-row lg:items-end" data-reveal>
+            <div class="max-w-2xl">
+                <p class="label-caps mb-3 text-primary">Selected work · 2024—25</p>
+                <h2 class="font-display text-headline-lg text-on-surface">Built for real people,<br class="hidden sm:block" /> not just screens.</h2>
+                <p class="mt-3 max-w-xl text-body-sm text-on-surface-variant">
+                    A growing collection of full-stack products, commerce experiences, and polished interfaces. Open a project to explore it live.
                 </p>
+            </div>
+            <div class="flex items-center gap-3 text-sm text-on-surface-variant">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">{{ filteredProjects.length }}</span>
+                <span class="font-medium">projects in this<br />collection</span>
             </div>
         </div>
 
@@ -83,78 +91,70 @@ const onThumbError = (event: Event, project: Project) => {
         </div>
 
         <!-- Masonry Gallery -->
-        <div ref="gridRef" class="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 gap-3">
+        <div ref="gridRef" class="project-masonry columns-1 sm:columns-2 xl:columns-3 gap-5">
             <article
                 v-for="(project, index) in filteredProjects"
                 :key="project.title"
                 data-reveal
-                class="group relative break-inside-avoid mb-3 overflow-hidden rounded-lg bg-surface-container-high"
+                :class="[
+                    'project-gallery-card group break-inside-avoid mb-5 overflow-hidden rounded-2xl border bg-surface-container-lowest shadow-card',
+                    project.featured ? 'border-primary/35' : 'border-card-border'
+                ]"
                 :style="{ '--reveal-delay': `${(index % 3) * 60}ms` }">
-                <span
-                    v-if="project.featured"
-                    class="absolute top-3 left-3 z-10 inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-primary backdrop-blur-sm">
-                    <UIcon name="material-symbols:star-rounded" class="text-sm" aria-hidden="true" />
-                    Featured
-                </span>
-                <button
-                    type="button"
-                    @click="openPreview(project)"
-                    :aria-label="`Open live preview of ${project.title}`"
-                    class="block w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset">
-                    <img
-                        :src="project.src.startsWith('http') ? project.src : `/compressed/${project.src}.png`"
-                        :alt="project.title"
-                        loading="lazy"
-                        decoding="async"
-                        @error="onThumbError($event, project)"
-                        class="block w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]" />
-                </button>
-
-                <!-- Hover overlay: title + actions -->
-                <div class="pointer-events-none absolute inset-0 z-10 flex flex-col justify-end bg-gradient-to-t from-black/75 via-black/20 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:hidden">
-                    <p class="font-sans text-base font-semibold text-white" v-text="project.title" />
-                    <div class="pointer-events-auto mt-2 flex items-center gap-2">
-                        <a
-                            :href="project.link"
-                            target="_blank"
-                            rel="noopener"
-                            @click.stop
-                            class="inline-flex items-center gap-1 rounded-md bg-white/95 px-2.5 py-1 text-xs font-semibold text-on-surface transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-                            :aria-label="`Open ${project.title} live site`">
-                            <UIcon name="material-symbols:open-in-new" class="text-sm" aria-hidden="true" />
-                            Visit
-                        </a>
-                        <a
-                            v-if="project.githubLink"
-                            :href="project.githubLink"
-                            target="_blank"
-                            rel="noopener"
-                            @click.stop
-                            class="inline-flex items-center gap-1 rounded-md bg-white/15 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-                            :aria-label="`View ${project.title} source on GitHub`">
-                            <UIcon name="mdi:github" class="text-sm" aria-hidden="true" />
-                            Code
-                        </a>
-                    </div>
+                <div class="relative overflow-hidden bg-surface-container-high">
+                    <span
+                        v-if="project.featured"
+                        class="absolute left-4 top-4 z-10 inline-flex items-center gap-1 rounded-full bg-on-surface px-2.5 py-1 font-sans text-[10px] font-bold uppercase tracking-[0.13em] text-surface shadow-sm">
+                        <UIcon name="material-symbols:star-rounded" class="text-sm text-primary" aria-hidden="true" />
+                        Featured
+                    </span>
+                    <button
+                        type="button"
+                        @click="openPreview(project)"
+                        :aria-label="`Open live preview of ${project.title}`"
+                        class="block w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset">
+                        <img
+                            :src="project.src.startsWith('http') ? project.src : `/compressed/${project.src}.png`"
+                            :alt="project.title"
+                            loading="lazy"
+                            decoding="async"
+                            @error="onThumbError($event, project)"
+                            class="block w-full h-auto transition-transform duration-700 group-hover:scale-[1.035]" />
+                    </button>
+                    <button
+                        type="button"
+                        @click="openPreview(project)"
+                        :aria-label="`Preview ${project.title}`"
+                        class="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-surface/95 text-on-surface opacity-0 shadow-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary [@media(hover:none)]:opacity-100">
+                        <UIcon name="material-symbols:visibility-rounded" class="text-lg" aria-hidden="true" />
+                    </button>
                 </div>
-
-                <!-- Touch fallback caption (no hover on touch devices) -->
-                <div class="hidden [@media(hover:none)]:flex items-center justify-between gap-2 bg-surface-container-lowest px-3 py-2">
-                    <a
-                        :href="project.link"
-                        target="_blank"
-                        rel="noopener"
-                        class="truncate font-sans text-sm font-semibold text-on-surface"
-                        v-text="project.title" />
-                    <a
-                        v-if="project.githubLink"
-                        :href="project.githubLink"
-                        target="_blank"
-                        rel="noopener"
-                        class="shrink-0 text-on-surface-variant"
-                        :aria-label="`View ${project.title} source on GitHub`">
-                        <UIcon name="mdi:github" class="text-lg" aria-hidden="true" />
-                    </a>
+                <div class="p-5">
+                    <div class="mb-3 flex items-center justify-between gap-3">
+                        <span class="label-caps text-[10px] text-primary">{{ categoryLabel(project.type) }}</span>
+                        <span class="text-xs text-on-surface-variant">{{ project.techs.length }} technologies</span>
+                    </div>
+                    <h3 class="font-display text-xl leading-tight text-on-surface">{{ project.title }}</h3>
+                    <p v-if="project.description" class="mt-2 text-sm leading-6 text-on-surface-variant">{{ project.description }}</p>
+                    <div class="mt-5 flex items-center justify-between gap-3 border-t border-card-border pt-4">
+                        <div class="flex -space-x-1.5" :aria-label="`${project.title} technologies`">
+                            <span
+                                v-for="tech in project.techs.slice(0, 4)"
+                                :key="tech.title"
+                                :title="tech.title"
+                                class="flex h-7 w-7 items-center justify-center rounded-full border-2 border-surface-container-lowest bg-surface-container-low text-on-surface-variant">
+                                <UIcon :name="tech.icon" class="text-sm" aria-hidden="true" />
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <a :href="project.link" target="_blank" rel="noopener" class="project-action" :aria-label="`Open ${project.title} live site`">
+                                <UIcon name="material-symbols:arrow-outward-rounded" class="text-lg" aria-hidden="true" />
+                            </a>
+                            <a v-if="project.githubLink" :href="project.githubLink" target="_blank" rel="noopener" class="project-action" :aria-label="`View ${project.title} source on GitHub`">
+                                <UIcon name="mdi:github" class="text-base" aria-hidden="true" />
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </article>
 
@@ -164,7 +164,7 @@ const onThumbError = (event: Event, project: Project) => {
                 target="_blank"
                 rel="noopener"
                 data-reveal
-                class="group flex min-h-[260px] flex-col justify-between rounded-lg border border-dashed border-outline-variant bg-surface-container-low p-6 break-inside-avoid mb-3 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                class="group flex min-h-[280px] flex-col justify-between rounded-2xl border border-dashed border-outline-variant bg-surface-container-low p-6 break-inside-avoid mb-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                 <span class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-card-border bg-surface-container-lowest text-on-surface-variant shadow-sm transition-colors group-hover:border-primary group-hover:text-primary">
                     <UIcon name="mdi:github" class="text-2xl" aria-hidden="true" />
                 </span>
@@ -195,5 +195,49 @@ const onThumbError = (event: Event, project: Project) => {
 
 .scrollbar-none::-webkit-scrollbar {
     display: none;
+}
+
+.project-gallery-card {
+    transition: transform 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+}
+
+.project-gallery-card:hover {
+    transform: translateY(-5px);
+    border-color: color-mix(in srgb, var(--color-primary) 55%, var(--color-card-border));
+    box-shadow: var(--shadow-card-hover);
+}
+
+.project-action {
+    display: inline-flex;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    color: var(--color-on-surface-variant);
+    transition: background-color 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.project-action:hover {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    transform: translateY(-2px);
+}
+
+.project-action:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-gallery-card,
+    .project-action {
+        transition: none;
+    }
+
+    .project-gallery-card:hover,
+    .project-action:hover {
+        transform: none;
+    }
 }
 </style>
