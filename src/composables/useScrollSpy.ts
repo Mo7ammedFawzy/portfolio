@@ -1,5 +1,5 @@
 import { useScroll } from '@vueuse/core'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 export function useScrollSpy(ids: string[]) {
     const { y } = useScroll(window)
@@ -25,8 +25,26 @@ export function useScrollSpy(ids: string[]) {
         window.removeEventListener('resize', measure)
     })
 
+    // Re-measure as the user scrolls (rAF-throttled): lazy-loaded images above
+    // shift section positions after the initial measure, leaving stale offsets.
+    let ticking = false
+    const stopWatch = watch(y, () => {
+        if (ticking) return
+        ticking = true
+        requestAnimationFrame(() => {
+            measure()
+            ticking = false
+        })
+    })
+
+    onBeforeUnmount(() => {
+        stopWatch()
+    })
+
     const activeSection = computed(() => {
-        const threshold = 120
+        // Generous threshold: Lenis anchor landings can fall short of the
+        // target while lazy images still shift the layout mid-scroll.
+        const threshold = 160
         let current = ids[0]
         for (let i = 1; i < ids.length; i++) {
             const id = ids[i]

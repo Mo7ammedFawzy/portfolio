@@ -25,10 +25,10 @@ import { ABOUT, ABOUT_FACTS, EXPERIENCE, LINKEDIN_URL } from '@/constants'
                     <UIcon name="material-symbols:arrow-outward" class="text-base" />
                 </a>
             </div>
-            <div class="lg:col-span-8" id="experience">
+            <div class="lg:col-span-8">
                 <p data-reveal class="label-caps text-primary mb-3">Experience</p>
                 <h2 data-reveal class="font-display text-headline-lg text-on-surface mb-8">Professional Experience</h2>
-                <div class="space-y-6">
+                <div class="space-y-6 scroll-mt-20" id="experience">
                     <article v-for="job in EXPERIENCE" :key="job.company" data-reveal class="exp-card">
                         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                             <div class="flex items-center gap-4">
