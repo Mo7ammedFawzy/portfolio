@@ -338,8 +338,7 @@ export const PROJECTS: Project[] = [
         title: "RestAPI"
       }
     ],
-    src: "https://raw.githubusercontent.com/Mo7ammedFawzy/e-learning-platform/master/preview.png",
-    fallbackSrc: "gemyclass",
+    src: "gemyclass",
     link: "https://elearning-platform-frontend-hazel.vercel.app/",
     githubLink: "https://github.com/Mo7ammedFawzy/e-learning-platform",
     description: "Arabic RTL e-learning platform for Math/Physics with admin dashboards, payments, QR attendance, and auto-graded exams.",
