@@ -17,16 +17,26 @@ watch(activeCategory, revealNewItems)
 
 const categories = [
     { label: 'All Projects', value: 'all' },
-    { label: 'Full-Stack & Java', value: 'fullstack' },
+    { label: 'Full-Stack', value: 'fullstack' },
     { label: 'E-Commerce', value: 'ecommerce' },
     { label: 'Frontend / Vue', value: 'frontend' },
 ] as const
 
+const projectOrder = [
+    'Library Management',
+    'Tabarak Trading',
+    'GemyClass E-Learning',
+    'eCommerceHope',
+    'Grand Restaurant',
+    'Hager UI/UX Portfolio',
+    'Traders Academy',
+    'Pexels Store',
+    'Innovate Agency',
+]
+
 const filteredProjects = computed(() => {
-    if (activeCategory.value === 'all') {
-        return PROJECTS.filter(p => p.show !== false)
-    }
-    return PROJECTS.filter(p => p.show !== false && p.type === activeCategory.value)
+    const projects = PROJECTS.filter(project => project.show !== false && (activeCategory.value === 'all' || project.type === activeCategory.value))
+    return projects.sort((first, second) => projectOrder.indexOf(first.title) - projectOrder.indexOf(second.title))
 })
 
 const categoryLabel = (type: string) => {
@@ -101,7 +111,7 @@ const onThumbError = (event: Event, project: Project) => {
                     project.featured ? 'border-primary/35' : 'border-card-border'
                 ]"
                 :style="{ '--reveal-delay': `${(index % 3) * 60}ms` }">
-                <div class="relative overflow-hidden bg-surface-container-high">
+                <div :class="['relative overflow-hidden bg-surface-container-high', project.featured && 'project-gallery-preview--featured']">
                     <span
                         v-if="project.featured"
                         class="absolute left-4 top-4 z-10 inline-flex items-center gap-1 rounded-full bg-on-surface px-2.5 py-1 font-sans text-[10px] font-bold uppercase tracking-[0.13em] text-surface shadow-sm">
@@ -119,7 +129,7 @@ const onThumbError = (event: Event, project: Project) => {
                             loading="lazy"
                             decoding="async"
                             @error="onThumbError($event, project)"
-                            class="block w-full h-auto transition-transform duration-700 group-hover:scale-[1.035]" />
+                            :class="['block w-full transition-transform duration-700 group-hover:scale-[1.035]', project.featured ? 'h-full object-cover' : 'h-auto']" />
                     </button>
                     <button
                         type="button"
@@ -205,6 +215,10 @@ const onThumbError = (event: Event, project: Project) => {
     transform: translateY(-5px);
     border-color: color-mix(in srgb, var(--color-primary) 55%, var(--color-card-border));
     box-shadow: var(--shadow-card-hover);
+}
+
+.project-gallery-preview--featured {
+    aspect-ratio: 4 / 5;
 }
 
 .project-action {

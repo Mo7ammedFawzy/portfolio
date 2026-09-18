@@ -29,6 +29,7 @@ export type Icons =
   "logos:vue"
   | "devicon:spring"
   | "logos:nodejs-icon"
+  | "simple-icons:express"
 export interface ITechIcon extends IBase {
   icon: Icons
 }
@@ -330,8 +331,8 @@ export const PROJECTS: Project[] = [
         title: "NodeJS"
       },
       {
-        icon: "devicon:spring",
-        title: "Spring",
+        icon: "simple-icons:express",
+        title: "Express",
       },
       {
         icon: "carbon:api",
@@ -341,7 +342,7 @@ export const PROJECTS: Project[] = [
     src: "gemyclass",
     link: "https://elearning-platform-frontend-hazel.vercel.app/",
     githubLink: "https://github.com/Mo7ammedFawzy/e-learning-platform",
-    description: "Arabic RTL e-learning platform for Math/Physics with admin dashboards, payments, QR attendance, and auto-graded exams.",
+    description: "Arabic RTL e-learning platform with a Vue 3 frontend, Express API, dashboards, payments, QR attendance, and auto-graded exams.",
     show: true
   },
   {
