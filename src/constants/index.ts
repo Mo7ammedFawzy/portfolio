@@ -160,7 +160,11 @@ export const JOURNEY: JourneyStep[] =
     title: "Fullstack Developer",
     subtitle: "Building scalable solutions and growing every day.",
     icon: "mingcute:rocket-fill",
-    tags: [],
+    tags: [
+      { label: "Java", icon: "logos:java" },
+      { label: "Spring Boot", icon: "thesvg-color:spring-boot" },
+      { label: "Vue.js", icon: "devicon:vuejs" }
+    ],
     current: true
   },
 ]
