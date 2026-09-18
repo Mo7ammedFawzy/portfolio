@@ -114,8 +114,8 @@ const onThumbError = (event: Event, project: Project) => {
                 <div :class="['relative overflow-hidden bg-surface-container-high', project.featured ? 'aspect-[4/3]' : 'aspect-video']">
                     <span
                         v-if="project.featured"
-                        class="absolute left-4 top-4 z-10 inline-flex items-center gap-1 rounded-full bg-on-surface px-2.5 py-1 font-sans text-[10px] font-bold uppercase tracking-[0.13em] text-surface shadow-sm">
-                        <UIcon name="material-symbols:star-rounded" class="text-sm text-primary" aria-hidden="true" />
+                        class="absolute bottom-4 left-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/45 px-3 py-1.5 font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-white shadow-lg backdrop-blur-md">
+                        <UIcon name="material-symbols:star-rounded" class="text-sm text-amber-300" aria-hidden="true" />
                         Featured
                     </span>
                     <button
