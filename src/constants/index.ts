@@ -140,20 +140,18 @@ export const JOURNEY: JourneyStep[] =
     tags: [{ label: "Education", icon: "noto:graduation-cap" }]
   },
   {
-    year: "2023",
+    year: "Mid 2024",
     title: "Frontend Developer",
     subtitle: "Innovate",
     icon: "material-symbols:code",
     tags: [{ label: "Vue.js", icon: "devicon:vuejs" }]
   },
   {
-    year: "2025",
-    title: "Java Developer",
+    year: "Early 2025",
+    title: "Frontend Developer",
     subtitle: "Namasoft (ERP Company)",
-    icon: "material-symbols:settings",
+    icon: "material-symbols:code",
     tags: [
-      { label: "Java", icon: "logos:java" },
-      { label: "Spring Boot", icon: "thesvg-color:spring-boot" },
       { label: "Vue.js", icon: "devicon:vuejs" }
     ]
   },
@@ -178,10 +176,11 @@ export interface Experience {
 export const EXPERIENCE: Experience[] = [
   {
     company: "Namasoft",
-    role: "Java Developer",
+    role: "Fullstack Developer (Java, Spring Boot, Vue)",
     period: "Jan 2025 – Present",
     current: true,
     bullets: [
+      "Started Vue-only on frontend tasks, then picked up Java and Spring Boot after ~3.5 months.",
       "Developing ERP modules with Java and Spring Boot.",
       "Building responsive frontends with Vue 3 and REST APIs.",
       "Designing and maintaining database schemas and service layers.",
@@ -191,7 +190,7 @@ export const EXPERIENCE: Experience[] = [
   {
     company: "Innovate",
     role: "Frontend Developer (Vue.js)",
-    period: "Mid 2023 – Dec 2024",
+    period: "Mid 2024 – Dec 2024",
     bullets: [
       "Built responsive single-page applications with Vue.js and Nuxt.",
       "Delivered pixel-perfect UI from designer mockups.",
@@ -311,6 +310,64 @@ export const PROJECTS: Project[] = [
     show: true
   },
   {
+    title: "GemyClass E-Learning",
+    type: "fullstack",
+    grid: "medium",
+    featured: true,
+    techs: [
+      {
+        icon: "logos:vue",
+        title: "Vue"
+      },
+      {
+        icon: "logos:nodejs-icon",
+        title: "NodeJS"
+      },
+      {
+        icon: "devicon:spring",
+        title: "Spring",
+      },
+      {
+        icon: "carbon:api",
+        title: "RestAPI"
+      }
+    ],
+    src: "https://raw.githubusercontent.com/Mo7ammedFawzy/e-learning-platform/master/preview.png",
+    link: "https://elearning-platform-frontend-hazel.vercel.app/",
+    githubLink: "https://github.com/Mo7ammedFawzy/e-learning-platform",
+    description: "Arabic RTL e-learning platform for Math/Physics with admin dashboards, payments, QR attendance, and auto-graded exams.",
+    show: true
+  },
+  {
+    title: "eCommerceHope",
+    type: "ecommerce",
+    grid: "large",
+    featured: true,
+    techs: [
+      {
+        icon: "logos:vue",
+        title: "Vue"
+      },
+      {
+        icon: "logos:nodejs-icon",
+        title: "NodeJS"
+      },
+      {
+        icon: "bxl:typescript",
+        title: "typescript"
+      },
+      {
+        icon: "mdi:tailwind",
+        title: "tailwindcss"
+      },
+    ],
+    src: "eCommerce",
+    link: "https://ecommercelytics.vercel.app/",
+    githubLink: "https://github.com/Mo7ammedFawzy/eCommerce",
+    description: "Full-stack storefront with an editorial design, cart state management, and seamless product exploration.",
+    show: true
+  },
+  {
     title: "Tabarak Trading",
     type: "frontend",
     grid: "large",
@@ -359,83 +416,7 @@ export const PROJECTS: Project[] = [
     src: "movies",
     link: "https://movie-appio.vercel.app/",
     description: "Dynamic cinema discovery app with live TMDB search, trending feeds, and responsive modal details.",
-    show: true
-  },
-  {
-    title: "GemyClass E-Learning",
-    type: "fullstack",
-    grid: "medium",
-    featured: true,
-    techs: [
-      {
-        icon: "logos:vue",
-        title: "Vue"
-      },
-      {
-        icon: "logos:nodejs-icon",
-        title: "NodeJS"
-      },
-      {
-        icon: "devicon:spring",
-        title: "Spring",
-      },
-      {
-        icon: "carbon:api",
-        title: "RestAPI"
-      }
-    ],
-    src: "gemyclass",
-    link: "https://gemyclass.com/",
-    githubLink: "https://github.com/Mo7ammedFawzy/e-learning-platform",
-    description: "Arabic RTL e-learning platform for Math/Physics with admin dashboards, payments, QR attendance, and auto-graded exams.",
-    show: true
-  },
-  {
-    title: "Innovate Agency",
-    type: "frontend",
-    grid: "small",
-    techs: [
-      {
-        icon: "devicon:vuetify",
-        title: "vuetify"
-      },
-      {
-        icon: "mdi:nuxt",
-        title: "Nuxt"
-      }
-    ],
-    src: "innovate",
-    link: "https://innovate3.online/",
-    description: "Digital agency portfolio built with Nuxt and smooth transitions.",
-    show: true
-  },
-  {
-    title: "eCommerceHope",
-    type: "ecommerce",
-    grid: "large",
-    techs: [
-      {
-        icon: "logos:vue",
-        title: "Vue"
-      },
-      {
-        icon: "logos:nodejs-icon",
-        title: "NodeJS"
-      },
-      {
-        icon: "bxl:typescript",
-        title: "typescript"
-      },
-      {
-        icon: "mdi:tailwind",
-        title: "tailwindcss"
-      },
-    ],
-    src: "eCommerce",
-    link: "https://ecommercelytics.vercel.app/",
-    githubLink: "https://github.com/Mo7ammedFawzy/eCommerce",
-    description: "Full-stack storefront with an editorial design, cart state management, and seamless product exploration.",
-    show: true
+    show: false
   },
   {
     title: "Commerce-Hope",
@@ -458,7 +439,7 @@ export const PROJECTS: Project[] = [
     src: "commerce-hope",
     link: "https://commerce-hope.vercel.app/",
     description: "Product catalog and checkout application built with Nuxt SSR and Vuetify design tokens.",
-    show: true
+    show: false
   },
   {
     title: "Hager UI/UX Portfolio",
@@ -515,7 +496,7 @@ export const PROJECTS: Project[] = [
     src: "store",
     link: "https://storex.vercel.app/",
     description: "Minimalist fashion e-commerce storefront with smooth filtering.",
-    show: true
+    show: false
   },
   {
     title: "Pexels Store",
@@ -564,6 +545,25 @@ export const PROJECTS: Project[] = [
     src: "nix",
     link: "https://mohammed2711111.github.io/NIX_Website/Nix.html",
     description: "Product showcase landing page with clean layouts and dark accents.",
+    show: false
+  },
+  {
+    title: "Innovate Agency",
+    type: "frontend",
+    grid: "small",
+    techs: [
+      {
+        icon: "devicon:vuetify",
+        title: "vuetify"
+      },
+      {
+        icon: "mdi:nuxt",
+        title: "Nuxt"
+      }
+    ],
+    src: "innovate",
+    link: "https://innovate3.online/",
+    description: "Digital agency portfolio built with Nuxt and smooth transitions.",
     show: true
   },
 ]

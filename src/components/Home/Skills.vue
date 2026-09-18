@@ -5,7 +5,7 @@ import { CORE_SKILLS, SKILL_GROUPS } from '@/constants'
 <template>
     <section id="skills" class="container-editorial min-h-screen flex flex-col justify-center py-16 sm:py-20">
         <div class="text-center mb-12">
-            <p data-reveal class="label-caps text-primary mb-3">• • My Toolkit • •</p>
+            <p data-reveal class="label-caps text-primary mb-3">My Toolkit</p>
             <h2 data-reveal class="font-display text-headline-lg text-on-surface mb-4">Technologies I Work With</h2>
             <p data-reveal class="text-body-md text-on-surface-variant max-w-2xl mx-auto">A collection of the technologies, frameworks, and tools I use to build scalable, user-friendly, and enterprise-grade applications.</p>
         </div>

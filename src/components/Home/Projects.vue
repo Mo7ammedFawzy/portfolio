@@ -57,13 +57,6 @@ const openPreview = (project: Project) => {
 const closePreview = () => {
     isPreviewOpen.value = false
 }
-
-const getTileSpan = (project: Project) => {
-    // Bento rhythm on a 4-col grid: featured tiles are full-row heroes,
-    // standards are uniform single tiles. grid-flow-dense fills the gaps.
-    if (project.featured) return 'md:col-span-2 lg:col-span-4'
-    return ''
-}
 </script>
 
 <template>
@@ -97,16 +90,16 @@ const getTileSpan = (project: Project) => {
             </button>
         </div>
 
-        <!-- Bento Grid Layout -->
-        <div ref="gridRef" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 grid-flow-dense">
+        <!-- Masonry Layout -->
+        <div ref="gridRef" class="columns-1 md:columns-2 lg:columns-3 gap-4 lg:gap-5">
             <article
                 v-for="(project, index) in filteredProjects"
                 :key="project.title"
                 data-reveal
-                :class="[getTileSpan(project), 'project-card group flex flex-col justify-between relative rounded-[20px]', project.featured ? 'project-card-featured' : '']"
-                :style="{ '--reveal-delay': `${(index % 4) * 60}ms` }">
+                :class="['project-card group flex flex-col justify-between relative rounded-[20px] break-inside-avoid mb-4 lg:mb-5', project.featured ? 'project-card-featured' : '']"
+                :style="{ '--reveal-delay': `${(index % 3) * 60}ms` }">
 
-                <div :class="project.featured ? 'lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-center' : ''">
+                <div>
                     <!-- Visual Thumbnail / Sandbox Trigger -->
                     <div class="p-4 pb-0 relative lg:p-6">
                         <button
@@ -116,7 +109,7 @@ const getTileSpan = (project: Project) => {
                             class="block w-full text-left aspect-[16/10] rounded-xl overflow-hidden bg-surface-container-high relative cursor-pointer group-hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                             <span
                                 v-if="project.featured"
-                                class="absolute top-3 left-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 font-sans text-[11px] font-bold uppercase tracking-wider text-on-primary shadow-md">
+                                class="absolute top-3 left-3 z-10 inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-primary backdrop-blur-sm">
                                 <UIcon name="material-symbols:star-rounded" class="text-sm" aria-hidden="true" />
                                 Featured
                             </span>
@@ -197,7 +190,7 @@ const getTileSpan = (project: Project) => {
                 target="_blank"
                 rel="noopener"
                 data-reveal
-                class="group flex min-h-[260px] flex-col justify-between rounded-[20px] border border-dashed border-outline-variant bg-surface-container-low p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                class="group flex min-h-[260px] flex-col justify-between rounded-[20px] border border-dashed border-outline-variant bg-surface-container-low p-6 break-inside-avoid mb-4 lg:mb-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                 <span class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-card-border bg-surface-container-lowest text-on-surface-variant shadow-sm transition-colors group-hover:border-primary group-hover:text-primary">
                     <UIcon name="mdi:github" class="text-2xl" aria-hidden="true" />
                 </span>
