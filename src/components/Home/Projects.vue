@@ -1,19 +1,62 @@
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from 'vue'
+import { onMounted, onUnmounted, ref, computed, watch, nextTick } from 'vue'
 import { GITHUB_URL, PROJECTS, type Project } from '@/constants'
 import LivePreviewModal from '@/components/Home/LivePreviewModal.vue'
 
 const activeCategory = ref<'all' | 'fullstack' | 'ecommerce' | 'frontend'>('all')
 const gridRef = ref<HTMLElement | null>(null)
+const tabsRef = ref<HTMLElement | null>(null)
+const pillRef = ref<HTMLElement | null>(null)
+const countRef = ref<HTMLElement | null>(null)
+
+const movePill = async () => {
+    await nextTick()
+    const tabs = tabsRef.value
+    const pill = pillRef.value
+    if (!tabs || !pill) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        pill.style.display = 'none'
+        return
+    }
+    const active = tabs.querySelector<HTMLElement>(`[data-cat="${activeCategory.value}"]`)
+    if (!active) return
+    pill.style.display = 'block'
+    pill.style.width = `${active.offsetWidth}px`
+    pill.style.transform = `translateX(${active.offsetLeft}px)`
+}
 
 const revealNewItems = async () => {
     await nextTick()
     const container = gridRef.value
     if (!container) return
-    container.querySelectorAll<HTMLElement>('[data-reveal]:not(.appear)').forEach(el => el.classList.add('appear'))
+    const items = Array.from(container.querySelectorAll<HTMLElement>('[data-reveal]:not(.appear)'))
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        items.forEach(el => el.classList.add('appear'))
+        return
+    }
+    items.forEach((el, i) => {
+        window.setTimeout(() => el.classList.add('appear'), Math.min(i * 45, 360))
+    })
 }
 
-watch(activeCategory, revealNewItems)
+watch(activeCategory, async () => {
+    await movePill()
+    await revealNewItems()
+    if (countRef.value && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        countRef.value.classList.remove('count-bump')
+        void countRef.value.offsetWidth
+        countRef.value.classList.add('count-bump')
+    }
+})
+
+onMounted(() => {
+    movePill()
+    window.addEventListener('resize', movePill)
+})
+
+onUnmounted(() => {
+    window.removeEventListener('resize', movePill)
+})
 
 const categories = [
     { label: 'All Projects', value: 'all' },
@@ -70,32 +113,34 @@ const onThumbError = (event: Event, project: Project) => {
         <!-- Section Header -->
         <div class="mb-10 flex flex-col justify-between gap-6 border-b border-card-border pb-8 lg:flex-row lg:items-end" data-reveal>
             <div class="max-w-2xl">
-                <p class="label-caps mb-3 text-primary">Selected work · 2024—25</p>
+                <p class="label-caps mb-3 text-primary"><span class="font-mono mr-2 opacity-70">01</span>Selected work · 2024—25</p>
                 <h2 class="font-display text-headline-lg text-on-surface">Built for real people,<br class="hidden sm:block" /> not just screens.</h2>
                 <p class="mt-3 max-w-xl text-body-sm text-on-surface-variant">
                     A growing collection of full-stack products, commerce experiences, and polished interfaces. Open a project to explore it live.
                 </p>
             </div>
             <div class="flex items-center gap-3 text-sm text-on-surface-variant">
-                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">{{ filteredProjects.length }}</span>
+                <span ref="countRef" class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">{{ filteredProjects.length }}</span>
                 <span class="font-medium">projects in this<br />collection</span>
             </div>
         </div>
 
         <!-- Filter Tabs -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none" data-reveal role="group" aria-label="Filter projects by category">
+        <div ref="tabsRef" class="filter-tabs relative flex items-center gap-1 overflow-x-auto pb-1 mb-8 scrollbar-none w-fit max-w-full rounded-xl border border-card-border bg-surface-container-lowest p-1" data-reveal role="group" aria-label="Filter projects by category">
+            <span ref="pillRef" class="filter-pill" aria-hidden="true" />
             <button
                 v-for="cat in categories"
                 :key="cat.value"
                 type="button"
+                :data-cat="cat.value"
                 @click="activeCategory = cat.value"
                 :aria-pressed="activeCategory === cat.value"
                 :class="[
                     activeCategory === cat.value
-                        ? 'bg-primary text-on-primary shadow-sm font-semibold'
-                        : 'bg-surface-container-lowest text-on-surface-variant border border-card-border hover:border-primary/50 hover:text-on-surface'
+                        ? 'text-on-primary font-semibold'
+                        : 'text-on-surface-variant hover:text-on-surface'
                 ]"
-                class="px-4 py-2 rounded-xl text-xs sm:text-sm font-sans whitespace-nowrap transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                class="relative z-10 px-4 py-2 rounded-[0.65rem] text-xs sm:text-sm font-sans whitespace-nowrap transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                 {{ cat.label }}
             </button>
         </div>
@@ -132,6 +177,11 @@ const onThumbError = (event: Event, project: Project) => {
                             class="block h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.05]" />
                     </button>
                     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
+                    <div class="card-overlay" aria-hidden="true">
+                        <span class="card-overlay-chip">View live
+                            <UIcon name="material-symbols:arrow-outward-rounded" class="text-sm" aria-hidden="true" />
+                        </span>
+                    </div>
                     <button
                         type="button"
                         @click="openPreview(project)"

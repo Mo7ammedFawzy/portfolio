@@ -5,7 +5,7 @@ import { CORE_SKILLS, SKILL_GROUPS } from '@/constants'
 <template>
     <section id="skills" class="container-editorial min-h-screen flex flex-col justify-center py-16 sm:py-20">
         <div class="text-center mb-12">
-            <p data-reveal class="label-caps text-primary mb-3">My Toolkit</p>
+            <p data-reveal class="label-caps text-primary mb-3"><span class="font-mono mr-2 opacity-70">04</span>My Toolkit</p>
             <h2 data-reveal class="font-display text-headline-lg text-on-surface mb-4">Technologies I Work With</h2>
             <p data-reveal class="text-body-md text-on-surface-variant max-w-2xl mx-auto">A collection of the technologies, frameworks, and tools I use to build scalable, user-friendly, and enterprise-grade applications.</p>
         </div>
@@ -17,11 +17,21 @@ import { CORE_SKILLS, SKILL_GROUPS } from '@/constants'
                     <h3 class="label-caps text-primary">Core Technologies</h3>
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-                    <div v-for="(skill, index) in CORE_SKILLS" :key="skill.title" class="flex flex-col items-center gap-3"
+                    <div v-for="(skill, index) in CORE_SKILLS" :key="skill.title" class="skill-tile group flex flex-col items-center gap-3 rounded-xl p-4"
                         :style="{ '--reveal-delay': `${index * 60}ms` }">
-                        <UIcon :name="skill.icon" class="w-16 h-16 text-on-surface-variant" />
+                        <UIcon :name="skill.icon" class="skill-tile-icon w-14 h-14 text-on-surface-variant transition-all duration-300 group-hover:scale-110 group-hover:text-primary" />
                         <span class="font-sans text-sm font-bold text-on-surface" v-text="skill.title" />
                     </div>
+                </div>
+            </div>
+
+            <div data-reveal class="marquee rounded-2xl border border-card-border bg-surface-container-low/30 px-6 py-4" aria-hidden="true">
+                <div class="marquee-track">
+                    <span v-for="(skill, i) in [...CORE_SKILLS, ...CORE_SKILLS]" :key="`marquee-${skill.title}-${i}`" class="inline-flex items-center gap-2 text-sm font-semibold text-on-surface-variant whitespace-nowrap">
+                        <UIcon :name="skill.icon" class="text-lg text-primary" aria-hidden="true" />
+                        {{ skill.title }}
+                        <span class="ml-6 inline-block h-1 w-1 rounded-full bg-primary/60" aria-hidden="true" />
+                    </span>
                 </div>
             </div>
 

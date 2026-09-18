@@ -6,7 +6,7 @@ import { ABOUT, ABOUT_FACTS, EXPERIENCE, LINKEDIN_URL } from '@/constants'
     <section class="bg-surface border-y border-card-border min-h-screen flex flex-col justify-center py-16 sm:py-20">
         <div class="container-editorial grid lg:grid-cols-12 gap-14 lg:gap-16">
             <div class="lg:col-span-4" id="about">
-                <p data-reveal class="label-caps text-primary mb-3">About Me</p>
+                <p data-reveal class="label-caps text-primary mb-3"><span class="font-mono mr-2 opacity-70">02</span>About Me</p>
                 <h2 data-reveal class="font-display text-headline-lg text-on-surface mb-6">Who I Am</h2>
                 <p data-reveal class="text-body-md text-on-surface-variant mb-8" v-text="ABOUT[0]" />
                 <ul data-reveal class="space-y-4 mb-8">
@@ -26,10 +26,10 @@ import { ABOUT, ABOUT_FACTS, EXPERIENCE, LINKEDIN_URL } from '@/constants'
                 </a>
             </div>
             <div class="lg:col-span-8">
-                <p data-reveal class="label-caps text-primary mb-3">Experience</p>
+                <p data-reveal class="label-caps text-primary mb-3"><span class="font-mono mr-2 opacity-70">03</span>Experience</p>
                 <h2 data-reveal class="font-display text-headline-lg text-on-surface mb-8">Professional Experience</h2>
-                <div class="space-y-6 scroll-mt-20" id="experience">
-                    <article v-for="job in EXPERIENCE" :key="job.company" data-reveal class="exp-card">
+                <div class="space-y-6 scroll-mt-28" id="experience">
+                    <article v-for="job in EXPERIENCE" :key="job.company" data-reveal class="exp-card exp-accent">
                         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                             <div class="flex items-center gap-4">
                                 <span class="w-12 h-12 rounded-xl bg-primary/5 text-primary flex items-center justify-center font-sans text-headline-sm font-bold shrink-0"
@@ -39,8 +39,17 @@ import { ABOUT, ABOUT_FACTS, EXPERIENCE, LINKEDIN_URL } from '@/constants'
                                     <p class="text-body-sm text-on-surface-variant mt-1" v-text="job.role" />
                                 </div>
                             </div>
-                            <span class="self-start sm:mt-1 inline-flex items-center rounded-full bg-primary/5 text-primary px-3 py-1.5 text-xs font-bold whitespace-nowrap"
-                                v-text="job.period" />
+                            <div class="flex flex-wrap items-center gap-2 self-start sm:mt-1">
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-primary/5 text-primary px-3 py-1.5 text-xs font-bold whitespace-nowrap"
+                                    v-text="job.period" />
+                                <span v-if="job.current" class="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-bold text-on-primary whitespace-nowrap" aria-label="Current role">
+                                    <span class="relative flex h-2 w-2">
+                                        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-on-primary opacity-75" />
+                                        <span class="relative inline-flex h-2 w-2 rounded-full bg-on-primary" />
+                                    </span>
+                                    Current
+                                </span>
+                            </div>
                         </div>
                         <ul class="mt-6 space-y-3">
                             <li v-for="bullet in job.bullets" :key="bullet" class="flex gap-3">

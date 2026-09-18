@@ -1,5 +1,23 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted, ref } from 'vue'
 import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
+import { useMagnetic } from '@/composables/useMagnetic'
+
+const ctaRef = ref<HTMLElement | null>(null)
+const scrollHintRef = ref<HTMLElement | null>(null)
+useMagnetic(ctaRef)
+
+function onScrollHint() {
+    scrollHintRef.value?.classList.toggle('scroll-down-fade', window.scrollY > 100)
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', onScrollHint, { passive: true })
+})
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', onScrollHint)
+})
 </script>
 
 <template>
@@ -8,7 +26,7 @@ import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
             <div class="lg:col-span-7">
                 <p class="hero-enter label-caps text-primary mb-4" style="--hero-delay: 0ms">Hello, I'm</p>
                 <h1 class="hero-enter font-display text-display-md md:text-display-lg text-on-surface mb-4" style="--hero-delay: 80ms">
-                    Mohammed <span class="text-primary">Fawzey</span>
+                    Mohammed <span class="headline-underline text-primary">Fawzey<svg viewBox="0 0 220 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 14 C 60 6, 160 6, 216 12" /></svg></span>
                 </h1>
                 <p class="hero-enter text-headline-sm font-sans font-semibold text-on-surface mb-4" style="--hero-delay: 160ms">
                     {{ ROLE }}
@@ -16,8 +34,8 @@ import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
                 <p class="hero-enter text-body-lg text-on-surface-variant mb-6" style="--hero-delay: 240ms">
                     Building modern, maintainable web applications with Vue.js, TypeScript, Java, and Spring Boot.
                 </p>
-                <div class="hero-enter flex flex-wrap gap-4 mb-8" style="--hero-delay: 320ms">
-                    <a href="#projects" class="btn-primary">
+                <div class="hero-enter flex flex-wrap gap-4 mb-8" style="--hero-delay: 300ms">
+                    <a ref="ctaRef" href="#projects" class="btn-primary btn-shine">
                         View My Work
                         <UIcon name="material-symbols:arrow-forward" class="text-base" aria-hidden="true" />
                     </a>
@@ -26,7 +44,7 @@ import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
                         Download CV
                     </a>
                 </div>
-                <div class="hero-enter flex items-center gap-4" style="--hero-delay: 400ms">
+                <div class="hero-enter flex items-center gap-4" style="--hero-delay: 360ms">
                     <span class="label-caps text-on-surface-variant">Find me on</span>
                     <div class="flex gap-3">
                         <a v-for="contact in CONTACT" :key="contact.title" :href="contact.link"
@@ -38,7 +56,7 @@ import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
                 </div>
             </div>
             <div class="lg:col-span-5">
-                <article aria-labelledby="journey-title" class="hero-enter journey-card-stitch relative bg-surface-container-lowest border border-card-border rounded-3xl p-6 sm:p-8 shadow-card overflow-hidden" style="--hero-delay: 320ms">
+                <article aria-labelledby="journey-title" class="hero-enter journey-pop journey-card-stitch relative bg-surface-container-lowest border border-card-border rounded-3xl p-6 sm:p-8 shadow-card overflow-hidden" style="--hero-delay: 300ms">
                     <!-- Top-Right Orange Dot Matrix -->
                     <div class="absolute top-5 right-5 w-36 h-36 opacity-40 pointer-events-none" aria-hidden="true">
                         <svg class="w-full h-full text-primary/50" fill="currentColor" viewBox="0 0 120 120">
@@ -120,10 +138,10 @@ import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
         </div>
 
         <!-- Scroll to next section button -->
-        <div class="hidden md:flex justify-center mt-6 hero-enter" style="--hero-delay: 500ms">
+        <div ref="scrollHintRef" class="hidden md:flex justify-center mt-6 hero-enter transition-all duration-300" style="--hero-delay: 480ms">
             <a href="#projects" aria-label="Scroll to projects" class="scroll-down-btn group flex flex-col items-center gap-2">
                 <span class="text-[11px] font-sans font-semibold uppercase tracking-[0.1em] text-on-surface-variant group-hover:text-primary transition-colors duration-200">Scroll Down</span>
-                <span class="scroll-down-ring">
+                <span class="scroll-down-ring scroll-down-bob">
                     <UIcon name="material-symbols:keyboard-arrow-down-rounded" class="text-xl text-primary" aria-hidden="true" />
                 </span>
             </a>
