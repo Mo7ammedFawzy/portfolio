@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
-import { CONTACT, CV_URL, JOURNEY, ROLE } from '@/constants'
+import { CONTACT, CORE_SKILLS, CV_URL, JOURNEY, ROLE } from '@/constants'
 import { useMagnetic } from '@/composables/useMagnetic'
+import { useParallax } from '@/composables/useParallax'
 
 const ctaRef = ref<HTMLElement | null>(null)
+const heroVisualRef = ref<HTMLElement | null>(null)
 const scrollHintRef = ref<HTMLElement | null>(null)
+const featuredSkills = CORE_SKILLS.slice(0, 4)
+
 useMagnetic(ctaRef)
+useParallax(heroVisualRef, 0.035)
 
 function onScrollHint() {
     scrollHintRef.value?.classList.toggle('scroll-down-fade', window.scrollY > 100)
@@ -21,146 +26,217 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section id="home" class="container-editorial min-h-screen flex flex-col justify-center pt-16 pb-8 sm:pb-12">
-        <div class="grid lg:grid-cols-12 gap-10 lg:gap-12 items-start lg:pt-8">
-            <div class="lg:col-span-7">
-                <p class="hero-enter label-caps text-primary mb-4" style="--hero-delay: 0ms">Hello, I'm</p>
-                <h1 class="hero-enter font-display text-display-md md:text-display-lg text-on-surface mb-4" style="--hero-delay: 80ms">
-                    Mohammed <span class="headline-underline text-primary">Fawzey<svg viewBox="0 0 220 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 14 C 60 6, 160 6, 216 12" /></svg></span>
-                </h1>
-                <p class="hero-enter text-headline-sm font-sans font-semibold text-on-surface mb-4" style="--hero-delay: 160ms">
-                    {{ ROLE }}
-                </p>
-                <p class="hero-enter text-body-lg text-on-surface-variant mb-6" style="--hero-delay: 240ms">
-                    Building modern, maintainable web applications with Vue.js, TypeScript, Java, and Spring Boot.
-                </p>
-                <div class="hero-enter flex flex-wrap gap-4 mb-8" style="--hero-delay: 300ms">
-                    <a ref="ctaRef" href="#projects" class="btn-primary btn-shine">
-                        View My Work
-                        <UIcon name="material-symbols:arrow-forward" class="text-base" aria-hidden="true" />
-                    </a>
-                    <a :href="CV_URL" target="_blank" rel="noopener" class="btn-secondary">
-                        <UIcon name="material-symbols:download" class="text-base" aria-hidden="true" />
-                        Download CV
-                    </a>
-                </div>
-                <div class="hero-enter flex items-center gap-4" style="--hero-delay: 360ms">
-                    <span class="label-caps text-on-surface-variant">Find me on</span>
-                    <div class="flex gap-3">
-                        <a v-for="contact in CONTACT" :key="contact.title" :href="contact.link"
-                            :target="contact.isMail ? undefined : '_blank'" :rel="contact.isMail ? undefined : 'noopener'"
-                            class="icon-btn" :aria-label="contact.title[0].toUpperCase() + contact.title.slice(1)">
-                            <UIcon :name="contact.icon" class="text-xl" aria-hidden="true" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="lg:col-span-5">
-                <article aria-labelledby="journey-title" class="hero-enter journey-pop journey-card-stitch relative bg-surface-container-lowest border border-card-border rounded-3xl p-6 sm:p-8 shadow-card overflow-hidden" style="--hero-delay: 300ms">
-                    <!-- Top-Right Orange Dot Matrix -->
-                    <div class="absolute top-5 right-5 w-36 h-36 opacity-40 pointer-events-none" aria-hidden="true">
-                        <svg class="w-full h-full text-primary/50" fill="currentColor" viewBox="0 0 120 120">
-                            <pattern id="stitch-dot-grid" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse">
-                                <circle cx="3" cy="3" r="1.5" />
-                            </pattern>
-                            <rect width="120" height="120" fill="url(#stitch-dot-grid)" />
-                        </svg>
-                    </div>
-
-                    <!-- Card Header: Orange Calendar Badge + Serif Title -->
-                    <div class="flex items-center gap-3.5 mb-6 relative z-10">
-                        <span class="w-10 h-10 rounded-2xl bg-surface-container-lowest border border-primary/40 flex items-center justify-center text-primary shadow-xs">
-                            <UIcon name="material-symbols:calendar-month-outline" class="text-2xl text-primary" aria-hidden="true" />
-                        </span>
-                        <h2 id="journey-title" class="font-display text-headline-sm text-on-surface tracking-tight">
-                            My <span class="text-primary font-display font-medium">Journey</span>
-                        </h2>
-                    </div>
-
-                    <!-- Timeline Body -->
-                    <div class="relative z-10">
-                        <!-- Connecting Line -->
-                        <div class="timeline-track" aria-hidden="true" />
-
-                        <div class="space-y-6 sm:space-y-7">
-                            <div
-                                v-for="(step, index) in JOURNEY"
-                                :key="`${step.year}-${step.title}`"
-                                class="timeline-step relative flex items-start gap-4 sm:gap-6 group"
-                                :style="{ '--reveal-delay': `${index * 90}ms` }"
-                                data-reveal>
-
-                                <!-- Timeline Icon Node -->
-                                <div class="relative shrink-0 w-12 h-12 flex items-center justify-center z-10">
-                                    <!-- Animated pulse ring for current active step -->
-                                    <div v-if="step.current" class="absolute inset-0 rounded-full bg-primary/20 timeline-now-pulse" />
-                                    
-                                    <div
-                                        class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 relative z-10"
-                                        :class="step.current 
-                                            ? 'bg-primary text-on-primary shadow-[0_4px_14px_rgba(232,93,4,0.4)] scale-105' 
-                                            : 'bg-surface-container-lowest border-2 border-primary/60 text-on-surface shadow-xs group-hover:border-primary group-hover:scale-105'">
-                                        <UIcon
-                                            :name="step.icon"
-                                            class="text-2xl transition-transform duration-300"
-                                            aria-hidden="true" />
-                                    </div>
-                                </div>
-
-                                <!-- Content Column -->
-                                <div class="flex-1 min-w-0 pt-2">
-                                    <h3 class="font-sans text-[15px] sm:text-[16px] font-bold text-on-surface leading-snug">
-                                        <span class="font-mono text-xs font-medium text-primary tracking-wider mr-1.5">
-                                            {{ step.year }}
-                                        </span>
-                                        {{ step.title }}
-                                    </h3>
-                                    <p class="text-xs sm:text-[13px] text-on-surface-variant font-normal mt-0.5">
-                                        {{ step.subtitle }}
-                                    </p>
-                                    <ul v-if="step.tags.length" class="flex flex-wrap gap-1.5 mt-2.5" aria-label="Technologies">
-                                        <li v-for="tag in step.tags" :key="tag.label">
-                                            <UBadge
-                                                :icon="tag.icon"
-                                                color="neutral"
-                                                variant="subtle"
-                                                size="md">
-                                                {{ tag.label }}
-                                            </UBadge>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </div>
+    <section id="home" class="hero-section relative isolate min-h-dvh overflow-hidden pt-28 pb-10 sm:pt-32 lg:pt-28 lg:pb-12">
+        <div class="hero-atmosphere" aria-hidden="true">
+            <div class="hero-grid-plane" />
+            <div class="hero-glow-orb hero-glow-orb--warm" />
+            <div class="hero-glow-orb hero-glow-orb--cool" />
+            <svg class="hero-orbit-drawing" viewBox="0 0 620 620" fill="none">
+                <circle cx="310" cy="310" r="235" />
+                <circle cx="310" cy="310" r="170" />
+                <path d="M92 402C174 486 330 512 455 435C548 378 572 256 518 168" />
+                <circle class="hero-orbit-dot hero-orbit-dot--one" cx="92" cy="402" r="5" />
+                <circle class="hero-orbit-dot hero-orbit-dot--two" cx="518" cy="168" r="5" />
+            </svg>
+            <span class="hero-index-mark">01 / PORTFOLIO</span>
         </div>
 
-        <!-- Scroll to next section button -->
-        <div ref="scrollHintRef" class="hidden md:flex justify-center mt-6 hero-enter transition-all duration-300" style="--hero-delay: 480ms">
-            <a href="#projects" aria-label="Scroll to projects" class="scroll-down-btn group flex flex-col items-center gap-2">
-                <span class="text-[11px] font-sans font-semibold uppercase tracking-[0.1em] text-on-surface-variant group-hover:text-primary transition-colors duration-200">Scroll Down</span>
-                <span class="scroll-down-ring scroll-down-bob">
-                    <UIcon name="material-symbols:keyboard-arrow-down-rounded" class="text-xl text-primary" aria-hidden="true" />
-                </span>
-            </a>
+        <div class="container-editorial relative z-10 flex w-full flex-col justify-center">
+            <div class="grid items-center gap-14 lg:grid-cols-12 lg:gap-8 xl:gap-12">
+                <div class="lg:col-span-7">
+                    <div class="hero-enter hero-availability mb-7" style="--hero-delay: 0ms">
+                        <span class="hero-status-dot" aria-hidden="true" />
+                        <span>Available for meaningful work</span>
+                    </div>
+
+                    <p class="hero-enter label-caps mb-4 text-on-surface-variant" style="--hero-delay: 40ms">
+                        Hello, I'm
+                    </p>
+
+                    <h1 class="mb-6 font-display text-display-md text-on-surface md:text-display-lg" aria-label="Mohammed Fawzey">
+                        <span class="hero-title-reveal" style="--hero-title-delay: 90ms">
+                            <span>Mohammed</span>
+                        </span>
+                        <span class="hero-title-reveal hero-title-reveal--accent" style="--hero-title-delay: 180ms">
+                            <span>Fawzey<span class="hero-title-period">.</span></span>
+                        </span>
+                    </h1>
+
+                    <div class="hero-enter mb-6 flex items-center gap-3" style="--hero-delay: 300ms">
+                        <span class="hero-role-mark" aria-hidden="true" />
+                        <p class="font-sans text-lg font-bold tracking-tight text-on-surface sm:text-xl">
+                            {{ ROLE }}
+                        </p>
+                    </div>
+
+                    <p class="hero-enter mb-8 max-w-2xl text-body-lg text-on-surface-variant" style="--hero-delay: 350ms">
+                        I turn ambitious ideas into dependable digital products—pairing thoughtful interfaces with clean, scalable Java architecture.
+                    </p>
+
+                    <div class="hero-enter mb-8 flex flex-wrap gap-3 sm:gap-4" style="--hero-delay: 410ms">
+                        <a ref="ctaRef" href="#projects" class="btn-primary btn-shine min-h-12">
+                            Explore my work
+                            <UIcon name="material-symbols:arrow-outward" class="text-lg" aria-hidden="true" />
+                        </a>
+                        <a :href="CV_URL" target="_blank" rel="noopener" class="btn-secondary min-h-12">
+                            <UIcon name="material-symbols:download" class="text-lg" aria-hidden="true" />
+                            Download CV
+                        </a>
+                    </div>
+
+                    <div class="hero-enter flex flex-wrap items-center gap-x-5 gap-y-4" style="--hero-delay: 470ms">
+                        <span class="label-caps text-on-surface-variant">Find me on</span>
+                        <div class="flex gap-2.5">
+                            <a
+                                v-for="contact in CONTACT"
+                                :key="contact.title"
+                                :href="contact.link"
+                                :target="contact.isMail ? undefined : '_blank'"
+                                :rel="contact.isMail ? undefined : 'noopener'"
+                                class="icon-btn"
+                                :aria-label="contact.title[0].toUpperCase() + contact.title.slice(1)"
+                            >
+                                <UIcon :name="contact.icon" class="text-xl" aria-hidden="true" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5">
+                    <div ref="heroVisualRef" class="hero-visual-parallax">
+                        <div class="hero-float-chip hero-float-chip--vue" aria-hidden="true">
+                            <span class="hero-chip-icon">
+                                <UIcon :name="featuredSkills[0]?.icon" class="text-xl" />
+                            </span>
+                            Vue 3
+                        </div>
+                        <div class="hero-float-chip hero-float-chip--java" aria-hidden="true">
+                            <span class="hero-chip-icon">
+                                <UIcon :name="featuredSkills[2]?.icon" class="text-xl" />
+                            </span>
+                            Java
+                        </div>
+
+                        <article class="hero-code-window" aria-label="Developer profile card">
+                            <div class="hero-window-bar">
+                                <div class="flex gap-1.5" aria-hidden="true">
+                                    <span class="hero-window-dot hero-window-dot--muted" />
+                                    <span class="hero-window-dot hero-window-dot--warm" />
+                                    <span class="hero-window-dot hero-window-dot--primary" />
+                                </div>
+                                <span class="hero-window-title">developer.profile</span>
+                                <UIcon name="material-symbols:code-rounded" class="text-base opacity-60" aria-hidden="true" />
+                            </div>
+
+                            <div class="hero-code-body" aria-hidden="true">
+                                <div class="hero-code-line" style="--code-delay: 320ms">
+                                    <span class="hero-line-number">01</span>
+                                    <code><span class="hero-code-keyword">const</span> <span class="hero-code-variable">developer</span> = {</code>
+                                </div>
+                                <div class="hero-code-line" style="--code-delay: 400ms">
+                                    <span class="hero-line-number">02</span>
+                                    <code><span class="hero-code-property">focus</span>: <span class="hero-code-string">'full-stack'</span>,</code>
+                                </div>
+                                <div class="hero-code-line" style="--code-delay: 480ms">
+                                    <span class="hero-line-number">03</span>
+                                    <code><span class="hero-code-property">craft</span>: <span class="hero-code-string">'clear + robust'</span>,</code>
+                                </div>
+                                <div class="hero-code-line" style="--code-delay: 560ms">
+                                    <span class="hero-line-number">04</span>
+                                    <code><span class="hero-code-property">learning</span>: <span class="hero-code-boolean">true</span></code>
+                                </div>
+                                <div class="hero-code-line" style="--code-delay: 640ms">
+                                    <span class="hero-line-number">05</span>
+                                    <code>}<span class="hero-code-caret" /></code>
+                                </div>
+                            </div>
+
+                            <div class="hero-profile-signal">
+                                <div class="mb-4 flex items-center justify-between gap-4">
+                                    <span class="label-caps text-primary">Currently</span>
+                                    <span class="hero-signal-badge">
+                                        <span aria-hidden="true" /> Open to work
+                                    </span>
+                                </div>
+                                <h2 class="mb-2 font-display text-headline-sm text-on-surface">
+                                    Frontend craft.<br>Backend discipline.
+                                </h2>
+                                <p class="text-sm leading-relaxed text-on-surface-variant">
+                                    Vue experiences backed by dependable Spring Boot services.
+                                </p>
+                            </div>
+
+                            <ul class="hero-stack-list" aria-label="Core technologies">
+                                <li v-for="(skill, index) in featuredSkills" :key="skill.title" :style="{ '--stack-delay': `${700 + index * 80}ms` }">
+                                    <UIcon :name="skill.icon" class="text-xl" aria-hidden="true" />
+                                    <span>{{ skill.title }}</span>
+                                </li>
+                            </ul>
+                        </article>
+
+                        <div class="hero-location-chip hero-enter" style="--hero-delay: 540ms" aria-hidden="true">
+                            <UIcon name="material-symbols:location-on" class="text-lg text-primary" />
+                            <span>
+                                <small>Based in</small>
+                                Benisuef, Egypt
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-enter hero-journey-rail mt-16 sm:mt-20 lg:mt-16" style="--hero-delay: 520ms" aria-labelledby="journey-rail-title">
+                <div class="mb-7 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+                    <div>
+                        <p class="label-caps mb-2 text-primary">The path so far</p>
+                        <h2 id="journey-rail-title" class="font-display text-headline-sm text-on-surface">
+                            From computer science to full-stack.
+                        </h2>
+                    </div>
+                    <p class="max-w-md text-sm leading-relaxed text-on-surface-variant sm:text-right">
+                        Learning in public, shipping with care, and growing the stack with every project.
+                    </p>
+                </div>
+
+                <ol class="hero-journey-grid">
+                    <li
+                        v-for="(step, index) in JOURNEY"
+                        :key="`${step.year}-${step.title}`"
+                        class="hero-journey-item"
+                        :class="{ 'hero-journey-item--current': step.current }"
+                        :style="{ '--reveal-delay': `${index * 70}ms` }"
+                        data-reveal
+                    >
+                        <div class="hero-journey-marker" aria-hidden="true">
+                            <span v-if="step.current" class="hero-journey-marker-pulse" />
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono text-xs font-bold uppercase tracking-wider text-primary">{{ step.year }}</span>
+                            <span v-if="step.current" class="text-[10px] font-bold uppercase tracking-widest text-primary">Current</span>
+                        </div>
+                        <h3 class="mt-2 text-sm font-bold leading-snug text-on-surface sm:text-[15px]">
+                            {{ step.title }}
+                        </h3>
+                        <p class="mt-1 text-xs leading-relaxed text-on-surface-variant sm:text-[13px]">
+                            {{ step.subtitle }}
+                        </p>
+                    </li>
+                </ol>
+            </div>
+
+            <div ref="scrollHintRef" class="hero-enter mt-7 hidden justify-end md:flex" style="--hero-delay: 600ms">
+                <a href="#projects" aria-label="Scroll to projects" class="scroll-down-btn group flex items-center gap-3">
+                    <span class="label-caps text-on-surface-variant transition-colors duration-200 group-hover:text-primary">Scroll to projects</span>
+                    <span class="scroll-down-ring scroll-down-bob">
+                        <UIcon name="material-symbols:keyboard-arrow-down-rounded" class="text-xl text-primary" aria-hidden="true" />
+                    </span>
+                </a>
+            </div>
         </div>
     </section>
 </template>
 
 <style scoped>
-.timeline-track {
-    position: absolute;
-    left: 24px;
-    width: 2px;
-    top: 24px;
-    bottom: 24px;
-    background: var(--color-outline-variant);
-    border-radius: 9999px;
-}
-
-/* Scroll Down Button */
 .scroll-down-btn {
     text-decoration: none;
 }
