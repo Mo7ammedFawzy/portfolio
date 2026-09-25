@@ -141,7 +141,7 @@ export const JOURNEY: JourneyStep[] =
     tags: [{ label: "Education", icon: "noto:graduation-cap" }]
   },
   {
-    year: "Mid 2024",
+    year: "Mid 2024 – Dec 2024",
     title: "Frontend Developer",
     subtitle: "Innovate",
     icon: "material-symbols:code",
@@ -310,7 +310,7 @@ export const PROJECTS: Project[] = [
         title: "Vue"
       }
     ],
-    src: "library-dashboard",
+    src: "https://raw.githubusercontent.com/Mo7ammedFawzy/library-management-system/master/preview.png",
     link: "https://spring-boot-library-management.vercel.app/",
     githubLink: "https://github.com/Mo7ammedFawzy/Spring-Boot-Library-Management",
     description: "Full-stack system with Spring Boot REST services, JWT auth, and interactive Vue interface.",

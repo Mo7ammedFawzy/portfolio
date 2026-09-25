@@ -32,6 +32,17 @@ const getImageUrl = (src: string) => {
     return src.startsWith('http') ? src : `/compressed/${src}.png`
 }
 
+const onScreenshotError = (event: Event) => {
+    const project = props.project
+    if (!project?.fallbackSrc) return
+
+    const image = event.target as HTMLImageElement | null
+    if (!image || image.dataset.fallbackApplied) return
+
+    image.dataset.fallbackApplied = '1'
+    image.src = `/compressed/${project.fallbackSrc}.png`
+}
+
 const refreshIframe = () => {
     isLoading.value = true
     iframeFailed.value = false
@@ -195,8 +206,12 @@ onUnmounted(() => {
                             </p>
 
                             <!-- Screenshot preview preview -->
-                            <div class="aspect-[16/9] rounded-xl overflow-hidden border border-card-border mb-6 shadow-xs bg-surface-container-high">
-                                <img :src="getImageUrl(project.src)" :alt="project.title" class="w-full h-full object-cover object-top" />
+                            <div class="aspect-[16/10] rounded-xl overflow-hidden border border-card-border mb-6 shadow-xs bg-surface-container-high">
+                                <img
+                                    :src="getImageUrl(project.src)"
+                                    :alt="project.title"
+                                    class="h-full w-full object-contain object-center"
+                                    @error="onScreenshotError" />
                             </div>
 
                             <div class="flex items-center justify-center gap-3">
