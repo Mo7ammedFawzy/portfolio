@@ -341,6 +341,49 @@ html.lenis body {
         transition: transform 360ms var(--project-ease);
     }
 
+    @keyframes project-thumbnail-enter {
+        from {
+            opacity: 0.4;
+            scale: 1.08;
+            translate: 0 -2%;
+        }
+        to {
+            opacity: 1;
+            scale: 1;
+            translate: 0 0;
+        }
+    }
+
+    @keyframes project-thumbnail-sheen {
+        0% {
+            opacity: 0;
+            transform: translateX(-130%);
+        }
+        28% {
+            opacity: 0.9;
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(130%);
+        }
+    }
+
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+            .project-thumbnail-image {
+                animation: project-thumbnail-enter linear both;
+                animation-timeline: view();
+                animation-range: entry 0% cover 32%;
+            }
+
+            .project-thumbnail::after {
+                animation: project-thumbnail-sheen linear both;
+                animation-timeline: view();
+                animation-range: entry 12% entry 92%;
+            }
+        }
+    }
+
     .tech-pill {
         @apply inline-flex items-center gap-2 rounded-full border border-card-border bg-surface-container-lowest px-3 py-1.5 font-sans text-xs font-bold uppercase tracking-wide text-on-surface-variant;
     }
@@ -1356,6 +1399,7 @@ html.lenis body {
     .project-card img,
     .project-card,
     .project-masonry-card,
+    .project-masonry-card::before,
     .project-thumbnail-image,
     .project-image-scrim,
     .project-icon-action,

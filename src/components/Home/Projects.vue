@@ -20,6 +20,8 @@ const pillRef = ref<HTMLElement | null>(null)
 const countRef = ref<HTMLElement | null>(null)
 const selectedProject = ref<Project | null>(null)
 const isPreviewOpen = ref(false)
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+const finePointerQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
 let tabsResizeObserver: ResizeObserver | null = null
 
 const movePill = async () => {
@@ -101,6 +103,34 @@ const openPreview = (project: Project) => {
 const closePreview = () => {
     isPreviewOpen.value = false
 }
+
+const tiltProjectCard = (event: PointerEvent) => {
+    if (reducedMotionQuery.matches || !finePointerQuery.matches || event.pointerType === 'touch') return
+
+    const card = event.currentTarget as HTMLElement | null
+    if (!card) return
+
+    const bounds = card.getBoundingClientRect()
+    const relativeX = (event.clientX - bounds.left) / bounds.width
+    const relativeY = (event.clientY - bounds.top) / bounds.height
+
+    card.style.transition = 'transform 90ms linear'
+    card.style.setProperty('--tilt-x', `${((0.5 - relativeY) * 5).toFixed(2)}deg`)
+    card.style.setProperty('--tilt-y', `${((relativeX - 0.5) * 7).toFixed(2)}deg`)
+    card.style.setProperty('--glow-x', `${(relativeX * 100).toFixed(1)}%`)
+    card.style.setProperty('--glow-y', `${(relativeY * 100).toFixed(1)}%`)
+}
+
+const resetProjectCard = (event: PointerEvent) => {
+    const card = event.currentTarget as HTMLElement | null
+    if (!card) return
+
+    card.style.removeProperty('transition')
+    card.style.setProperty('--tilt-x', '0deg')
+    card.style.setProperty('--tilt-y', '0deg')
+    card.style.setProperty('--glow-x', '50%')
+    card.style.setProperty('--glow-y', '50%')
+}
 </script>
 
 <template>
@@ -158,7 +188,9 @@ const closePreview = () => {
                 class="project-masonry-card group break-inside-avoid overflow-hidden rounded-2xl border border-card-border bg-surface-container-lowest shadow-card"
                 :class="{ 'project-masonry-card-compact': project.grid === 'small' }"
                 :style="{ '--reveal-delay': `${(index % 3) * 60}ms` }"
-                :aria-labelledby="`project-title-${index}`">
+                :aria-labelledby="`project-title-${index}`"
+                @pointermove="tiltProjectCard"
+                @pointerleave="resetProjectCard">
                 <div class="project-thumbnail aspect-[16/10]">
                     <button
                         type="button"
@@ -288,16 +320,48 @@ const closePreview = () => {
 }
 
 .project-masonry-card {
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    --glow-x: 50%;
+    --glow-y: 50%;
+    position: relative;
     display: inline-block;
     width: 100%;
     vertical-align: top;
     margin: 0 0 1.25rem;
     break-inside: avoid;
     page-break-inside: avoid;
+    transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(12px);
+}
+
+.project-masonry-card.appear {
+    transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(0);
+}
+
+.project-masonry-card::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(26rem circle at var(--glow-x) var(--glow-y), color-mix(in srgb, var(--color-primary) 14%, transparent), transparent 68%);
+    opacity: 0;
+    transition: opacity 260ms ease;
+    pointer-events: none;
+}
+
+.project-masonry-card:hover::before,
+.project-masonry-card:focus-within::before {
+    opacity: 1;
+}
+
+.project-masonry-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 .project-masonry-card:hover {
-    transform: translateY(-4px);
+    transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(-4px);
     border-color: color-mix(in srgb, var(--color-primary) 42%, var(--color-card-border));
     box-shadow: var(--shadow-card-hover);
 }
@@ -310,6 +374,17 @@ const closePreview = () => {
     border: 1px solid color-mix(in srgb, var(--color-outline-variant) 60%, transparent);
     border-radius: 1rem;
     background: var(--color-surface-container-high);
+}
+
+.project-thumbnail::after {
+    content: '';
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 38%, color-mix(in srgb, white 42%, transparent) 50%, transparent 62%);
+    opacity: 0;
+    transform: translateX(-130%);
+    pointer-events: none;
 }
 
 .project-thumbnail-image {
