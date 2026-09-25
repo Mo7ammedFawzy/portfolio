@@ -309,6 +309,38 @@ html.lenis body {
         border-color: var(--color-primary);
     }
 
+    .projects-section {
+        --project-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-masonry-card {
+        transition: transform 300ms var(--project-ease);
+    }
+
+    .project-thumbnail-image {
+        transition: transform 700ms var(--project-ease);
+    }
+
+    .project-image-scrim {
+        transition: opacity 300ms ease;
+    }
+
+    .project-icon-action {
+        transition: transform 200ms var(--project-ease);
+    }
+
+    .project-closing-cta {
+        transition: transform 300ms var(--project-ease);
+    }
+
+    .project-closing-cta::after {
+        transition: transform 600ms var(--project-ease);
+    }
+
+    .project-closing-icon {
+        transition: transform 360ms var(--project-ease);
+    }
+
     .tech-pill {
         @apply inline-flex items-center gap-2 rounded-full border border-card-border bg-surface-container-lowest px-3 py-1.5 font-sans text-xs font-bold uppercase tracking-wide text-on-surface-variant;
     }
@@ -1323,6 +1355,13 @@ html.lenis body {
     .hero-enter,
     .project-card img,
     .project-card,
+    .project-masonry-card,
+    .project-thumbnail-image,
+    .project-image-scrim,
+    .project-icon-action,
+    .project-closing-cta,
+    .project-closing-cta::after,
+    .project-closing-icon,
     .skill-card,
     .skill-tile,
     .exp-card,
@@ -1377,6 +1416,16 @@ html.lenis body {
     .hero-enter,
     .journey-pop {
         opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .project-masonry-card:hover,
+    .project-icon-action:hover,
+    .project-closing-cta:hover,
+    .project-closing-cta:hover::after,
+    .project-closing-cta:hover .project-closing-icon,
+    .project-image-button:hover .project-thumbnail-image,
+    .project-image-button:focus-visible .project-thumbnail-image {
         transform: none !important;
     }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import type { Project } from '@/constants'
+import { applyProjectImageFallback, getProjectImageUrl } from '@/utils/projectImage'
 
 const props = defineProps<{
     project: Project | null
@@ -26,22 +27,6 @@ const viewportWidths: Record<ViewportMode, string> = {
 }
 
 const currentWidthClass = computed(() => viewportWidths[viewportMode.value])
-
-const getImageUrl = (src: string) => {
-    if (!src) return ''
-    return src.startsWith('http') ? src : `/compressed/${src}.png`
-}
-
-const onScreenshotError = (event: Event) => {
-    const project = props.project
-    if (!project?.fallbackSrc) return
-
-    const image = event.target as HTMLImageElement | null
-    if (!image || image.dataset.fallbackApplied) return
-
-    image.dataset.fallbackApplied = '1'
-    image.src = `/compressed/${project.fallbackSrc}.png`
-}
 
 const refreshIframe = () => {
     isLoading.value = true
@@ -208,10 +193,10 @@ onUnmounted(() => {
                             <!-- Screenshot preview preview -->
                             <div class="aspect-[16/10] rounded-xl overflow-hidden border border-card-border mb-6 shadow-xs bg-surface-container-high">
                                 <img
-                                    :src="getImageUrl(project.src)"
+                                    :src="getProjectImageUrl(project.src)"
                                     :alt="project.title"
                                     class="h-full w-full object-contain object-center"
-                                    @error="onScreenshotError" />
+                                    @error="applyProjectImageFallback($event, project.fallbackSrc)" />
                             </div>
 
                             <div class="flex items-center justify-center gap-3">

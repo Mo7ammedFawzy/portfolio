@@ -290,6 +290,49 @@ export interface Project {
   description?: string
 }
 
+export type ProjectCategory = 'all' | 'fullstack' | 'ecommerce' | 'frontend'
+
+export interface ProjectCategoryOption {
+    label: string,
+    cardLabel: string,
+    value: ProjectCategory
+}
+
+export const PROJECT_CATEGORIES: ProjectCategoryOption[] = [
+    { label: 'All Projects', cardLabel: 'All Projects', value: 'all' },
+    { label: 'Full-Stack', cardLabel: 'Full-Stack', value: 'fullstack' },
+    { label: 'E-Commerce', cardLabel: 'E-Commerce', value: 'ecommerce' },
+    { label: 'Frontend / Vue', cardLabel: 'Vue', value: 'frontend' },
+]
+
+export interface ProjectsSectionContent {
+    eyebrow: string,
+    heading: string,
+    description: string,
+    filterAriaLabel: string,
+    showcaseAriaLabel: string,
+    countLabel: string,
+    emptyTitle: string,
+    emptyDescription: string,
+    closingEyebrow: string,
+    closingHeading: string,
+    closingDescription: string,
+}
+
+export const PROJECTS_SECTION_CONTENT: ProjectsSectionContent = {
+    eyebrow: 'Selected work · 2024–25',
+    heading: 'Systems shaped from database to screen.',
+    description: 'A curated collection of full-stack products, commerce experiences, and polished interfaces.',
+    filterAriaLabel: 'Filter projects by category',
+    showcaseAriaLabel: 'Selected projects',
+    countLabel: 'projects selected',
+    emptyTitle: 'No projects in this view yet.',
+    emptyDescription: 'Choose another category to continue exploring the work.',
+    closingEyebrow: 'More to explore',
+    closingHeading: 'The rest is on GitHub.',
+    closingDescription: 'Experiments, forks, and work in progress.',
+}
+
 export const PROJECTS: Project[] = [
   {
     title: "Library Management",

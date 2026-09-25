@@ -1,110 +1,79 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
-import { GITHUB_URL, PROJECTS, type Project } from '@/constants'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import {
+    GITHUB_URL,
+    PROJECTS,
+    PROJECTS_SECTION_CONTENT,
+    PROJECT_CATEGORIES,
+    type Project,
+    type ProjectCategory
+} from '@/constants'
 import LivePreviewModal from '@/components/Home/LivePreviewModal.vue'
+import { applyProjectImageFallback, getProjectImageUrl } from '@/utils/projectImage'
 
-type ProjectCategory = 'all' | 'fullstack' | 'ecommerce' | 'frontend'
-
-const categories = [
-    { label: 'All projects', value: 'all' },
-    { label: 'Full-stack', value: 'fullstack' },
-    { label: 'E-commerce', value: 'ecommerce' },
-    { label: 'Frontend', value: 'frontend' },
-] as const
-
-const projectOrder = [
-    'Library Management',
-    'GemyClass E-Learning',
-    'eCommerceHope',
-    'Traders Academy',
-    'Hager UI/UX Portfolio',
-    'Tabarak Trading',
-    'Grand Restaurant',
-    'Pexels Store',
-    'Innovate Agency',
-]
-
-const finalProjectTitle = 'Innovate Agency'
 const activeCategory = ref<ProjectCategory>('all')
-const masonryRef = ref<HTMLElement | null>(null)
+const tabsRef = ref<HTMLElement | null>(null)
+const pillRef = ref<HTMLElement | null>(null)
+const countRef = ref<HTMLElement | null>(null)
 const selectedProject = ref<Project | null>(null)
 const isPreviewOpen = ref(false)
-let revealTimers: number[] = []
+let tabsResizeObserver: ResizeObserver | null = null
 
-const compareProjects = (first: Project, second: Project) => {
-    // Keep Innovate as the final editorial card even if new projects are added later.
-    if (first.title === finalProjectTitle && second.title === finalProjectTitle) return 0
-    if (first.title === finalProjectTitle) return 1
-    if (second.title === finalProjectTitle) return -1
-
-    const firstPosition = projectOrder.indexOf(first.title)
-    const secondPosition = projectOrder.indexOf(second.title)
-
-    if (firstPosition === -1 && secondPosition === -1) return 0
-    if (firstPosition === -1) return 1
-    if (secondPosition === -1) return -1
-
-    return firstPosition - secondPosition
-}
-
-const filteredProjects = computed(() => {
-    const projects = PROJECTS.filter(project => (
-        project.show !== false
-        && (activeCategory.value === 'all' || project.type === activeCategory.value)
-    ))
-
-    return projects.sort(compareProjects)
-})
-
-const categoryLabel = (type: string) => {
-    return categories.find(category => category.value === type)?.label ?? type
-}
-
-const projectImage = (project: Project) => {
-    return project.src.startsWith('http') ? project.src : `/compressed/${project.src}.png`
-}
-
-const isFeaturedProject = (project: Project) => {
-    return project.title !== finalProjectTitle && project.featured === true
-}
-
-const isCompactProject = (project: Project) => {
-    return project.grid === 'small' || project.title === finalProjectTitle
-}
-
-const clearRevealTimers = () => {
-    revealTimers.forEach(timer => window.clearTimeout(timer))
-    revealTimers = []
-}
-
-const revealNewProjects = async () => {
+const movePill = async () => {
     await nextTick()
-    clearRevealTimers()
+    const tabs = tabsRef.value
+    const pill = pillRef.value
+    if (!tabs || !pill) return
 
-    const container = masonryRef.value
-    if (!container) return
-
-    const items = Array.from(container.querySelectorAll<HTMLElement>('[data-reveal]:not(.appear)'))
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        items.forEach(item => item.classList.add('appear'))
+        pill.style.display = 'none'
         return
     }
 
-    items.forEach((item, index) => {
-        const timer = window.setTimeout(() => {
-            item.classList.add('appear')
-        }, Math.min(index * 45, 360))
-        revealTimers.push(timer)
-    })
+    const activeTab = tabs.querySelector<HTMLElement>(`[data-cat="${activeCategory.value}"]`)
+    if (!activeTab) return
+
+    pill.style.display = 'block'
+    pill.style.width = `${activeTab.offsetWidth}px`
+    pill.style.transform = `translateX(${activeTab.offsetLeft}px)`
 }
 
-watch(activeCategory, () => {
-    void revealNewProjects()
+watch(activeCategory, async () => {
+    await nextTick()
+    void movePill()
+
+    if (countRef.value && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        countRef.value.classList.remove('count-bump')
+        void countRef.value.offsetWidth
+        countRef.value.classList.add('count-bump')
+    }
 })
 
-onBeforeUnmount(() => {
-    clearRevealTimers()
+onMounted(() => {
+    void movePill()
+    window.addEventListener('resize', movePill)
+
+    if (tabsRef.value) {
+        tabsResizeObserver = new ResizeObserver(() => void movePill())
+        tabsResizeObserver.observe(tabsRef.value)
+    }
 })
+
+onUnmounted(() => {
+    window.removeEventListener('resize', movePill)
+    tabsResizeObserver?.disconnect()
+})
+
+const filteredProjects = computed(() => {
+    return PROJECTS.filter(project => (
+        project.show !== false
+        && (activeCategory.value === 'all' || project.type === activeCategory.value)
+    ))
+})
+
+const categoryLabel = (type: string) => {
+    return PROJECT_CATEGORIES.find(category => category.value === type)?.cardLabel ?? type
+}
 
 const openPreview = (project: Project) => {
     selectedProject.value = project
@@ -114,70 +83,62 @@ const openPreview = (project: Project) => {
 const closePreview = () => {
     isPreviewOpen.value = false
 }
-
-const onImageError = (event: Event, project: Project) => {
-    if (!project.fallbackSrc) return
-
-    const image = event.target as HTMLImageElement | null
-    if (!image || image.dataset.fallbackApplied) return
-
-    image.dataset.fallbackApplied = '1'
-    image.src = `/compressed/${project.fallbackSrc}.png`
-}
 </script>
 
 <template>
     <section id="projects" class="projects-section w-full max-w-[1600px] mx-auto px-6 md:px-10 py-24 sm:py-32">
         <header class="max-w-4xl" data-reveal>
-            <p class="label-caps text-primary mb-4">Selected work · 2024–25</p>
+            <p class="label-caps text-primary mb-4">{{ PROJECTS_SECTION_CONTENT.eyebrow }}</p>
             <h2 class="font-display text-headline-lg md:text-display-md text-on-surface text-balance">
-                Systems shaped from database to screen.
+                {{ PROJECTS_SECTION_CONTENT.heading }}
             </h2>
             <p class="mt-5 max-w-2xl text-body-md text-on-surface-variant">
-                A curated collection of full-stack products, commerce experiences, and polished interfaces.
+                {{ PROJECTS_SECTION_CONTENT.description }}
             </p>
         </header>
 
         <div class="project-toolbar mt-10 flex flex-col gap-5 border-y border-card-border py-5 sm:flex-row sm:items-center sm:justify-between" data-reveal>
             <div
-                class="project-filters scrollbar-none flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-xl border border-card-border bg-surface-container-lowest p-1"
+                ref="tabsRef"
+                class="filter-tabs project-filters scrollbar-none flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-xl border border-card-border bg-surface-container-lowest p-1"
                 role="group"
-                aria-label="Filter projects by category"
+                :aria-label="PROJECTS_SECTION_CONTENT.filterAriaLabel"
                 aria-controls="project-showcase">
+                <span ref="pillRef" class="filter-pill" aria-hidden="true" />
                 <button
-                    v-for="category in categories"
+                    v-for="category in PROJECT_CATEGORIES"
                     :key="category.value"
                     type="button"
-                    class="project-filter-button relative min-h-11 cursor-pointer whitespace-nowrap rounded-lg px-4 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-container-lowest"
+                    :data-cat="category.value"
+                    class="relative z-10 min-h-11 cursor-pointer whitespace-nowrap rounded-[0.65rem] px-4 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                     :class="activeCategory === category.value
-                        ? 'is-active text-on-primary'
+                        ? 'text-on-primary'
                         : 'text-on-surface-variant hover:text-on-surface'"
                     :aria-pressed="activeCategory === category.value"
                     @click="activeCategory = category.value">
-                    <span>{{ category.label }}</span>
+                    {{ category.label }}
                 </button>
             </div>
 
             <div class="flex items-center gap-3 text-sm text-on-surface-variant" aria-live="polite" aria-atomic="true">
-                <span class="project-count font-mono text-lg font-semibold tabular-nums text-on-surface">
+                <span ref="countRef" class="project-count font-mono text-lg font-semibold tabular-nums text-on-surface">
                     {{ String(filteredProjects.length).padStart(2, '0') }}
                 </span>
-                <span>projects selected</span>
+                <span>{{ PROJECTS_SECTION_CONTENT.countLabel }}</span>
             </div>
         </div>
 
         <div
             v-if="filteredProjects.length"
             id="project-showcase"
-            ref="masonryRef"
             class="project-masonry columns-1 gap-5 sm:columns-2 xl:columns-3"
-            aria-label="Selected projects">
+            :aria-label="PROJECTS_SECTION_CONTENT.showcaseAriaLabel">
             <article
                 v-for="(project, index) in filteredProjects"
                 :key="project.title"
                 data-reveal
                 class="project-masonry-card group break-inside-avoid overflow-hidden rounded-2xl border border-card-border bg-surface-container-lowest shadow-card"
-                :class="{ 'project-masonry-card-compact': isCompactProject(project) }"
+                :class="{ 'project-masonry-card-compact': project.grid === 'small' }"
                 :style="{ '--reveal-delay': `${(index % 3) * 60}ms` }"
                 :aria-labelledby="`project-title-${index}`">
                 <div class="project-thumbnail aspect-[16/10]">
@@ -187,15 +148,15 @@ const onImageError = (event: Event, project: Project) => {
                         :aria-label="`Open live preview of ${project.title}`"
                         @click="openPreview(project)">
                         <img
-                            :src="projectImage(project)"
+                            :src="getProjectImageUrl(project.src)"
                             :alt="`${project.title} interface preview`"
                             class="project-thumbnail-image object-contain object-center"
                             loading="lazy"
                             decoding="async"
-                            @error="onImageError($event, project)" />
+                            @error="applyProjectImageFallback($event, project.fallbackSrc)" />
 
                         <span class="project-image-scrim" aria-hidden="true" />
-                        <span v-if="isFeaturedProject(project)" class="project-featured-badge">
+                        <span v-if="project.featured" class="project-featured-badge">
                             <UIcon name="material-symbols:star-rounded" class="text-sm" aria-hidden="true" />
                             <span>Featured</span>
                         </span>
@@ -257,8 +218,8 @@ const onImageError = (event: Event, project: Project) => {
             id="project-showcase"
             class="mt-10 rounded-2xl border border-dashed border-outline-variant bg-surface-container-low px-6 py-16 text-center"
             role="status">
-            <p class="font-display text-headline-sm text-on-surface">No projects in this view yet.</p>
-            <p class="mt-2 text-body-sm text-on-surface-variant">Choose another category to continue exploring the work.</p>
+            <p class="font-display text-headline-sm text-on-surface">{{ PROJECTS_SECTION_CONTENT.emptyTitle }}</p>
+            <p class="mt-2 text-body-sm text-on-surface-variant">{{ PROJECTS_SECTION_CONTENT.emptyDescription }}</p>
         </div>
 
         <a
@@ -268,12 +229,12 @@ const onImageError = (event: Event, project: Project) => {
             class="project-closing-cta group mt-16 flex min-h-56 flex-col justify-between gap-10 rounded-2xl bg-primary p-7 text-on-primary shadow-card sm:p-10 lg:flex-row lg:items-end"
             data-reveal>
             <div>
-                <p class="label-caps text-on-primary/75">More to explore</p>
+                <p class="label-caps text-on-primary/75">{{ PROJECTS_SECTION_CONTENT.closingEyebrow }}</p>
                 <h3 class="mt-4 max-w-3xl font-display text-headline-lg text-balance">
-                    The rest is on GitHub.
+                    {{ PROJECTS_SECTION_CONTENT.closingHeading }}
                 </h3>
                 <p class="mt-3 max-w-xl text-body-md text-on-primary/80">
-                    Experiments, forks, and work in progress.
+                    {{ PROJECTS_SECTION_CONTENT.closingDescription }}
                 </p>
             </div>
             <span class="project-closing-icon inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-on-primary text-primary">
@@ -289,10 +250,6 @@ const onImageError = (event: Event, project: Project) => {
 </template>
 
 <style scoped>
-.projects-section {
-    --project-ease: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 .scrollbar-none {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -300,28 +257,6 @@ const onImageError = (event: Event, project: Project) => {
 
 .scrollbar-none::-webkit-scrollbar {
     display: none;
-}
-
-.project-filter-button::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 0.65rem;
-    background: var(--color-primary);
-    box-shadow: 0 5px 16px color-mix(in srgb, var(--color-primary) 24%, transparent);
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 280ms var(--project-ease);
-    pointer-events: none;
-}
-
-.project-filter-button.is-active::before {
-    transform: scaleX(1);
-}
-
-.project-filter-button > * {
-    position: relative;
-    z-index: 1;
 }
 
 .project-count {
@@ -341,7 +276,6 @@ const onImageError = (event: Event, project: Project) => {
     margin: 0 0 1.25rem;
     break-inside: avoid;
     page-break-inside: avoid;
-    transition: transform 300ms var(--project-ease), border-color 300ms ease, box-shadow 300ms ease;
 }
 
 .project-masonry-card:hover {
@@ -367,7 +301,6 @@ const onImageError = (event: Event, project: Project) => {
     padding: 0.75rem;
     object-fit: contain;
     object-position: center;
-    transition: transform 700ms var(--project-ease);
 }
 
 .project-image-button:hover .project-thumbnail-image,
@@ -380,7 +313,6 @@ const onImageError = (event: Event, project: Project) => {
     inset: 0;
     background: linear-gradient(to top, rgba(18, 14, 12, 0.38), transparent 44%);
     opacity: 0.72;
-    transition: opacity 300ms ease;
     pointer-events: none;
 }
 
@@ -499,7 +431,6 @@ const onImageError = (event: Event, project: Project) => {
     background: var(--color-surface-container-lowest);
     color: var(--color-on-surface-variant);
     box-shadow: 0 6px 18px -12px rgba(18, 14, 12, 0.35);
-    transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease, transform 200ms var(--project-ease);
 }
 
 .project-icon-action:hover {
@@ -551,7 +482,6 @@ const onImageError = (event: Event, project: Project) => {
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    transition: transform 300ms var(--project-ease), box-shadow 300ms ease;
 }
 
 .project-closing-cta::after {
@@ -565,7 +495,6 @@ const onImageError = (event: Event, project: Project) => {
     border: 1px solid color-mix(in srgb, var(--color-on-primary) 22%, transparent);
     border-radius: 9999px;
     box-shadow: 0 0 0 4rem color-mix(in srgb, var(--color-on-primary) 4%, transparent), 0 0 0 8rem color-mix(in srgb, var(--color-on-primary) 3%, transparent);
-    transition: transform 600ms var(--project-ease);
 }
 
 .project-closing-cta:hover {
@@ -586,37 +515,10 @@ const onImageError = (event: Event, project: Project) => {
     outline-offset: 4px;
 }
 
-.project-closing-icon {
-    transition: transform 360ms var(--project-ease);
-}
-
 @media (hover: none) {
     .project-preview-chip {
         transform: none;
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .project-filter-button::before,
-    .project-masonry-card,
-    .project-thumbnail-image,
-    .project-image-scrim,
-    .project-icon-action,
-    .project-closing-cta,
-    .project-closing-cta::after,
-    .project-closing-icon {
-        transition: none !important;
-        animation: none !important;
-    }
-
-    .project-masonry-card:hover,
-    .project-icon-action:hover,
-    .project-closing-cta:hover,
-    .project-closing-cta:hover::after,
-    .project-closing-cta:hover .project-closing-icon,
-    .project-image-button:hover .project-thumbnail-image,
-    .project-image-button:focus-visible .project-thumbnail-image {
-        transform: none;
-    }
-}
 </style>

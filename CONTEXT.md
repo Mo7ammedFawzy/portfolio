@@ -18,23 +18,24 @@
 
 ## Journey
 
-| Year | Title                     | Subtitle                                           |
-|------|---------------------------|----------------------------------------------------|
-| 2021 | Computer Science Graduate | Helwan University                                  |
-| 2023 | Frontend Developer        | Innovate                                           |
-| 2025 | Java Developer            | Namasoft (ERP Company)                             |
-| Now  | Fullstack Developer       | Building scalable solutions and growing every day. |
+| Year                | Title                     | Subtitle                                           |
+|---------------------|---------------------------|----------------------------------------------------|
+| 2021                | Computer Science Graduate | Helwan University                                  |
+| Mid 2024 – Dec 2024 | Frontend Developer        | Innovate                                           |
+| Early 2025          | Frontend Developer        | Namasoft · Vue-only start                          |
+| Now                 | Fullstack Developer       | Namasoft · Java, Spring Boot, Vue                  |
 
 ## Experience
 
-### Namasoft — Java Developer (Jan 2025 – Present, current)
+### Namasoft — Fullstack Developer (Jan 2025 – Present, current)
 
+- Started Vue-only on frontend tasks, then picked up Java and Spring Boot after ~3.5 months.
 - Developing ERP modules with Java and Spring Boot.
 - Building responsive frontends with Vue 3 and REST APIs.
 - Designing and maintaining database schemas and service layers.
 - Collaborating with the team on architecture, code review, and deployment.
 
-### Innovate — Frontend Developer (Vue.js) (Mid 2023 – Dec 2024)
+### Innovate — Frontend Developer (Vue.js) (Mid 2024 – Dec 2024)
 
 - Built responsive single-page applications with Vue.js and Nuxt.
 - Delivered pixel-perfect UI from designer mockups.
