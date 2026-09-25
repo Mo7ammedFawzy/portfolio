@@ -270,9 +270,12 @@ export const SKILL_GROUPS: SkillGroup[] = [
   },
 ]
 
+export type ProjectCategory = 'all' | 'fullstack' | 'ecommerce' | 'frontend'
+export type ProjectType = Exclude<ProjectCategory, 'all'>
+
 export interface Project {
   title: string,
-  type: string,
+  type: ProjectType,
   grid?: string,
   techs: ITechIcon[],
   src: string,
@@ -290,8 +293,6 @@ export interface Project {
   description?: string
 }
 
-export type ProjectCategory = 'all' | 'fullstack' | 'ecommerce' | 'frontend'
-
 export interface ProjectCategoryOption {
     label: string,
     cardLabel: string,
@@ -304,6 +305,46 @@ export const PROJECT_CATEGORIES: ProjectCategoryOption[] = [
     { label: 'E-Commerce', cardLabel: 'E-Commerce', value: 'ecommerce' },
     { label: 'Frontend / Vue', cardLabel: 'Vue', value: 'frontend' },
 ]
+
+export const PROJECT_ORDER: readonly string[] = [
+    'Library Management',
+    'GemyClass E-Learning',
+    'eCommerceHope',
+    'Traders Academy',
+    'Hager UI/UX Portfolio',
+    'Tabarak Trading',
+    'Grand Restaurant',
+    'Pexels Store',
+    'Innovate Agency',
+]
+
+export const FINAL_PROJECT_TITLE = PROJECT_ORDER[PROJECT_ORDER.length - 1]
+
+export interface ProjectUiContent {
+    featuredLabel: string,
+    previewLabel: string,
+    visitSiteLabel: string,
+    technologiesLabel: string,
+    openPreviewLabel: string,
+    openPreviewAria: (title: string) => string,
+    liveSiteAria: (title: string) => string,
+    sourceAria: (title: string) => string,
+    technologiesAria: (title: string) => string,
+    imageAlt: (title: string) => string,
+}
+
+export const PROJECT_UI: ProjectUiContent = {
+    featuredLabel: 'Featured',
+    previewLabel: 'Preview',
+    visitSiteLabel: 'Visit site',
+    technologiesLabel: 'technologies',
+    openPreviewLabel: 'Open live preview',
+    openPreviewAria: (title) => `Open live preview of ${title}`,
+    liveSiteAria: (title) => `Open ${title} live site`,
+    sourceAria: (title) => `View ${title} source on GitHub`,
+    technologiesAria: (title) => `${title} technologies`,
+    imageAlt: (title) => `${title} interface preview`,
+}
 
 export interface ProjectsSectionContent {
     eyebrow: string,

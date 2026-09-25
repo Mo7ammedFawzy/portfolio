@@ -5,6 +5,9 @@ import {
     PROJECTS,
     PROJECTS_SECTION_CONTENT,
     PROJECT_CATEGORIES,
+    PROJECT_ORDER,
+    PROJECT_UI,
+    FINAL_PROJECT_TITLE,
     type Project,
     type ProjectCategory
 } from '@/constants'
@@ -64,11 +67,26 @@ onUnmounted(() => {
     tabsResizeObserver?.disconnect()
 })
 
+const compareProjects = (first: Project, second: Project) => {
+    if (first.title === FINAL_PROJECT_TITLE && second.title === FINAL_PROJECT_TITLE) return 0
+    if (first.title === FINAL_PROJECT_TITLE) return 1
+    if (second.title === FINAL_PROJECT_TITLE) return -1
+
+    const firstPosition = PROJECT_ORDER.indexOf(first.title)
+    const secondPosition = PROJECT_ORDER.indexOf(second.title)
+
+    if (firstPosition === -1 && secondPosition === -1) return 0
+    if (firstPosition === -1) return 1
+    if (secondPosition === -1) return -1
+
+    return firstPosition - secondPosition
+}
+
 const filteredProjects = computed(() => {
     return PROJECTS.filter(project => (
         project.show !== false
         && (activeCategory.value === 'all' || project.type === activeCategory.value)
-    ))
+    )).sort(compareProjects)
 })
 
 const categoryLabel = (type: string) => {
@@ -145,11 +163,11 @@ const closePreview = () => {
                     <button
                         type="button"
                         class="project-image-button group/image absolute inset-0 h-full w-full cursor-pointer border-0 p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
-                        :aria-label="`Open live preview of ${project.title}`"
+                        :aria-label="PROJECT_UI.openPreviewAria(project.title)"
                         @click="openPreview(project)">
                         <img
                             :src="getProjectImageUrl(project.src)"
-                            :alt="`${project.title} interface preview`"
+                            :alt="PROJECT_UI.imageAlt(project.title)"
                             class="project-thumbnail-image object-contain object-center"
                             loading="lazy"
                             decoding="async"
@@ -158,11 +176,11 @@ const closePreview = () => {
                         <span class="project-image-scrim" aria-hidden="true" />
                         <span v-if="project.featured" class="project-featured-badge">
                             <UIcon name="material-symbols:star-rounded" class="text-sm" aria-hidden="true" />
-                            <span>Featured</span>
+                            <span>{{ PROJECT_UI.featuredLabel }}</span>
                         </span>
                         <span class="project-preview-chip">
                             <UIcon name="material-symbols:visibility-rounded" class="text-base" aria-hidden="true" />
-                            <span>Open live preview</span>
+                            <span>{{ PROJECT_UI.openPreviewLabel }}</span>
                         </span>
                     </button>
                 </div>
@@ -170,7 +188,7 @@ const closePreview = () => {
                 <div class="project-card-body">
                     <div class="project-card-meta">
                         <span><strong>{{ String(index + 1).padStart(2, '0') }}</strong> / {{ categoryLabel(project.type) }}</span>
-                        <span>{{ project.techs.length }} technologies</span>
+                        <span>{{ project.techs.length }} {{ PROJECT_UI.technologiesLabel }}</span>
                     </div>
                     <h3 :id="`project-title-${index}`" class="project-card-title font-display text-on-surface">
                         {{ project.title }}
@@ -179,7 +197,7 @@ const closePreview = () => {
                         {{ project.description }}
                     </p>
 
-                    <ul class="project-tech-list" :aria-label="`${project.title} technologies`">
+                    <ul class="project-tech-list" :aria-label="PROJECT_UI.technologiesAria(project.title)">
                         <li v-for="tech in project.techs" :key="tech.title" class="tech-pill">
                             <UIcon :name="tech.icon" class="text-base" aria-hidden="true" />
                             {{ tech.title }}
@@ -188,7 +206,7 @@ const closePreview = () => {
 
                     <div class="project-card-actions">
                         <button type="button" class="btn-primary min-h-11" @click="openPreview(project)">
-                            Preview
+                            {{ PROJECT_UI.previewLabel }}
                             <UIcon name="material-symbols:arrow-outward" class="text-base" aria-hidden="true" />
                         </button>
                         <a
@@ -196,8 +214,8 @@ const closePreview = () => {
                             target="_blank"
                             rel="noopener"
                             class="btn-secondary min-h-11"
-                            :aria-label="`Open ${project.title} live site`">
-                            Visit site
+                            :aria-label="PROJECT_UI.liveSiteAria(project.title)">
+                            {{ PROJECT_UI.visitSiteLabel }}
                         </a>
                         <a
                             v-if="project.githubLink"
@@ -205,7 +223,7 @@ const closePreview = () => {
                             target="_blank"
                             rel="noopener"
                             class="project-icon-action"
-                            :aria-label="`View ${project.title} source on GitHub`">
+                            :aria-label="PROJECT_UI.sourceAria(project.title)">
                             <UIcon name="mdi:github" class="text-xl" aria-hidden="true" />
                         </a>
                     </div>

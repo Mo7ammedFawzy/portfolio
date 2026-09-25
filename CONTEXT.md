@@ -22,8 +22,8 @@
 |---------------------|---------------------------|----------------------------------------------------|
 | 2021                | Computer Science Graduate | Helwan University                                  |
 | Mid 2024 – Dec 2024 | Frontend Developer        | Innovate                                           |
-| Early 2025          | Frontend Developer        | Namasoft · Vue-only start                          |
-| Now                 | Fullstack Developer       | Namasoft · Java, Spring Boot, Vue                  |
+| Early 2025          | Frontend Developer        | Namasoft (ERP Company)                             |
+| Now                 | Fullstack Developer       | Building scalable solutions and growing every day. |
 
 ## Experience
 
